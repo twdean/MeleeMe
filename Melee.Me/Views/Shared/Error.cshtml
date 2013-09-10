@@ -1,0 +1,60 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error Processing Request</title>
+    <style>
+        html, body
+        {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        body
+        {
+            background-color: #1172A9;
+            color: #fff;
+            font-family: Segoe UI;
+        }
+        h1
+        {
+            font-size: 128px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+        }
+        .sorry
+        {
+            font-size: 36px;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+        #floater
+        {
+            float: left;
+            height: 50%;
+            margin-bottom: -200px;
+        }
+        #content
+        {
+            clear: both;
+            height: 400px;
+            position: relative;
+            margin: 0 auto;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="floater">
+    </div>
+    <div id="content">
+        <h1>
+            :(</h1>
+        <p class="sorry">
+            @_("Our application ran into a problem processing your request.")</p>
+        <p class="tryagain">
+            @_("Please try again in a few minutes. If the problem persists email us at info@l9digitalstrategies.com")</p>
+    </div>
+</body>
+</html>

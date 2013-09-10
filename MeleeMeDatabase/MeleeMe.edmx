@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MeleeMeModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MeleeMeModelStoreContainer">
+          <EntitySet Name="m_Credentials" EntityType="MeleeMeModel.Store.m_Credentials" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="m_Melee" EntityType="MeleeMeModel.Store.m_Melee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="m_MeleeStats" EntityType="MeleeMeModel.Store.m_MeleeStats" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="m_User" EntityType="MeleeMeModel.Store.m_User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__m_Credent__UserI__239E4DCF" Association="MeleeMeModel.Store.FK__m_Credent__UserI__239E4DCF">
+            <End Role="m_User" EntitySet="m_User" />
+            <End Role="m_Credentials" EntitySet="m_Credentials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Melee_MeleeId" Association="MeleeMeModel.Store.FK_Melee_MeleeId">
+            <End Role="m_Melee" EntitySet="m_Melee" />
+            <End Role="m_MeleeStats" EntitySet="m_MeleeStats" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="m_Credentials">
+          <Key>
+            <PropertyRef Name="CredentialId" />
+          </Key>
+          <Property Name="CredentialId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AccessToken" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="m_Melee">
+          <Key>
+            <PropertyRef Name="meleeId" />
+          </Key>
+          <Property Name="meleeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="challenger" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="opponent" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="m_MeleeStats">
+          <Key>
+            <PropertyRef Name="meleeStatisticsId" />
+          </Key>
+          <Property Name="meleeStatisticsId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="meleeId" Type="int" Nullable="false" />
+          <Property Name="meleeWinner" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="meleeLoser" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="m_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TwitterUserId" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__m_Credent__UserI__239E4DCF">
+          <End Role="m_User" Type="MeleeMeModel.Store.m_User" Multiplicity="1" />
+          <End Role="m_Credentials" Type="MeleeMeModel.Store.m_Credentials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="m_User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="m_Credentials">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Melee_MeleeId">
+          <End Role="m_Melee" Type="MeleeMeModel.Store.m_Melee" Multiplicity="1" />
+          <End Role="m_MeleeStats" Type="MeleeMeModel.Store.m_MeleeStats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="m_Melee">
+              <PropertyRef Name="meleeId" />
+            </Principal>
+            <Dependent Role="m_MeleeStats">
+              <PropertyRef Name="meleeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MeleeMeModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MeleeMeEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="m_Credentials" EntityType="MeleeMeModel.m_Credentials" />
+          <EntitySet Name="m_User" EntityType="MeleeMeModel.m_User" />
+          <AssociationSet Name="FK__m_Credent__UserI__239E4DCF" Association="MeleeMeModel.FK__m_Credent__UserI__239E4DCF">
+            <End Role="m_User" EntitySet="m_User" />
+            <End Role="m_Credentials" EntitySet="m_Credentials" />
+          </AssociationSet>
+          <EntitySet Name="m_Melee" EntityType="MeleeMeModel.m_Melee" />
+          <EntitySet Name="m_MeleeStats" EntityType="MeleeMeModel.m_MeleeStats" />
+          <AssociationSet Name="FK_Melee_MeleeId" Association="MeleeMeModel.FK_Melee_MeleeId">
+            <End Role="m_Melee" EntitySet="m_Melee" />
+            <End Role="m_MeleeStats" EntitySet="m_MeleeStats" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="m_Credentials">
+          <Key>
+            <PropertyRef Name="CredentialId" />
+          </Key>
+          <Property Type="Int32" Name="CredentialId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="AccessToken" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="m_User" Relationship="MeleeMeModel.FK__m_Credent__UserI__239E4DCF" FromRole="m_Credentials" ToRole="m_User" />
+        </EntityType>
+        <EntityType Name="m_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TwitterUserId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="m_Credentials" Relationship="MeleeMeModel.FK__m_Credent__UserI__239E4DCF" FromRole="m_User" ToRole="m_Credentials" />
+        </EntityType>
+        <Association Name="FK__m_Credent__UserI__239E4DCF">
+          <End Type="MeleeMeModel.m_User" Role="m_User" Multiplicity="1" />
+          <End Type="MeleeMeModel.m_Credentials" Role="m_Credentials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="m_User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="m_Credentials">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="m_Melee">
+          <Key>
+            <PropertyRef Name="meleeId" />
+          </Key>
+          <Property Type="Int32" Name="meleeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="challenger" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="opponent" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <NavigationProperty Name="m_MeleeStats" Relationship="MeleeMeModel.FK_Melee_MeleeId" FromRole="m_Melee" ToRole="m_MeleeStats" />
+        </EntityType>
+        <EntityType Name="m_MeleeStats">
+          <Key>
+            <PropertyRef Name="meleeStatisticsId" />
+          </Key>
+          <Property Type="Int32" Name="meleeStatisticsId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="meleeId" Nullable="false" />
+          <NavigationProperty Name="m_Melee" Relationship="MeleeMeModel.FK_Melee_MeleeId" FromRole="m_MeleeStats" ToRole="m_Melee" />
+          <Property Type="String" Name="meleeWinner" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="meleeLoser" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Melee_MeleeId">
+          <End Type="MeleeMeModel.m_Melee" Role="m_Melee" Multiplicity="1" />
+          <End Type="MeleeMeModel.m_MeleeStats" Role="m_MeleeStats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="m_Melee">
+              <PropertyRef Name="meleeId" />
+            </Principal>
+            <Dependent Role="m_MeleeStats">
+              <PropertyRef Name="meleeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MeleeMeModelStoreContainer" CdmEntityContainer="MeleeMeEntities">
+          <EntitySetMapping Name="m_Credentials">
+            <EntityTypeMapping TypeName="MeleeMeModel.m_Credentials">
+              <MappingFragment StoreEntitySet="m_Credentials">
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CredentialId" ColumnName="CredentialId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="m_User">
+            <EntityTypeMapping TypeName="MeleeMeModel.m_User">
+              <MappingFragment StoreEntitySet="m_User">
+                <ScalarProperty Name="TwitterUserId" ColumnName="TwitterUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="m_Melee">
+            <EntityTypeMapping TypeName="MeleeMeModel.m_Melee">
+              <MappingFragment StoreEntitySet="m_Melee">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="opponent" ColumnName="opponent" />
+                <ScalarProperty Name="challenger" ColumnName="challenger" />
+                <ScalarProperty Name="meleeId" ColumnName="meleeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="m_MeleeStats">
+            <EntityTypeMapping TypeName="MeleeMeModel.m_MeleeStats">
+              <MappingFragment StoreEntitySet="m_MeleeStats">
+                <ScalarProperty Name="meleeLoser" ColumnName="meleeLoser" />
+                <ScalarProperty Name="meleeWinner" ColumnName="meleeWinner" />
+                <ScalarProperty Name="meleeId" ColumnName="meleeId" />
+                <ScalarProperty Name="meleeStatisticsId" ColumnName="meleeStatisticsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
