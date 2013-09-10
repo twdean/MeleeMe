@@ -207,6 +207,7 @@
     <Compile Include="Types\UserType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assemblies\Antlr3.Runtime.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.AspNet.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.Core.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.OAuth.Consumer.dll" />
