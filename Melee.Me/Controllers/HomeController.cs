@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using LinqToTwitter;
 using Melee.Me.Models;
-using Microsoft.Web.WebPages.OAuth;
 
 namespace Melee.Me.Controllers
 {
@@ -22,13 +20,14 @@ namespace Melee.Me.Controllers
             IOAuthCredentials credentials = new SessionStateCredentials();
             MvcAuthorizer auth = GetAuthorizer();
             TwitterContext twitterCtx;
+            var twitterReturnUrl = ConfigurationManager.AppSettings["TwitterAutorizationReturnUrl"];
 
 
             auth.CompleteAuthorization(Request.Url);
 
             if (!auth.IsAuthorized)
             {
-                Uri specialUri = new Uri("http://localhost:55707/Home/AppAuthorizationConfirmation");
+                Uri specialUri = new Uri(twitterReturnUrl);
                 return auth.BeginAuthorization(specialUri);
             }
 
