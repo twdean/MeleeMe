@@ -31,7 +31,7 @@ namespace Melee.Me.Controllers
                 return auth.BeginAuthorization(specialUri);
             }
 
-            return View("SocialSignInConfirmation");
+            return AppAuthorizationConfirmation(null);
         }
 
         [AllowAnonymous]
