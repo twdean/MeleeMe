@@ -37,34 +37,38 @@
     
     <div class="actionControls">
         <button type="submit" name="NewOpponent" id="NewOpponent"value="NewOpponent" title="New Opponent">New</button>
-        <button type="submit" name="Fight" value="Fight" title="Fight">Fight</button>   
+        <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>   
     </div>
    
 
 <script>
-$('#NewOpponent').click(function(){
-    $.ajax({
-            url: '/Home/GetCompetitor',
-            type: 'POST',
-            data: { TwitterUserId: '@Model.Challenger.TwitterUserId' },
-        success: function (result) {
-            $('#competitorImageUrl').attr("src", result.ImageUrl);
-            $('#competitorScreenName').html(result.ScreenName);
-            $('#CompetitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
-            $('#CompetitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
-            $('#CompetitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses)
-        },
-            error: function (jqXHR, exception) {
-                if (jqXHR.status === 0) {
-                    alert('Not connect.\n Verify Network.');
-                }
+    $('#NewOpponent').click(function(){
+        $.ajax({
+                url: '/Home/GetCompetitor',
+                type: 'POST',
+                data: { TwitterUserId: '@Model.Challenger.TwitterUserId' },
+            success: function (result) {
+                $('#competitorImageUrl').attr("src", result.ImageUrl);
+                $('#competitorScreenName').html(result.ScreenName);
+                $('#CompetitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
+                $('#CompetitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
+                $('#CompetitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses)
             },
-            complete: function () {
-                $('#spinnerBank').hide();
-            }
-    });
+                error: function (jqXHR, exception) {
+                    if (jqXHR.status === 0) {
+                        alert('Not connect.\n Verify Network.');
+                    }
+                },
+                complete: function () {
+                    $('#spinnerBank').hide();
+                }
+        });
 
-    return false;
-});
+        return false;
+    });
+    
+    $('#Melee').click(function () {
+        window.location.href = "/Melee/MeleeMe?challenger=" + '@Model.Challenger.TwitterUserId' + "'&opponent=" + '@Model.Competitor.TwitterUserId';
+    });
 
 </script>
