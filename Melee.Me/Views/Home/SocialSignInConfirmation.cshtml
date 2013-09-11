@@ -16,7 +16,6 @@
                 <label id="challengerMeleeTotal">Melee's: @(Model.Challenger.Stats.BattleWins + @Model.Challenger.Stats.BattleLosses)</label>
                 <label id="challengerMeleeWins">Wins: @Model.Challenger.Stats.BattleWins</label>
                 <label id="challengerMeleeLosses">Losses: @Model.Challenger.Stats.BattleLosses</label>
-            @*    <label>Last Melee: @Model.Challenger.Stats.LastMelee</label>*@
             </div>
         </div>
 
@@ -25,11 +24,11 @@
         <div id="competitorContainer" class="competitorContainer">
             <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl />
             <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
+            <div id="competitorUserId"></div>
             <div id="competitorBattleStats" class="battleStats">
-                <label id="CompetitorMeleeTotal">Melee's: @(Model.Competitor.Stats.BattleWins + @Model.Competitor.Stats.BattleLosses)</label>
-                <label id="CompetitorMeleeWins">Wins: @Model.Competitor.Stats.BattleWins</label>
-                <label id="CompetitorMeleeLosses">Losses: @Model.Competitor.Stats.BattleLosses</label>
-            @*    <label>Last Melee: @Model.Competitor.Stats.LastMelee</label>*@
+                <label id="competitorMeleeTotal">Melee's: @(Model.Competitor.Stats.BattleWins + @Model.Competitor.Stats.BattleLosses)</label>
+                <label id="competitorMeleeWins">Wins: @Model.Competitor.Stats.BattleWins</label>
+                <label id="competitorMeleeLosses">Losses: @Model.Competitor.Stats.BattleLosses</label>
             </div>
         </div>
     </div>
@@ -50,9 +49,10 @@
             success: function (result) {
                 $('#competitorImageUrl').attr("src", result.ImageUrl);
                 $('#competitorScreenName').html(result.ScreenName);
-                $('#CompetitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
-                $('#CompetitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
-                $('#CompetitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses)
+                $('#competitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
+                $('#competitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
+                $('#competitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses);
+                $('#competitorUserId').html(result.TwitterUserId);
             },
                 error: function (jqXHR, exception) {
                     if (jqXHR.status === 0) {
@@ -68,7 +68,8 @@
     });
     
     $('#Melee').click(function () {
-        window.location.href = "/Melee/MeleeMe?challenger=" + '@Model.Challenger.TwitterUserId' + "'&opponent=" + '@Model.Competitor.TwitterUserId';
+        var competitorScreenName = "";
+        window.location.href = "/Melee/MeleeMe?challenger=" + '@Model.Challenger.TwitterUserId' + "'&opponent=" + $('#competitorUserId').text();
     });
 
 </script>
