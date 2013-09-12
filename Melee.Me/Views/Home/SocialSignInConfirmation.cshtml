@@ -24,7 +24,7 @@
         <div id="competitorContainer" class="competitorContainer">
             <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl />
             <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
-            <div id="competitorUserId"></div>
+            <div id="competitorUserId">@Model.Competitor.TwitterUserId</div>
             <div id="competitorBattleStats" class="battleStats">
                 <label id="competitorMeleeTotal">Melee's: @(Model.Competitor.Stats.BattleWins + @Model.Competitor.Stats.BattleLosses)</label>
                 <label id="competitorMeleeWins">Wins: @Model.Competitor.Stats.BattleWins</label>
