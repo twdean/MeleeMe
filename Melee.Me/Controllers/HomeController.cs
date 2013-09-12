@@ -17,9 +17,7 @@ namespace Melee.Me.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLogin(string returnUrl)
         {
-            IOAuthCredentials credentials = new SessionStateCredentials();
             MvcAuthorizer auth = GetAuthorizer();
-            TwitterContext twitterCtx;
             var twitterReturnUrl = ConfigurationManager.AppSettings["TwitterAutorizationReturnUrl"];
 
 
@@ -43,19 +41,18 @@ namespace Melee.Me.Controllers
             {
 
                 IOAuthCredentials credentials = new SessionStateCredentials();
-                MvcAuthorizer auth = GetAuthorizer();
-                TwitterContext twitterCtx;
+                var auth = GetAuthorizer();
 
 
                 auth.CompleteAuthorization(Request.Url);
 
                 if (!auth.IsAuthorized)
                 {
-                    Uri specialUri = new Uri("/Home/AppAuthorizationConfirmation");
+                    var specialUri = new Uri("/Home/AppAuthorizationConfirmation");
                     return auth.BeginAuthorization(specialUri);
                 }
 
-                twitterCtx = new TwitterContext(auth);
+                TwitterContext twitterCtx = new TwitterContext(auth);
 
 
                 var tUser =

@@ -18,7 +18,7 @@ namespace Melee.Me.Models
 
         public static UserModel GetUser(string twitterUserId)
         {
-            var meleeUser = new UserModel();
+            var meleeUser = null as UserModel;
 
             var dbContext = new MeleeMeEntities();
 
@@ -30,6 +30,7 @@ namespace Melee.Me.Models
 
                 if (mUser != null)
                 {
+                    meleeUser = new UserModel();
                     meleeUser.TwitterUserId = twitterUserId;
                     meleeUser.UserId = mUser.UserId;
                     meleeUser.AccessToken = mUser.AccessToken;
@@ -69,7 +70,7 @@ namespace Melee.Me.Models
                         {
                             TwitterUserId = twitterUserId,
                             AccessToken = accessToken,
-                            UserId = mUser.UserId,
+                            UserId = u.UserId,
                             Stats = new MeleeStatisticsModel()
                         };
                 }

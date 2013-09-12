@@ -40,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Assemblies\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToTwitter">
+      <HintPath>..\Melee.Me\Assemblies\LinqToTwitter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
