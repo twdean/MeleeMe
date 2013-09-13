@@ -22,44 +22,65 @@ namespace Melee.Me.Controllers
         {
             TwitterContext twitterCtx = GetTwitterContext();
             UserModel result = GetMeleeData(twitterCtx, challenger, opponent);
+
+            if (result == null)
+            {
+                return View("Error");
+            }
+
             return View("Melee", result);
         }
 
         public UserModel GetMeleeData(TwitterContext twitterCtx, string challenger, string opponent)
         {
-            DateTime cTweet =  GetLatestTweet(twitterCtx, challenger);
-            DateTime oTweet = GetLatestTweet(twitterCtx, opponent);
-            string winner;
-            string loser;
+            var meleeWinner = null as UserModel;
 
-            if (cTweet > oTweet)
+            try
             {
-                winner = challenger;
-                loser = opponent;
+                DateTime cTweet = GetLatestTweet(twitterCtx, challenger);
+                DateTime oTweet = GetLatestTweet(twitterCtx, opponent);
+                string winner;
+                string loser;
+
+                if (cTweet > oTweet)
+                {
+                    winner = challenger;
+                    loser = opponent;
+                }
+                else
+                {
+                    winner = opponent;
+                    loser = challenger;
+                }
+
+                MeleeModel.AddMelee(challenger, opponent, winner, loser);
+
+
+                var tUser =
+                    (from user in twitterCtx.User
+                     where user.Type == UserType.Lookup &&
+                           user.UserID == winner
+                     select user).FirstOrDefault();
+
+                meleeWinner = new UserModel()
+                    {
+                        ImageUrl = tUser.ProfileImageUrl,
+                        ScreenName = tUser.Identifier.ScreenName,
+                        TwitterUserId = tUser.Identifier.UserID,
+                    };
+
             }
-            else
+            catch (TwitterQueryException tqEx)
             {
-                winner = opponent;
-                loser = challenger;
+                var message = tqEx.ToString();
             }
-
-            MeleeModel.AddMelee(challenger, opponent, winner, loser);
-
-
-            var tUser =
-                (from user in twitterCtx.User
-                 where user.Type == UserType.Lookup &&
-                       user.UserID == winner
-                 select user).FirstOrDefault();
-
-            var meleeWinner = new UserModel()
+            catch (Exception ex)
             {
-                ImageUrl = tUser.ProfileImageUrl,
-                ScreenName = tUser.Identifier.ScreenName,
-                TwitterUserId = tUser.Identifier.UserID,
-            };
+                var exMsg = ex.ToString();
+            }
 
             return meleeWinner;
+
         }
 
         public DateTime GetLatestTweet(TwitterContext twitterCtx, string twitterUserId)
@@ -71,7 +92,7 @@ namespace Melee.Me.Controllers
                 select tweet;
 
             Status lastTweet = statusTweets.FirstOrDefault();
-           
+
             //List<Status> tweets = new List<Status>();
             //   statusTweets.ToList().ForEach(
             //    tweets.Add);
@@ -88,16 +109,16 @@ namespace Melee.Me.Controllers
             {
                 IOAuthCredentials credentials = new SessionStateCredentials();
                 MvcAuthorizer auth = GetAuthorizer();
-                
+
 
 
                 auth.CompleteAuthorization(Request.Url);
-                
+
                 twitterCtx = new TwitterContext(auth);
             }
             catch (TwitterQueryException tqEx)
             {
-                
+                var msg = tqEx.ToString();
             }
             return twitterCtx;
         }

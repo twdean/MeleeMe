@@ -1,0 +1,51 @@
+﻿@model Melee.Me.Models.UserModel
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Profile</h2>
+
+<fieldset>
+    <legend>UserModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ImageUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ImageUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ScreenName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ScreenName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TwitterUserId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TwitterUserId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AccessToken)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AccessToken)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

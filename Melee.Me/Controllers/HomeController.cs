@@ -104,6 +104,15 @@ namespace Melee.Me.Controllers
             return View("SocialSignInConfirmation", mm);
         }
 
+        [AllowAnonymous]
+        public ActionResult Profile(string twitterUserId)
+        {
+            UserModel mUser = UserModel.GetUser(twitterUserId);
+
+
+            return View(mUser);
+        }
+
         public Friend FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
             Friend competitor = new Friend();
