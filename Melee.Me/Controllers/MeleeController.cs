@@ -21,6 +21,7 @@ namespace Melee.Me.Controllers
         public ActionResult MeleeMe(string challenger, string opponent)
         {
             TwitterContext twitterCtx = GetTwitterContext();
+
             UserModel result = GetMeleeData(twitterCtx, challenger, opponent);
 
             if (result == null)
@@ -37,12 +38,29 @@ namespace Melee.Me.Controllers
 
             try
             {
-                DateTime cTweet = GetLatestTweet(twitterCtx, challenger);
-                DateTime oTweet = GetLatestTweet(twitterCtx, opponent);
                 string winner;
                 string loser;
 
-                if (cTweet > oTweet)
+                var challengerTotal = 0;
+                var opponentTotal = 0;
+
+                var challengerResult = new MeleeResultModel();
+                var opponentResult = new MeleeResultModel();
+
+                challengerResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Friends);
+                challengerResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Followers);
+                challengerResult.PostScore = GetTwitterPosts(twitterCtx, challenger);
+
+                opponentResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Friends);
+                opponentResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Followers);
+                opponentResult.PostScore = GetTwitterPosts(twitterCtx, opponent);
+
+
+
+                DateTime cTweet = GetLatestTweet(twitterCtx, challenger);
+                DateTime oTweet = GetLatestTweet(twitterCtx, opponent);
+
+                if (CalcMeleeResults(challengerResult) > CalcMeleeResults(opponentResult))
                 {
                     winner = challenger;
                     loser = opponent;
@@ -72,11 +90,14 @@ namespace Melee.Me.Controllers
             }
             catch (TwitterQueryException tqEx)
             {
-                var message = tqEx.ToString();
+                if (tqEx.ErrorCode == 88)
+                {
+
+                }
             }
             catch (Exception ex)
             {
-                var exMsg = ex.ToString();
+
             }
 
             return meleeWinner;
@@ -93,12 +114,38 @@ namespace Melee.Me.Controllers
 
             Status lastTweet = statusTweets.FirstOrDefault();
 
-            //List<Status> tweets = new List<Status>();
-            //   statusTweets.ToList().ForEach(
-            //    tweets.Add);
-
             return lastTweet.CreatedAt;
+        }
 
+        private int GetTwitterFollowerFriendCount(TwitterContext twitterCtx, string twitterUserId, SocialGraphType graphType)
+        {
+            var list =
+                                (from friend in twitterCtx.SocialGraph
+                                 where friend.Type == graphType &&
+                                       friend.UserID == Convert.ToUInt64(twitterUserId)
+                                 select friend)
+                                 .SingleOrDefault();
+
+            return list.IDs.Count;
+        }
+
+        private int GetTwitterPosts(TwitterContext twitterCtx, string twitterUserId)
+        {
+            var statusTweets =
+                from tweet in twitterCtx.Status
+                where tweet.Type == StatusType.User
+                      && tweet.UserID == twitterUserId
+                select tweet;
+
+            var tweetCount = statusTweets.Count();
+            return tweetCount;
+
+        }
+
+        private int CalcMeleeResults(MeleeResultModel results)
+        {
+            var totalResults = results.FriendScore + results.FollowerScore;
+            return totalResults;
         }
 
 

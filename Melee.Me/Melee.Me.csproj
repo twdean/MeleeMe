@@ -194,6 +194,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeleeController.cs" />
+    <Compile Include="Infrastructure\TwitterErrorCodes.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -202,7 +204,6 @@
     <Compile Include="Models\MeleeModel.cs" />
     <Compile Include="Models\MeleeResultModel.cs" />
     <Compile Include="Models\MeleeStatisticsModel.cs" />
-    <Compile Include="Models\Melee\MeContext.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\UserType.cs" />

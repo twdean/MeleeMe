@@ -65,7 +65,6 @@ namespace Melee.Me.Controllers
 
                 if (tUser != null)
                 {
-
                     UserModel challenger = UserModel.AddUser(tUser.Identifier.UserID, auth.Credentials.AccessToken);
                     Friend competitor = FriendSelector(twitterCtx, tUser.UserID);
 
@@ -117,26 +116,36 @@ namespace Melee.Me.Controllers
         {
             Friend competitor = new Friend();
 
-            int random = 0;
+            try
+            {
 
-            var friendList =
-                (from friend in twitterCtx.SocialGraph
-                 where friend.Type == SocialGraphType.Friends &&
-                       friend.UserID == Convert.ToUInt64(tUserId)
-                 select friend)
-                 .SingleOrDefault();
+                int random = 0;
 
-            random = new Random().Next(friendList.IDs.Count);
-            var tUser =
-                (from user in twitterCtx.User
-                 where user.Type == UserType.Lookup &&
-                       user.UserID == friendList.IDs[random]
-                 select user).FirstOrDefault();
+                var friendList =
+                    (from friend in twitterCtx.SocialGraph
+                     where friend.Type == SocialGraphType.Friends &&
+                           friend.UserID == Convert.ToUInt64(tUserId)
+                     select friend)
+                     .SingleOrDefault();
 
-            competitor.TwitterUserId = tUser.UserID;
-            competitor.ScreenName = tUser.Name;
-            competitor.ImageUrl = tUser.ProfileImageUrl;
+                random = new Random().Next(friendList.IDs.Count);
+                var tUser =
+                    (from user in twitterCtx.User
+                     where user.Type == UserType.Lookup &&
+                           user.UserID == friendList.IDs[random]
+                     select user).FirstOrDefault();
 
+                competitor.TwitterUserId = tUser.UserID;
+                competitor.ScreenName = tUser.Name;
+                competitor.ImageUrl = tUser.ProfileImageUrl;
+
+            }
+            catch (TwitterQueryException tqEx)
+            {
+                if (tqEx.ErrorCode == 88)
+                {
+                }
+            }
 
 
             return competitor;
