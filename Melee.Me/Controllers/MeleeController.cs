@@ -137,7 +137,7 @@ namespace Melee.Me.Controllers
                     user.UserID == twitterUserId
                     select user).FirstOrDefault();
 
-            return tUser.StatusesCount;;
+            return tUser.StatusesCount;
 
         }
 
