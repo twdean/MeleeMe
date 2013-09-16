@@ -141,9 +141,9 @@ namespace Melee.Me.Controllers
 
         }
 
-        private int CalcMeleeResults(MeleeResultModel results)
+        private double CalcMeleeResults(MeleeResultModel results)
         {
-            var totalResults = results.FriendScore + results.FollowerScore;
+            var totalResults = (1 * results.FollowerScore) + (.5 * results.FriendScore) + (.25 * results.PostScore);
             return totalResults;
         }
 
