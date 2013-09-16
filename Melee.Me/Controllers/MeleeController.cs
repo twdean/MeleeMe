@@ -49,11 +49,11 @@ namespace Melee.Me.Controllers
 
                 challengerResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Friends);
                 challengerResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Followers);
-                challengerResult.PostScore = GetTwitterPosts(twitterCtx, challenger);
+                challengerResult.PostScore = GetStatusUpdateCount(twitterCtx, challenger);
 
                 opponentResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Friends);
                 opponentResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Followers);
-                opponentResult.PostScore = GetTwitterPosts(twitterCtx, opponent);
+                opponentResult.PostScore = GetStatusUpdateCount(twitterCtx, opponent);
 
 
 
@@ -129,16 +129,15 @@ namespace Melee.Me.Controllers
             return list.IDs.Count;
         }
 
-        private int GetTwitterPosts(TwitterContext twitterCtx, string twitterUserId)
+        private int GetStatusUpdateCount(TwitterContext twitterCtx, string twitterUserId)
         {
-            var statusTweets =
-                from tweet in twitterCtx.Status
-                where tweet.Type == StatusType.User
-                      && tweet.UserID == twitterUserId
-                select tweet;
+            var tUser =
+                    (from user in twitterCtx.User
+                    where user.Type == UserType.Lookup &&
+                    user.UserID == twitterUserId
+                    select user).FirstOrDefault();
 
-            var tweetCount = statusTweets.Count();
-            return tweetCount;
+            return tUser.StatusesCount;;
 
         }
 
