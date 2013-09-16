@@ -36,13 +36,14 @@ namespace Melee.Me.Controllers
         public ActionResult AppAuthorizationConfirmation(string returnUrl)
         {
             var mm = new MeleeModel();
+            var challengerModel = null as UserModel;
+            var competitorModel = null as UserModel;
 
             try
             {
 
                 IOAuthCredentials credentials = new SessionStateCredentials();
                 var auth = GetAuthorizer();
-
 
                 auth.CompleteAuthorization(Request.Url);
 
@@ -52,47 +53,16 @@ namespace Melee.Me.Controllers
                     return auth.BeginAuthorization(specialUri);
                 }
 
-                TwitterContext twitterCtx = new TwitterContext(auth);
+                var twitterCtx = new TwitterContext(auth);
 
+                challengerModel = GetChallenger(twitterCtx, auth, auth.Credentials.UserId);
+                competitorModel = GetCompetitor(twitterCtx, auth.Credentials.UserId);
 
-                var tUser =
-                    (from user in twitterCtx.User
-                     where user.Type == UserType.Lookup &&
-                           user.UserID == auth.Credentials.UserId
-                     select user).FirstOrDefault();
-
-
-
-                if (tUser != null)
+                mm = new MeleeModel()
                 {
-                    UserModel challenger = UserModel.AddUser(tUser.Identifier.UserID, auth.Credentials.AccessToken);
-                    Friend competitor = FriendSelector(twitterCtx, tUser.UserID);
-
-                    var challengerModel = new UserModel()
-                        {
-                            ImageUrl = tUser.ProfileImageUrl,
-                            ScreenName = tUser.Identifier.ScreenName,
-                            AccessToken = auth.Credentials.AccessToken,
-                            TwitterUserId = tUser.Identifier.UserID,
-                            Stats = challenger.Stats
-                        };
-
-
-                    var opponentModel = new UserModel()
-                        {
-                            ImageUrl = competitor.ImageUrl,
-                            ScreenName = competitor.ScreenName,
-                            TwitterUserId = competitor.TwitterUserId,
-                            Stats = MeleeStatisticsModel.GetMeleeStats(tUser.Identifier.UserID, Types.UserType.Opponent)
-
-                        };
-
-                    mm = new MeleeModel()
-                        {
-                            Challenger = challengerModel,
-                            Competitor = opponentModel
-                        };
-                }
+                    Challenger = challengerModel,
+                    Competitor = competitorModel
+                };
             }
             catch (TwitterQueryException tqEx)
             {
@@ -112,9 +82,9 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-        public Friend FriendSelector(TwitterContext twitterCtx, string tUserId)
+        public UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
-            Friend competitor = new Friend();
+            UserModel competitor = null as UserModel;
 
             try
             {
@@ -135,29 +105,32 @@ namespace Melee.Me.Controllers
                            user.UserID == friendList.IDs[random]
                      select user).FirstOrDefault();
 
-                competitor.TwitterUserId = tUser.UserID;
-                competitor.ScreenName = tUser.Name;
-                competitor.ImageUrl = tUser.ProfileImageUrl;
+                competitor = new UserModel()
+                    {
+                        TwitterUserId = tUser.UserID,
+                        ScreenName = tUser.Name,
+                        ImageUrl = tUser.ProfileImageUrl,
+                        Stats = new MeleeStatisticsModel()
 
+                    };
             }
             catch (TwitterQueryException tqEx)
             {
                 if (tqEx.ErrorCode == 88)
                 {
+
                 }
             }
-
 
             return competitor;
         }
 
-        public ActionResult GetCompetitor(string TwitterUserId)
+        public ActionResult GetNewCompetitor(string TwitterUserId)
         {
 
             IOAuthCredentials credentials = new SessionStateCredentials();
             MvcAuthorizer auth = GetAuthorizer();
             TwitterContext twitterCtx;
-
 
             auth.CompleteAuthorization(Request.Url);
 
@@ -168,17 +141,18 @@ namespace Melee.Me.Controllers
             }
 
             twitterCtx = new TwitterContext(auth);
-            Friend competitor = FriendSelector(twitterCtx, TwitterUserId);
+            UserModel competitor = FriendSelector(twitterCtx, TwitterUserId);
 
-            var opponentModel = new UserModel()
+            if (Session["competitor"] != null)
             {
-                ImageUrl = competitor.ImageUrl,
-                ScreenName = competitor.ScreenName,
-                TwitterUserId = competitor.TwitterUserId,
-                Stats = MeleeStatisticsModel.GetMeleeStats(TwitterUserId, Types.UserType.Opponent)
-            };
+                Session["competitor"] = competitor;
+            }
+            else
+            {
+                Session.Add("competitor", competitor);
+            }
 
-            return Json(opponentModel);
+            return Json(competitor);
         }
 
         public MvcAuthorizer GetAuthorizer()
@@ -198,6 +172,55 @@ namespace Melee.Me.Controllers
             };
 
             return auth;
+        }
+
+        private UserModel GetChallenger(TwitterContext twitterCtx, MvcAuthorizer auth, string twitterUserId)
+        {
+            var challenger = null as UserModel;
+
+            if (Session["challenger"] != null)
+            {
+                challenger = (UserModel)Session["challenger"];
+            }
+            else
+            {
+                var tUser =
+                    (from user in twitterCtx.User
+                     where user.Type == UserType.Lookup &&
+                           user.UserID == twitterUserId
+                     select user).FirstOrDefault();
+
+                if (tUser != null)
+                {
+                    challenger = UserModel.AddUser(tUser.Identifier.UserID, auth.Credentials.AccessToken);
+                    challenger.ImageUrl = tUser.ProfileImageUrl;
+                    challenger.ScreenName = tUser.Identifier.ScreenName;
+                }
+
+                Session.Add("challenger", challenger);
+            }
+
+            return challenger;
+        }
+
+        private UserModel GetCompetitor(TwitterContext twitterCtx, string twitterUserId)
+        {
+            var competitor = null as UserModel;
+
+            if (Session["competitor"] != null)
+            {
+                competitor = (UserModel)Session["competitor"];
+            }
+            else
+            {
+                competitor = FriendSelector(twitterCtx, twitterUserId);
+                competitor.Stats = MeleeStatisticsModel.GetMeleeStats(twitterUserId, Types.UserType.Opponent);
+
+
+                Session.Add("competitor", competitor);
+            }
+
+            return competitor;
         }
 
     }

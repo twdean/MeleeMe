@@ -43,7 +43,7 @@
 <script>
     $('#NewOpponent').click(function(){
         $.ajax({
-                url: '/Home/GetCompetitor',
+                url: '/Home/GetNewCompetitor',
                 type: 'POST',
                 data: { TwitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
