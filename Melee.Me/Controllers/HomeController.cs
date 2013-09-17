@@ -75,7 +75,7 @@ namespace Melee.Me.Controllers
             return View("SocialSignInConfirmation", mm);
         }
 
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult MyProfile(string twitterUserId)
         {
             UserModel mUser = UserModel.GetUser(twitterUserId);
@@ -84,7 +84,7 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult History(string twitterUserId)
         {
             UserModel mUser = UserModel.GetUser(twitterUserId);
@@ -137,7 +137,7 @@ namespace Melee.Me.Controllers
             return competitor;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult GetNewCompetitor(string TwitterUserId)
         {
 

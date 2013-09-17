@@ -10,7 +10,7 @@
 
 <div class="battleField">
         <div id="userContainer" class="userContainer">
-            <a href="@Url.Action("Profile", "Home", new{twitterUserId=@Model.Challenger.TwitterUserId})"><img id="challengerImageUrl"src=@Model.Challenger.ImageUrl /></a>
+            <a href="@Url.Action("MyProfile", "Home", new{twitterUserId=@Model.Challenger.TwitterUserId})"><img id="challengerImageUrl"src=@Model.Challenger.ImageUrl /></a>
             <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
             <div id="challengerBattleStats "class="battleStats">
                 <label id="challengerMeleeTotal">Melee's: @(Model.Challenger.Stats.BattleWins + @Model.Challenger.Stats.BattleLosses)</label>
