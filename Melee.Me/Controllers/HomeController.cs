@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using LinqToTwitter;
 using Melee.Me.Models;
+using System.Web.Security;
 
 namespace Melee.Me.Controllers
 {
@@ -73,8 +75,8 @@ namespace Melee.Me.Controllers
             return View("SocialSignInConfirmation", mm);
         }
 
-        [AllowAnonymous]
-        public ActionResult Profile(string twitterUserId)
+        [Authorize]
+        public ActionResult MyProfile(string twitterUserId)
         {
             UserModel mUser = UserModel.GetUser(twitterUserId);
 
@@ -82,7 +84,17 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-        public UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
+        [Authorize]
+        public ActionResult History(string twitterUserId)
+        {
+            UserModel mUser = UserModel.GetUser(twitterUserId);
+
+
+            return View(mUser);
+        }
+
+
+        private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
             UserModel competitor = null as UserModel;
 
@@ -125,6 +137,7 @@ namespace Melee.Me.Controllers
             return competitor;
         }
 
+        [Authorize]
         public ActionResult GetNewCompetitor(string TwitterUserId)
         {
 
@@ -155,7 +168,7 @@ namespace Melee.Me.Controllers
             return Json(competitor);
         }
 
-        public MvcAuthorizer GetAuthorizer()
+        private MvcAuthorizer GetAuthorizer()
         {
             IOAuthCredentials credentials = new SessionStateCredentials();
             MvcAuthorizer auth;
@@ -221,6 +234,11 @@ namespace Melee.Me.Controllers
             }
 
             return competitor;
+        }
+
+        private void SetAuthCookie(string username)
+        {
+            FormsAuthentication.SetAuthCookie(username, false);
         }
 
     }

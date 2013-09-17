@@ -7,7 +7,7 @@
         public int FollowerScore { get; set; }
         public int FriendScore { get; set; }
         public int PostScore { get; set; }
-        public int RecentConnectionScore { get; set; }
+        public double RecentConnectionScore { get; set; }
         public int CheckInScore { get; set; }
         public int LikeFavouriteScore { get; set; }
         public int PhotoScore { get; set; }

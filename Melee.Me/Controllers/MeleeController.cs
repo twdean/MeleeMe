@@ -49,15 +49,13 @@ namespace Melee.Me.Controllers
                     challengerResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Followers);
                     challengerResult.PostScore = GetStatusUpdateCount(twitterCtx, challenger);
                     challengerResult.LikeFavouriteScore = GetLikesFavouritesCount(twitterCtx, challenger);
+                    challengerResult.RecentConnectionScore = GetLatestTweet(twitterCtx, challenger);
 
                     opponentResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Friends);
                     opponentResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Followers);
                     opponentResult.PostScore = GetStatusUpdateCount(twitterCtx, opponent);
                     opponentResult.LikeFavouriteScore = GetLikesFavouritesCount(twitterCtx, opponent);
-
-                    //DateTime cTweet = GetLatestTweet(twitterCtx, challenger);
-                    //DateTime oTweet = GetLatestTweet(twitterCtx, opponent);
-
+                    opponentResult.RecentConnectionScore = GetLatestTweet(twitterCtx, opponent);
                 }
                 catch (TwitterQueryException tqEx)
                 {
@@ -92,7 +90,7 @@ namespace Melee.Me.Controllers
             return meleeWinner;
         }
 
-        public DateTime GetLatestTweet(TwitterContext twitterCtx, string twitterUserId)
+        public double GetLatestTweet(TwitterContext twitterCtx, string twitterUserId)
         {
             var statusTweets =
                 from tweet in twitterCtx.Status
@@ -102,7 +100,14 @@ namespace Melee.Me.Controllers
 
             Status lastTweet = statusTweets.FirstOrDefault();
 
-            return lastTweet.CreatedAt;
+            //Todays date - that date? = N / 100-n = score
+            var today = DateTime.Now;
+            var lastTweetDate = lastTweet.CreatedAt;
+            var dateVariance =  (today - lastTweetDate).TotalDays;
+
+            var tweetScore = dateVariance/(100 - dateVariance);
+
+            return tweetScore;
         }
 
         private int GetTwitterFollowerFriendCount(TwitterContext twitterCtx, string twitterUserId, SocialGraphType graphType)
@@ -146,7 +151,9 @@ namespace Melee.Me.Controllers
             var totalResults = (1 * results.FollowerScore) +
                                (0.5 * results.FriendScore) +
                                (0.25 * results.PostScore) +
+                               (results.RecentConnectionScore) +
                                (3 * results.LikeFavouriteScore);
+
             return totalResults;
         }
 
