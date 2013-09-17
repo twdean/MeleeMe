@@ -78,8 +78,19 @@ namespace Melee.Me.Controllers
         [AllowAnonymous]
         public ActionResult MyProfile(string twitterUserId)
         {
-            UserModel mUser = UserModel.GetUser(twitterUserId);
+            var auth = GetAuthorizer();
 
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                var specialUri = new Uri("/Home/MyProfile");
+                return auth.BeginAuthorization(specialUri);
+            }
+
+            var twitterCtx = new TwitterContext(auth);
+
+            UserModel mUser = GetChallenger(twitterCtx, auth, auth.Credentials.UserId);
 
             return View(mUser);
         }
