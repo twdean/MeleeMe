@@ -15,7 +15,7 @@ namespace Melee.Me.Models
         public string TwitterUserId { get; set; }
         public string AccessToken { get; set; }
         public MeleeStatisticsModel Stats { get; set; }
-        public IEnumerable<ConnectionModel> Connections { get; set; }
+        public List<string> Connections { get; set; }
 
         public static UserModel GetUser(string twitterUserId)
         {
@@ -27,7 +27,7 @@ namespace Melee.Me.Models
             {
                 var mUser = (from c in dbContext.m_Credentials
                              where c.m_User.TwitterUserId == twitterUserId
-                             select new { c.AccessToken, c.UserId}).FirstOrDefault();
+                             select new { c.AccessToken, c.UserId }).FirstOrDefault();
 
                 if (mUser != null)
                 {

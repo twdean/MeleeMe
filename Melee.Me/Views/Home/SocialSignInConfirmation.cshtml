@@ -10,26 +10,18 @@
 
 <div class="battleField">
         <div id="userContainer" class="userContainer">
-            <a href="@Url.Action("MyProfile", "Home", new{twitterUserId=@Model.Challenger.TwitterUserId})"><img id="challengerImageUrl"src=@Model.Challenger.ImageUrl /></a>
+            <a href="@Url.Action("MyProfile", "Home", new{twitterUserId=@Model.Challenger.TwitterUserId})">
+                <img id="challengerImageUrl" src=@Model.Challenger.ImageUrl class="img-thumbnail" alt="your twitter icon"/>
+            </a>
             <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
-@*            <div id="challengerBattleStats "class="battleStats">
-                <label id="challengerMeleeTotal">Melee's: @(Model.Challenger.Stats.BattleWins + @Model.Challenger.Stats.BattleLosses)</label>
-                <label id="challengerMeleeWins">Wins: @Model.Challenger.Stats.BattleWins</label>
-                <label id="challengerMeleeLosses">Losses: @Model.Challenger.Stats.BattleLosses</label>
-            </div>*@
         </div>
 
         <div class="spacer">VS.</div>
     
         <div id="competitorContainer" class="competitorContainer">
-            <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl />
+            <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl class="img-thumbnail" alt="twitter icon"/>
             <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
             <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
-@*            <div id="competitorBattleStats" class="battleStats">
-                <label id="competitorMeleeTotal">Melee's: @(Model.Competitor.Stats.BattleWins + @Model.Competitor.Stats.BattleLosses)</label>
-                <label id="competitorMeleeWins">Wins: @Model.Competitor.Stats.BattleWins</label>
-                <label id="competitorMeleeLosses">Losses: @Model.Competitor.Stats.BattleLosses</label>
-            </div>*@
         </div>
     </div>
 

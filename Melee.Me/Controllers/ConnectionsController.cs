@@ -57,6 +57,8 @@ namespace Melee.Me.Controllers
 
         public ActionResult FacebookCallback(string code)
         {
+            var meleeUser = null as UserModel;
+
             var facebookKey = ConfigurationManager.AppSettings["FacebookKey"];
             var facebookSecret = ConfigurationManager.AppSettings["FacebookSecret"];
 
@@ -72,7 +74,11 @@ namespace Melee.Me.Controllers
             var accessToken = result.access_token;
             ConnectionModel.AddConnection(10, "Facebook", accessToken);
 
-            return RedirectToAction("Index", "Connections");
+            if (Session["challenger"] != null)
+            {
+                meleeUser = (UserModel)Session["challenger"];
+            }
+            return RedirectToAction("MyProfile", "Home", meleeUser);
         }
     }
 }

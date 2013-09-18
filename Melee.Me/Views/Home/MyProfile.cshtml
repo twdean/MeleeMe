@@ -5,19 +5,90 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Profile</h2>
-<div id="userContainer" class="userContainer">
-    <img id="challengerImageUrl"src=@Model.ImageUrl />
-    <div id="challengerScreenName">@Model.ScreenName</div>
-    <div id="challengerBattleStats "class="battleStats">
-        <label id="challengerMeleeTotal">Melee's: @(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</label>
-        <label id="challengerMeleeWins">Wins: @Model.Stats.BattleWins</label>
-        <label id="challengerMeleeLosses">Losses: @Model.Stats.BattleLosses</label>
+<div class="panel-group" id="accordion">
+    <div id="userContainer" class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseInfo">
+                    @Model.ScreenName
+                </a>
+            </h4>
+        </div>
+        <div id="collapseInfo" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="row">
+                    <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
+                </div>
+                <div id="challengerBattleStats">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active">
+                            <span>Melee's:</span>
+                            <span class="badge">@(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</span>
+                        </li>
+                        <li class="active">
+                            <span>Wins:</span>
+                            <span class="badge">@Model.Stats.BattleWins</span>
+                        </li>
+                        <li class="active">
+                            <span>Losses:</span>
+                            <span class="badge">@Model.Stats.BattleLosses</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div id="badgeContainer">
-    <h2>badges go here</h2>
-</div>
-<div id="otherContainer">
-    <h2>some other cool stuff can go here</h2>
+    <div id="connectionContainer" class="panel panel-success">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseConnections">Connections
+                </a>
+            </h4>
+        </div>
+        <div id="collapseConnections" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div id="facebookContainer">
+                    <h3>Facebook</h3>
+
+                    @Html.ActionLink("Add", "Facebook", "Connections", null, new { disabled = "disabled" })
+                    @Html.ActionLink("Remove", "Facebook", "Connections")
+
+
+                </div>
+                <div id="googleContainer">
+                    <h3>Google</h3>
+                    @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                </div>
+                <div id="fourSquareContainer">
+                    <h3>Four Square</h3>
+                    @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="badgeContainer" class="panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBadges">Badges
+                </a>
+            </h4>
+        </div>
+        <div id="collapseBadges" class="panel-collapse collapse in">
+            <div class="panel-body"></div>
+        </div>
+    </div>
+    <div id="otherContainer" class="panel panel-warning">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">
+                    Other
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOther" class="panel-collapse collapse in">
+            <div class="panel-body"></div>
+        </div>
+    </div>
 </div>
