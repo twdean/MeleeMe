@@ -6,12 +6,18 @@
 }
 
 <h2>Profile</h2>
-    <div id="userContainer" class="userContainer">
-        <img id="challengerImageUrl"src=@Model.ImageUrl />
-        <div id="challengerScreenName">@Model.ScreenName</div>
-        <div id="challengerBattleStats "class="battleStats">
-            <label id="challengerMeleeTotal">Melee's: @(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</label>
-            <label id="challengerMeleeWins">Wins: @Model.Stats.BattleWins</label>
-            <label id="challengerMeleeLosses">Losses: @Model.Stats.BattleLosses</label>
-        </div>
+<div id="userContainer" class="userContainer">
+    <img id="challengerImageUrl"src=@Model.ImageUrl />
+    <div id="challengerScreenName">@Model.ScreenName</div>
+    <div id="challengerBattleStats "class="battleStats">
+        <label id="challengerMeleeTotal">Melee's: @(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</label>
+        <label id="challengerMeleeWins">Wins: @Model.Stats.BattleWins</label>
+        <label id="challengerMeleeLosses">Losses: @Model.Stats.BattleLosses</label>
     </div>
+</div>
+<div id="badgeContainer">
+    <h2>badges go here</h2>
+</div>
+<div id="otherContainer">
+    <h2>some other cool stuff can go here</h2>
+</div>

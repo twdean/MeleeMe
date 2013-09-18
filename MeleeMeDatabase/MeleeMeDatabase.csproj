@@ -70,6 +70,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MeleeMe.edmx</DependentUpon>
     </Compile>
+    <Compile Include="m_Connections.cs">
+      <DependentUpon>MeleeMe.tt</DependentUpon>
+    </Compile>
     <Compile Include="m_Credentials.cs">
       <DependentUpon>MeleeMe.tt</DependentUpon>
     </Compile>
@@ -80,6 +83,9 @@
       <DependentUpon>MeleeMe.tt</DependentUpon>
     </Compile>
     <Compile Include="m_User.cs">
+      <DependentUpon>MeleeMe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="m_UserConnections.cs">
       <DependentUpon>MeleeMe.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

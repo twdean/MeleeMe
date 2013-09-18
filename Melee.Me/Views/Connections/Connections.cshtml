@@ -1,0 +1,11 @@
+﻿@model Melee.Me.Models.UserModel
+
+@{
+    ViewBag.Title = "Connections";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Connections</h2>
+<div id="facebookContainer">@Html.ActionLink("Facebook", "Facebook", "Connections")</div>
+<div id="googleContainer">@Html.ActionLink("Google", "ExternalLogin", "Home")</div>
+<div id="fourSquareContainer">@Html.ActionLink("Four Square", "ExternalLogin", "Home")</div>

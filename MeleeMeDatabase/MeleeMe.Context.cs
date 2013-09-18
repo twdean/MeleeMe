@@ -29,5 +29,7 @@ namespace MeleeMeDatabase
         public DbSet<m_User> m_User { get; set; }
         public DbSet<m_Melee> m_Melee { get; set; }
         public DbSet<m_MeleeStats> m_MeleeStats { get; set; }
+        public DbSet<m_Connections> m_Connections { get; set; }
+        public DbSet<m_UserConnections> m_UserConnections { get; set; }
     }
 }

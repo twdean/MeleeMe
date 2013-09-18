@@ -12,18 +12,17 @@ namespace MeleeMeDatabase
     using System;
     using System.Collections.Generic;
     
-    public partial class m_User
+    public partial class m_Connections
     {
-        public m_User()
+        public m_Connections()
         {
-            this.m_Credentials = new HashSet<m_Credentials>();
             this.m_UserConnections = new HashSet<m_UserConnections>();
         }
     
-        public int UserId { get; set; }
-        public string TwitterUserId { get; set; }
+        public int ConnectionId { get; set; }
+        public string ConnectionName { get; set; }
+        public string ConnectionIcon { get; set; }
     
-        public virtual ICollection<m_Credentials> m_Credentials { get; set; }
         public virtual ICollection<m_UserConnections> m_UserConnections { get; set; }
     }
 }

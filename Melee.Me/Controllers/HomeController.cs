@@ -104,7 +104,6 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-
         private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
             UserModel competitor = null as UserModel;
@@ -181,13 +180,16 @@ namespace Melee.Me.Controllers
 
         private MvcAuthorizer GetAuthorizer()
         {
+            var twitterKey = ConfigurationManager.AppSettings["TwitterConsumerKey"];
+            var twitterSecret = ConfigurationManager.AppSettings["TwitterConsumerSecret"];
+
             IOAuthCredentials credentials = new SessionStateCredentials();
             MvcAuthorizer auth;
 
             if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
             {
-                credentials.ConsumerKey = "u2ULchA68sGq111YWL2foA";
-                credentials.ConsumerSecret = "JcXAVK1GHaFMXtRLZASIviwDhQvtOLliaMKYfO0rY";
+                credentials.ConsumerKey = twitterKey;
+                credentials.ConsumerSecret = twitterSecret;
             }
 
             auth = new MvcAuthorizer

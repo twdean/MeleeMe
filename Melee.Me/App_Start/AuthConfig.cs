@@ -18,9 +18,9 @@ namespace Melee.Me
             //    clientId: "",
             //    clientSecret: "");
 
-            OAuthWebSecurity.RegisterTwitterClient(
-                consumerKey: "u2ULchA68sGq111YWL2foA",
-                consumerSecret: "JcXAVK1GHaFMXtRLZASIviwDhQvtOLliaMKYfO0rY");
+            //OAuthWebSecurity.RegisterTwitterClient(
+            //    consumerKey: "u2ULchA68sGq111YWL2foA",
+            //    consumerSecret: "JcXAVK1GHaFMXtRLZASIviwDhQvtOLliaMKYfO0rY");
 
             //OAuthWebSecurity.RegisterFacebookClient(
             //    appId: "",
