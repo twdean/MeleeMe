@@ -78,6 +78,9 @@ namespace Melee.Me.Controllers
                 }
 
                 MeleeModel.AddMelee(challenger, opponent, meleeWinner.TwitterUserId, meleeLoser.TwitterUserId);
+
+                Session["challenger"] = null;
+                Session["competitor"] = null;
             }
             catch (TwitterQueryException tqEx)
             {
