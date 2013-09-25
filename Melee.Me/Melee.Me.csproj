@@ -186,6 +186,7 @@
     <Compile Include="Controllers\ConnectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeleeController.cs" />
+    <Compile Include="Infrastructure\IEntity.cs" />
     <Compile Include="Infrastructure\TwitterErrorCodes.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
@@ -351,8 +352,6 @@
     <Content Include="Views\Melee\Index.cshtml" />
     <Content Include="Views\Home\MyProfile.cshtml" />
     <Content Include="Views\Home\History.cshtml" />
-    <Content Include="Views\Connections\Connections.cshtml" />
-    <Content Include="Views\Connections\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="APIs\Twitter\Crafted.Twitter\" />
@@ -361,6 +360,7 @@
     <Folder Include="APIs\Twitter\TweetSharp\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\Filters\" />
+    <Folder Include="Views\Connections\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

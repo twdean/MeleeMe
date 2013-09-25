@@ -37,7 +37,7 @@
         $.ajax({
                 url: '/Home/GetNewCompetitor',
                 type: 'POST',
-                data: { TwitterUserId: '@Model.Challenger.TwitterUserId' },
+                data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
                 $('#competitorImageUrl').attr("src", result.ImageUrl);
                 $('#competitorScreenName').html(result.ScreenName);

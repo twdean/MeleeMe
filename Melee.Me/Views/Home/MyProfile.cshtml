@@ -49,20 +49,31 @@
             <div class="panel-body">
                 <div id="facebookContainer">
                     <h3>Facebook</h3>
+                    @if (!Model.GetConnection(Model.UserId, "Facebook"))
+                    {
+                        @Html.ActionLink("Add", "Facebook", "Connections")
+                    }
 
-                    @Html.ActionLink("Add", "Facebook", "Connections", null, new { disabled = "disabled" })
                     @Html.ActionLink("Remove", "Facebook", "Connections")
 
 
                 </div>
                 <div id="googleContainer">
                     <h3>Google</h3>
-                    @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    @if (!Model.GetConnection(Model.UserId, "Google"))
+                    {
+                        @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    }
+
                     @Html.ActionLink("Remove", "ExternalLogin", "Home")
                 </div>
                 <div id="fourSquareContainer">
                     <h3>Four Square</h3>
-                    @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    @if (!Model.GetConnection(Model.UserId, "FourSquare"))
+                    {
+                        @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    }
+
                     @Html.ActionLink("Remove", "ExternalLogin", "Home")
                 </div>
             </div>
@@ -82,8 +93,7 @@
     <div id="otherContainer" class="panel panel-warning">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">
-                    Other
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">Other
                 </a>
             </h4>
         </div>

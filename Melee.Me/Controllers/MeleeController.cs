@@ -68,7 +68,7 @@ namespace Melee.Me.Controllers
 
                 if (CalcMeleeResults(challengerResult) > CalcMeleeResults(opponentResult))
                 {
-                    meleeWinner = (UserModel) Session["challenger"];
+                    meleeWinner = (UserModel)Session["challenger"];
                     meleeLoser = (UserModel)Session["competitor"];
                 }
                 else

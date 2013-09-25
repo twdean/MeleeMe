@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
+using System.Web.Security;
+
 using LinqToTwitter;
 using Melee.Me.Models;
-using System.Web.Security;
 
 namespace Melee.Me.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserModel _userModel;
+
+        public HomeController()
+        {
+            _userModel = new UserModel();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -37,14 +44,13 @@ namespace Melee.Me.Controllers
         [AllowAnonymous]
         public ActionResult AppAuthorizationConfirmation(string returnUrl)
         {
-            var mm = new MeleeModel();
-            var challengerModel = null as UserModel;
-            var competitorModel = null as UserModel;
+            MeleeModel mm;
+            UserModel challengerModel;
+            UserModel competitorModel;
 
             try
             {
 
-                IOAuthCredentials credentials = new SessionStateCredentials();
                 var auth = GetAuthorizer();
 
                 auth.CompleteAuthorization(Request.Url);
@@ -60,22 +66,23 @@ namespace Melee.Me.Controllers
                 challengerModel = GetChallenger(twitterCtx, auth, auth.Credentials.UserId);
                 competitorModel = GetCompetitor(twitterCtx, auth.Credentials.UserId);
 
-                mm = new MeleeModel()
-                {
-                    Challenger = challengerModel,
-                    Competitor = competitorModel
-                };
+                mm = new MeleeModel
+                    {
+                        Challenger = challengerModel,
+                        Competitor = competitorModel
+                    };
             }
             catch (TwitterQueryException tqEx)
             {
                 return View("Error");
             }
 
+            SetAuthCookie(challengerModel.TwitterUserId);
 
             return View("SocialSignInConfirmation", mm);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult MyProfile(string twitterUserId)
         {
             var auth = GetAuthorizer();
@@ -95,24 +102,50 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult History(string twitterUserId)
         {
-            UserModel mUser = UserModel.GetUser(twitterUserId);
+            UserModel mUser = _userModel.Get(twitterUserId);
 
 
             return View(mUser);
         }
 
+        [AllowAnonymous]
+        public ActionResult GetNewCompetitor(string twitterUserId)
+        {
+            MvcAuthorizer auth = GetAuthorizer();
+            TwitterContext twitterCtx;
+
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                Uri specialUri = new Uri("/Home/AppAuthorizationConfirmation");
+                return auth.BeginAuthorization(specialUri);
+            }
+
+            twitterCtx = new TwitterContext(auth);
+            UserModel competitor = FriendSelector(twitterCtx, twitterUserId);
+
+            if (Session["competitor"] != null)
+            {
+                Session["competitor"] = competitor;
+            }
+            else
+            {
+                Session.Add("competitor", competitor);
+            }
+
+            return Json(competitor);
+        }
+
         private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
-            UserModel competitor = null as UserModel;
+            var competitor = null as UserModel;
 
             try
             {
-
-                int random = 0;
-
                 var friendList =
                     (from friend in twitterCtx.SocialGraph
                      where friend.Type == SocialGraphType.Friends &&
@@ -120,14 +153,14 @@ namespace Melee.Me.Controllers
                      select friend)
                      .SingleOrDefault();
 
-                random = new Random().Next(friendList.IDs.Count);
+                int random = new Random().Next(friendList.IDs.Count);
                 var tUser =
                     (from user in twitterCtx.User
                      where user.Type == UserType.Lookup &&
                            user.UserID == friendList.IDs[random]
                      select user).FirstOrDefault();
 
-                competitor = new UserModel()
+                competitor = new UserModel
                     {
                         TwitterUserId = tUser.UserID,
                         ScreenName = tUser.Name,
@@ -147,44 +180,12 @@ namespace Melee.Me.Controllers
             return competitor;
         }
 
-        [AllowAnonymous]
-        public ActionResult GetNewCompetitor(string TwitterUserId)
-        {
-
-            IOAuthCredentials credentials = new SessionStateCredentials();
-            MvcAuthorizer auth = GetAuthorizer();
-            TwitterContext twitterCtx;
-
-            auth.CompleteAuthorization(Request.Url);
-
-            if (!auth.IsAuthorized)
-            {
-                Uri specialUri = new Uri("/Home/AppAuthorizationConfirmation");
-                return auth.BeginAuthorization(specialUri);
-            }
-
-            twitterCtx = new TwitterContext(auth);
-            UserModel competitor = FriendSelector(twitterCtx, TwitterUserId);
-
-            if (Session["competitor"] != null)
-            {
-                Session["competitor"] = competitor;
-            }
-            else
-            {
-                Session.Add("competitor", competitor);
-            }
-
-            return Json(competitor);
-        }
-
         private MvcAuthorizer GetAuthorizer()
         {
             var twitterKey = ConfigurationManager.AppSettings["TwitterConsumerKey"];
             var twitterSecret = ConfigurationManager.AppSettings["TwitterConsumerSecret"];
 
             IOAuthCredentials credentials = new SessionStateCredentials();
-            MvcAuthorizer auth;
 
             if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
             {
@@ -192,10 +193,10 @@ namespace Melee.Me.Controllers
                 credentials.ConsumerSecret = twitterSecret;
             }
 
-            auth = new MvcAuthorizer
-            {
-                Credentials = credentials
-            };
+            var auth = new MvcAuthorizer
+                {
+                    Credentials = credentials
+                };
 
             return auth;
         }
@@ -218,7 +219,7 @@ namespace Melee.Me.Controllers
 
                 if (tUser != null)
                 {
-                    challenger = UserModel.AddUser(tUser.Identifier.UserID, auth.Credentials.AccessToken);
+                    challenger = _userModel.Add(tUser.Identifier.UserID, auth.Credentials.AccessToken);
                     challenger.ImageUrl = tUser.ProfileImageUrl;
                     challenger.ScreenName = tUser.Identifier.ScreenName;
                 }
@@ -231,7 +232,7 @@ namespace Melee.Me.Controllers
 
         private UserModel GetCompetitor(TwitterContext twitterCtx, string twitterUserId)
         {
-            var competitor = null as UserModel;
+            UserModel competitor;
 
             if (Session["competitor"] != null)
             {

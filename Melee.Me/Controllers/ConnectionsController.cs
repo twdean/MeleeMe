@@ -11,19 +11,6 @@ namespace Melee.Me.Controllers
     {
         //
         // GET: /Connections/
-
-        public ActionResult Index()
-        {
-            var meleeUser = null as UserModel;
-            if (Session["challenger"] != null)
-            {
-                meleeUser = (UserModel) Session["challenger"];
-                IEnumerable<ConnectionModel> connections = ConnectionModel.GetUserConnections(meleeUser.UserId);
-            }
-
-            return View("Connections", meleeUser);
-        }
-
         public ActionResult Facebook()
         {
             var facebookKey = ConfigurationManager.AppSettings["FacebookKey"];
@@ -72,12 +59,13 @@ namespace Melee.Me.Controllers
             });
 
             var accessToken = result.access_token;
-            ConnectionModel.AddConnection(10, "Facebook", accessToken);
-
+            
             if (Session["challenger"] != null)
             {
                 meleeUser = (UserModel)Session["challenger"];
+                meleeUser.Connections.Add(ConnectionModel.AddConnection(10, "Facebook", accessToken));
             }
+
             return RedirectToAction("MyProfile", "Home", meleeUser);
         }
     }

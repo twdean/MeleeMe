@@ -19,12 +19,21 @@
                 </div>
                 <div>
                     <ul class="nav nav-tabs">
-                        <li>@Html.ActionLink("Melee", "ExternalLogin", "Home")</li>
                         @{
-                            //if (User.Identity.IsAuthenticated) { 
-                            <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile", "Home")</li>
-                            <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
-                            //}
+                            if (Context.User.Identity.IsAuthenticated)
+                            {
+                                <li>@Html.ActionLink("Melee", "ExternalLogin", "Home")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Enter", "ExternalLogin", "Home")</li>
+                            }
+                        }
+                        @{
+                            if (Context.User.Identity.IsAuthenticated) { 
+                                <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile", "Home")</li>
+                                <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
+                            }
                         }
                     </ul>
                 </div>
