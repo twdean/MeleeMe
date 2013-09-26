@@ -1,0 +1,63 @@
+﻿<Project DefaultTargets="Compile" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <BuildInParallel Condition="'$(BuildInParallel)'==''">true</BuildInParallel>
+    <TrackFileAccess>false</TrackFileAccess>
+    <BuildTimestamp>$([System.DateTime]::UtcNow.ToString("yyMMdd-HHmm"))</BuildTimestamp>
+    <Platform>AnyCPU</Platform>
+  </PropertyGroup>
+
+  <Target Name="_BuildSolutionFile">
+    <MakeDir Directories="Build\Results" />
+    <MSBuild
+			Projects="Playground.sln"
+			Targets="Build"
+			BuildInParallel="$(BuildInParallel)"
+			Properties="Configuration=$(Configuration);TrackFileAccess=$(TrackFileAccess)">
+      <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects"/>
+    </MSBuild>
+    <Message Text="@(AssembliesBuiltByChildProjects)" />
+    <WriteLinesToFile File="Build\Results\SolutionOutput.txt" Lines="@(AssembliesBuiltByChildProjects)" Overwrite="true" />
+  </Target>
+  
+  <Target Name="_SetBuildVersion" Condition="'$(BuildVersion)' != ''">
+    <MSBuild.ExtensionPack.Framework.DynamicExecute TaskAction="Run"
+                                    Inputs="string arg"
+                                    Input1="$(BuildVersion)"
+                                    Outputs="string result"
+                                    UsingNamespaces="System.Text.RegularExpressions"
+                                    Code="result = Regex.Match(arg, @%22(\d+\.\d+)\.\d+\.\d+%22).Groups[1].Value;">
+      <Output TaskParameter="Output1" PropertyName="AssemblyVersion"/>
+    </MSBuild.ExtensionPack.Framework.DynamicExecute>
+    <MSBuild.ExtensionPack.FileSystem.File
+        TaskAction="Replace"
+        RegexPattern='AssemblyVersion\("(\d+\.\d+\.\d+)\.\d+"\)'
+        Replacement='AssemblyVersion("$(AssemblyVersion).0.0")'
+        Files="Source\SolutionAssemblyInfo.cs" />
+    <MSBuild.ExtensionPack.FileSystem.File
+        TaskAction="Replace"
+        RegexPattern='AssemblyFileVersion\("(\d+\.\d+\.\d+)\.\d+"\)'
+        Replacement='AssemblyFileVersion("$(BuildVersion)")'
+        Files="Source\SolutionAssemblyInfo.cs" />
+  </Target>
+  
+  <Target Name="_SetBuildConfiguration">
+    <MSBuild.ExtensionPack.FileSystem.File
+			TaskAction="Replace"
+			RegexPattern='AssemblyConfiguration\("(.+)"\)'
+			Replacement='AssemblyConfiguration("$(BuildConfiguration)")'
+			Files="Source\SolutionAssemblyInfo.cs" />
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="Build" />
+    <MSBuild
+        Projects="Playground.sln"
+        Targets="Clean"
+        Properties="Configuration=$(Configuration);TrackFileAccess=$(TrackFileAccess)"/>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="Clean;_SetBuildVersion;_SetBuildConfiguration;_BuildSolutionFile" />
+
+</Project>
