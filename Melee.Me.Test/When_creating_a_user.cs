@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Melee.Me.Persistence;
+using Melee.Me.Infrastructure.Repository;
 using Moq;
 using Xunit;
 using MeleeMeDatabase;

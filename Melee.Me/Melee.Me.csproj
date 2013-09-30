@@ -186,7 +186,14 @@
     <Compile Include="Controllers\ConnectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeleeController.cs" />
+    <Compile Include="Infrastructure\IConnectionRepository.cs" />
     <Compile Include="Infrastructure\IEntity.cs" />
+    <Compile Include="Infrastructure\IMeleeRepository.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\Repository\ConnectionRepository.cs" />
+    <Compile Include="Infrastructure\IUserRepository.cs" />
+    <Compile Include="Infrastructure\Repository\MeleeRepository.cs" />
+    <Compile Include="Infrastructure\Repository\MeleeUserRepository.cs" />
     <Compile Include="Infrastructure\TwitterErrorCodes.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />

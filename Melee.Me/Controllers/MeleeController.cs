@@ -2,14 +2,21 @@
 using System.Linq;
 using System.Web.Mvc;
 using LinqToTwitter;
+using Melee.Me.Infrastructure;
+using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 
 namespace Melee.Me.Controllers
 {
     public class MeleeController : Controller
     {
-        //
-        // GET: /Melee/
+        private readonly MeleeRepository _repository;
+
+        public MeleeController()
+        {
+            _repository = new MeleeRepository();
+        }
+
 
         public ActionResult Index()
         {
@@ -77,7 +84,7 @@ namespace Melee.Me.Controllers
                     meleeLoser = (UserModel)Session["challenger"];
                 }
 
-                MeleeModel.AddMelee(challenger, opponent, meleeWinner.TwitterUserId, meleeLoser.TwitterUserId);
+                _repository.Add(challenger, opponent, meleeWinner.TwitterUserId, meleeLoser.TwitterUserId);
 
                 Session["challenger"] = null;
                 Session["competitor"] = null;
@@ -106,9 +113,9 @@ namespace Melee.Me.Controllers
             //Todays date - that date? = N / 100-n = score
             var today = DateTime.Now;
             var lastTweetDate = lastTweet.CreatedAt;
-            var dateVariance =  (today - lastTweetDate).TotalDays;
+            var dateVariance = (today - lastTweetDate).TotalDays;
 
-            var tweetScore = dateVariance/(100 - dateVariance);
+            var tweetScore = dateVariance / (100 - dateVariance);
 
             return tweetScore;
         }

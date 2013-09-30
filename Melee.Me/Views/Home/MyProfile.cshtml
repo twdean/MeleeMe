@@ -49,7 +49,7 @@
             <div class="panel-body">
                 <div id="facebookContainer">
                     <h3>Facebook</h3>
-                    @if (!Model.GetConnection(Model.UserId, "Facebook"))
+                    @if (Model.Connections.All(c => c.ConnectionName != "Facebook"))
                     {
                         @Html.ActionLink("Add", "Facebook", "Connections")
                     }
@@ -60,7 +60,7 @@
                 </div>
                 <div id="googleContainer">
                     <h3>Google</h3>
-                    @if (!Model.GetConnection(Model.UserId, "Google"))
+                    @if (Model.Connections.All(c => c.ConnectionName != "Google"))
                     {
                         @Html.ActionLink("Add", "ExternalLogin", "Home")
                     }
@@ -69,7 +69,16 @@
                 </div>
                 <div id="fourSquareContainer">
                     <h3>Four Square</h3>
-                    @if (!Model.GetConnection(Model.UserId, "FourSquare"))
+                    @if (Model.Connections.All(c => c.ConnectionName != "Four Square"))
+                    {
+                        @Html.ActionLink("Add", "ExternalLogin", "Home")
+                    }
+
+                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                </div>
+                <div id="linkedInContainer">
+                    <h3>LinkedIn</h3>
+                    @if (Model.Connections.All(c => c.ConnectionName != "LinkedIn"))
                     {
                         @Html.ActionLink("Add", "ExternalLogin", "Home")
                     }

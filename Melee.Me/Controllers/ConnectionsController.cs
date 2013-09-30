@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
 using Facebook;
+using Melee.Me.Infrastructure;
+using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 
 namespace Melee.Me.Controllers
 {
     public class ConnectionsController : Controller
     {
+        private readonly IRepository<ConnectionModel> _repository;
+
+        public ConnectionsController()
+        {
+            _repository = new ConnectionRepository();
+        }
+
+
         //
         // GET: /Connections/
         public ActionResult Facebook()
@@ -59,11 +69,11 @@ namespace Melee.Me.Controllers
             });
 
             var accessToken = result.access_token;
-            
+
             if (Session["challenger"] != null)
             {
                 meleeUser = (UserModel)Session["challenger"];
-                meleeUser.Connections.Add(ConnectionModel.AddConnection(10, "Facebook", accessToken));
+                meleeUser.Connections.Add(ConnectionRepository.Add(10, "Facebook", accessToken));
             }
 
             return RedirectToAction("MyProfile", "Home", meleeUser);

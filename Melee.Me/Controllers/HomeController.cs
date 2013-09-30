@@ -5,17 +5,19 @@ using System.Configuration;
 using System.Web.Security;
 
 using LinqToTwitter;
+using Melee.Me.Infrastructure;
+using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 
 namespace Melee.Me.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserModel _userModel;
+        private readonly IUserRepository _repository;
 
         public HomeController()
         {
-            _userModel = new UserModel();
+            _repository = new MeleeUserRepository();
         }
 
         public ActionResult Index()
@@ -79,6 +81,14 @@ namespace Melee.Me.Controllers
 
             SetAuthCookie(challengerModel.TwitterUserId);
 
+            TempData["MeleeModel"] = mm as MeleeModel;
+            return RedirectToAction("MyNewAction");
+        }
+
+        //TODO:  Add internal user attribute
+        public ActionResult MyNewAction()
+        {
+            var mm = TempData["MeleeModel"] as MeleeModel;
             return View("SocialSignInConfirmation", mm);
         }
 
@@ -105,7 +115,7 @@ namespace Melee.Me.Controllers
         [Authorize]
         public ActionResult History(string twitterUserId)
         {
-            UserModel mUser = _userModel.Get(twitterUserId);
+            UserModel mUser = _repository.Get(twitterUserId);
 
 
             return View(mUser);
@@ -219,7 +229,7 @@ namespace Melee.Me.Controllers
 
                 if (tUser != null)
                 {
-                    challenger = _userModel.Add(tUser.Identifier.UserID, auth.Credentials.AccessToken);
+                    challenger = _repository.Add(tUser.Identifier.UserID, auth.Credentials.AccessToken);
                     challenger.ImageUrl = tUser.ProfileImageUrl;
                     challenger.ScreenName = tUser.Identifier.ScreenName;
                 }
@@ -241,7 +251,7 @@ namespace Melee.Me.Controllers
             else
             {
                 competitor = FriendSelector(twitterCtx, twitterUserId);
-                competitor.Stats = MeleeStatisticsModel.GetMeleeStats(twitterUserId, Types.UserType.Opponent);
+                competitor.Stats = MeleeRepository.GetMeleeStats(twitterUserId, Types.UserType.Opponent);
 
 
                 Session.Add("competitor", competitor);
