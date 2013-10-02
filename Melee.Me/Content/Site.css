@@ -19,7 +19,8 @@ a {
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    text-decoration: none;
 }
 
     a:link, a:visited,
@@ -221,6 +222,9 @@ ul#menu {
         background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
         color: #3e5667;
         padding: 20px 40px 30px 40px;
+        border: 1px solid #333;
+        width: 400px;
+        margin: 0 auto;
     }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
@@ -638,6 +642,10 @@ tr.pager td {
     header .site-title {
         margin: 10px;
         text-align: center;
+    }
+    .logo {
+	    text-align: center;
+		margin-top: 50px;
     }
 
     /* login */

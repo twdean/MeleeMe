@@ -13,7 +13,7 @@
     </head>
     <body>
         <header>
-            <div>
+            <div class="container">
                 <div class="logo">
                     <p class="site-title">@Html.ActionLink("MeleeMe logo", "Index", "Home")</p>
                 </div>
@@ -30,11 +30,12 @@
             </div>
         </header>
         <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-            <div class="actionButton">
+        	<div class="container">
+	            @RenderSection("featured", required: false)
+	            <section class="content-wrapper main-content clear-fix">
+	                @RenderBody()
+	            </section>
+            	<div class="actionButton">
                       
                         @{
                             if (Context.User.Identity.IsAuthenticated)
@@ -46,7 +47,8 @@
                                 <button type="submit" class="btn btn-lg btn-default">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
                             }
                         }
-           </div>
+						</div>
+		   </div>
         </div>
         <footer>
             <div class="content-wrapper">
