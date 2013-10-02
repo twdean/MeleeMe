@@ -240,6 +240,8 @@
     <Content Include="Assemblies\WebGrease.dll" />
     <Content Include="Assemblies\WebMatrix.Data.dll" />
     <Content Include="Assemblies\WebMatrix.WebData.dll" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -316,10 +318,6 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Styles\Bootstrap\bootstrap-theme.css" />
-    <Content Include="Styles\Bootstrap\bootstrap-theme.min.css" />
-    <Content Include="Styles\Bootstrap\bootstrap.css" />
-    <Content Include="Styles\Bootstrap\bootstrap.min.css" />
     <Content Include="Styles\Bootstrap\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
