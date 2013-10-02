@@ -599,13 +599,26 @@ tr.pager td {
 /*****************
 *    New Styles  *  
 *****************/
-
-section.jumbotron {
+.jumbotron {
 	border: 1px solid #ccc;
-	background: #fff;
+	background-color: #fff;
 	text-align: center;
 	width: 550px;
 	margin: 50px auto 0;
+}
+.rules {
+	padding: 30px;
+	text-align: center;
+	margin: 50px auto 0;	
+}
+.rules li {
+	float: left;
+	margin-right: 10px;
+	clear: none;
+	display: block;
+}
+.actionButton {
+	text-align: center;
 }
 
 .battleField {
