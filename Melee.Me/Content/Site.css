@@ -608,6 +608,7 @@ tr.pager td {
 }
 .rules {
 	padding: 30px;
+	padding-top: 0px;
 	text-align: center;
 	margin: 0 auto 20px;	
 }
