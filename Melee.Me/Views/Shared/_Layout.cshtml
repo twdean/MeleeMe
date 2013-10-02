@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-                @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
 
     </head>
@@ -18,17 +18,7 @@
                     <p class="site-title">@Html.ActionLink("MeleeMe logo", "Index", "Home")</p>
                 </div>
                 <div class="main-nav">
-                    <ul class="nav nav-tabs">
-                        @{
-                            if (Context.User.Identity.IsAuthenticated)
-                            {
-                                <li>@Html.ActionLink("Melee", "ExternalLogin", "Home")</li>
-                            }
-                            else
-                            {
-                                <button type="submit">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
-                            }
-                        }
+                      <ul class="nav nav-tabs">
                         @{
                             if (Context.User.Identity.IsAuthenticated) { 
                                 <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile", "Home")</li>
@@ -44,6 +34,19 @@
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
             </section>
+            <div class="actionButton">
+                      
+                        @{
+                            if (Context.User.Identity.IsAuthenticated)
+                            {
+                                <button type="submit">@Html.ActionLink("Melee", "ExternalLogin", "Home")</button>
+                            }
+                            else
+                            {
+                                <button type="submit">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
+                            }
+                        }
+           </div>
         </div>
         <footer>
             <div class="content-wrapper">
