@@ -106,9 +106,11 @@ h5, h6 {
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
+     /*
+   background: url("../Images/accent.png") no-repeat;
         padding-left: 10px;
         padding-top: 30px;
+*/
     }
 
     .featured + .main-content {
@@ -143,6 +145,10 @@ footer {
     text-decoration: none;
 }
 
+.logo {
+	    text-align: center;
+		margin-top: 50px;
+}
 
 /* login
 ----------------------------------------------------------*/
@@ -594,6 +600,14 @@ tr.pager td {
 *    New Styles  *  
 *****************/
 
+.jumbotron {
+	border: 1px solid #ccc;
+	background: #fff;
+	text-align: center;
+	width: 500px;
+	margin: 50px auto 0;
+}
+
 .battleField {
     width: 75%;
 }
@@ -642,10 +656,6 @@ tr.pager td {
     header .site-title {
         margin: 10px;
         text-align: center;
-    }
-    .logo {
-	    text-align: center;
-		margin-top: 50px;
     }
 
     /* login */
