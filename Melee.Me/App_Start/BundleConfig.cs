@@ -28,7 +28,7 @@ namespace Melee.Me
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",
-                "~/Styles/Bootstrap/Bootstrap.css"));
+                "~/Content/Bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
