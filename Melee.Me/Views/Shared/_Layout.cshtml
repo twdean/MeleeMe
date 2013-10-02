@@ -39,11 +39,11 @@
                         @{
                             if (Context.User.Identity.IsAuthenticated)
                             {
-                                <button type="submit">@Html.ActionLink("Melee", "ExternalLogin", "Home")</button>
+                                <button type="submit" class="btn btn-lg btn-default">@Html.ActionLink("Melee", "ExternalLogin", "Home")</button>
                             }
                             else
                             {
-                                <button type="submit">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
+                                <button type="submit" class="btn btn-lg btn-default">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
                             }
                         }
            </div>
