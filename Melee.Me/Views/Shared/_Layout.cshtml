@@ -1,61 +1,62 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - Melee.Me</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Melee.Me</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <p class="site-title">@Html.ActionLink("MeleeMe logo", "Index", "Home")</p>
-                </div>
-                <div class="main-nav">
-                      <ul class="nav nav-tabs">
-                        @{
-                            if (Context.User.Identity.IsAuthenticated) { 
-                                <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile", "Home")</li>
-                                <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
-                            }
-                        }
-                    </ul>
-                </div>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <p class="site-title">@Html.ActionLink("MeleeMe logo", "Index", "Home")</p>
             </div>
-        </header>
-        <div id="body">
-        	<div class="container">
-	            @RenderSection("featured", required: false)
-	            <section class="content-wrapper main-content clear-fix">
-	                @RenderBody()
-	            </section>
-            	<div class="actionButton">
-                      
-                        @{
-                            if (Context.User.Identity.IsAuthenticated)
-                            {
-                                <button type="submit" class="btn btn-lg btn-warning">@Html.ActionLink("Melee", "ExternalLogin", "Home")</button>
-                            }
-                            else
-                            {
-                                <button type="submit" class="btn btn-lg btn-primary">@Html.ActionLink("Enter", "ExternalLogin", "Home")</button>
-                            }
+            <div class="main-nav">
+                <ul class="nav nav-tabs">
+                    @{
+                        if (Context.User.Identity.IsAuthenticated)
+                        { 
+                        <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile", "Home")</li>
+                        <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
                         }
-						</div>
-		   </div>
+                    }
+                </ul>
+            </div>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - L9 & big time collaboration</p>
-                </div>
+    </header>
+    <div id="body">
+        <div class="container">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+            <div class="actionButton">
+                @using (Html.BeginForm("ExternalLogin", "Home"))
+                {
+                    if (Context.User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Melee", "ExternalLogin", "Home", new{}, new{@class="btn btn-lg btn-warning"})
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Enter", "ExternalLogin", "Home", new{}, new{@class="btn btn-lg btn-primary"})
+                    }
+                }
             </div>
-        </footer>
-    </body>
+        </div>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - L9 & big time collaboration</p>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>
