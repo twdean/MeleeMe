@@ -652,8 +652,49 @@ tr.pager td {
     left: 550px;
 }
 
-.battleStats {
+/*.battleStats {
     width: 45%;
+}*/
+
+.stats .stat {
+    color: #999999;
+    display: table-cell;
+    font-size: 11px;
+    font-weight: bold;
+    vertical-align: top;
+    width: 40%;
+}
+
+.stat-value {
+    color: #444444;
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: -2px;
+    margin-bottom: 0.55em;
+}
+
+.widget-header {
+    background: -moz-linear-gradient(center top , #FAFAFA 0%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #D5D5D5;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 55px;
+    line-height: 40px;
+    position: relative;
+}
+
+.widget-header h3 {
+    color: #555555;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 400;
+    left: 10px;
+    line-height: 18px;
+    margin-right: 3em;
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    top: 0;
 }
 
 /********************

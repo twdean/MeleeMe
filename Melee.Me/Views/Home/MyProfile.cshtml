@@ -6,44 +6,44 @@
 }
 
 <div class="panel-group" id="accordion">
-    <div id="userContainer" class="panel panel-primary">
-        <div class="panel-heading">
-            <h4 class="panel-title">
+    <div id="userContainer">
+        <div class="widget-header">
+            <h3>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseInfo">
-                    @Model.ScreenName
+                    Quick Stats @*[@Model.ScreenName]*@
                 </a>
-            </h4>
+            </h3>
         </div>
         <div id="collapseInfo" class="panel-collapse collapse in">
             <div class="panel-body">
-                <div class="row">
-                    <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
-                </div>
                 <div id="challengerBattleStats">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active">
-                            <span>Melee's:</span>
-                            <span class="badge">@(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</span>
-                        </li>
-                        <li class="active">
-                            <span>Wins:</span>
-                            <span class="badge">@Model.Stats.BattleWins</span>
-                        </li>
-                        <li class="active">
-                            <span>Losses:</span>
-                            <span class="badge">@Model.Stats.BattleLosses</span>
-                        </li>
-                    </ul>
+                    <div id="stats" class="stats">
+                        <div class="stat">
+                            <span class="stat-value">@(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</span>  
+                            Melee's:
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">@Model.Stats.BattleWins</span>
+                            Wins:
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">@Model.Stats.BattleLosses</span>
+                            Losses:                        
+                        </div>
+                    </div>
                 </div>
+@*                <div class="row">
+                    <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
+                </div>*@
             </div>
         </div>
     </div>
-    <div id="connectionContainer" class="panel panel-success">
-        <div class="panel-heading">
-            <h4 class="panel-title">
+    <div id="connectionContainer">
+        <div class="widget-header">
+            <h3>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseConnections">Connections
                 </a>
-            </h4>
+            </h3>
         </div>
         <div id="collapseConnections" class="panel-collapse collapse in">
             <div class="panel-body">
@@ -88,23 +88,23 @@
             </div>
         </div>
     </div>
-    <div id="badgeContainer" class="panel panel-info">
-        <div class="panel-heading">
-            <h4 class="panel-title">
+    <div id="badgeContainer">
+        <div class="widget-header">
+            <h3>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBadges">Badges
                 </a>
-            </h4>
+            </h3>
         </div>
         <div id="collapseBadges" class="panel-collapse collapse in">
             <div class="panel-body"></div>
         </div>
     </div>
-    <div id="otherContainer" class="panel panel-warning">
-        <div class="panel-heading">
-            <h4 class="panel-title">
+    <div id="otherContainer">
+        <div class="widget-header">
+            <h3>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">Other
                 </a>
-            </h4>
+            </h3>
         </div>
         <div id="collapseOther" class="panel-collapse collapse in">
             <div class="panel-body"></div>
