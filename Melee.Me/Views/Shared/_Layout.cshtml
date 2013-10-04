@@ -37,16 +37,19 @@
                 @RenderBody()
             </section>
             <div class="actionButton">
-                @using (Html.BeginForm("ExternalLogin", "Home"))
+                @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
                 {
-                    if (Context.User.Identity.IsAuthenticated)
+                    var btnClass = "btn btn-lg btn-warning";
+                    var btnValue = "Enter";
+
+                    if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("Melee", "ExternalLogin", "Home", new{}, new{@class="btn btn-lg btn-warning"})
+                        btnClass = "btn btn-lg btn-warning";
+                        btnValue = "Home";
                     }
-                    else
-                    {
-                        @Html.ActionLink("Enter", "ExternalLogin", "Home", new{}, new{@class="btn btn-lg btn-primary"})
-                    }
+                        
+                    <input type="submit" name="btnHome" id="btnHome" value="@btnValue" class="@btnClass" />
+
                 }
             </div>
         </div>

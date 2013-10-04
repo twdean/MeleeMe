@@ -26,6 +26,7 @@ namespace Melee.Me.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public ActionResult ExternalLogin(string returnUrl)
         {
             MvcAuthorizer auth = GetAuthorizer();
@@ -36,7 +37,7 @@ namespace Melee.Me.Controllers
 
             if (!auth.IsAuthorized)
             {
-                Uri specialUri = new Uri(twitterReturnUrl);
+                var specialUri = new Uri(twitterReturnUrl);
                 return auth.BeginAuthorization(specialUri);
             }
 
@@ -81,7 +82,7 @@ namespace Melee.Me.Controllers
 
             SetAuthCookie(challengerModel.TwitterUserId);
 
-            TempData["MeleeModel"] = mm as MeleeModel;
+            TempData["MeleeModel"] = mm;
             return RedirectToAction("MyNewAction");
         }
 
@@ -125,7 +126,6 @@ namespace Melee.Me.Controllers
         public ActionResult GetNewCompetitor(string twitterUserId)
         {
             MvcAuthorizer auth = GetAuthorizer();
-            TwitterContext twitterCtx;
 
             auth.CompleteAuthorization(Request.Url);
 
@@ -135,7 +135,7 @@ namespace Melee.Me.Controllers
                 return auth.BeginAuthorization(specialUri);
             }
 
-            twitterCtx = new TwitterContext(auth);
+            TwitterContext twitterCtx = new TwitterContext(auth);
             UserModel competitor = FriendSelector(twitterCtx, twitterUserId);
 
             if (Session["competitor"] != null)

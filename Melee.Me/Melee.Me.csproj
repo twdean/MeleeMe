@@ -365,7 +365,6 @@
     <Folder Include="APIs\Twitter\TweetSharp\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\Filters\" />
-    <Folder Include="Views\Connections\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
