@@ -58,6 +58,24 @@
         Properties="Configuration=$(Configuration);TrackFileAccess=$(TrackFileAccess)"/>
   </Target>
 
-  <Target Name="Compile" DependsOnTargets="Clean;_SetBuildVersion;_SetBuildConfiguration;_BuildSolutionFile" />
+  <Target Name="Compile" DependsOnTargets="Clean;_BuildSolutionFile" />
+  <Target Name="Package">
+    <MakeDir Directories="Build\Packages" />
 
+    <PropertyGroup>
+      <PackageFolder>$([System.IO.Path]::GetFullPath('Build\Packages\'))</PackageFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectsToBuild Include="Melee.Me\Melee.Me.csproj">
+        <Properties>Configuration=$(Configuration);Platform=$(Platform);PackageLocation=$(PackageFolder)MeleeMe.zip</Properties>
+      </ProjectsToBuild>
+    </ItemGroup>
+
+    <MSBuild
+        Projects="@(ProjectsToBuild)"
+        Targets="Package"
+        BuildInParallel="$(BuildInParallel)"
+        Properties="TrackFileAccess=$(TrackFileAccess);RunCodeAnalysis=false" />
+  </Target>
 </Project>

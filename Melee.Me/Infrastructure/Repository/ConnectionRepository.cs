@@ -7,11 +7,29 @@ using MeleeMeDatabase;
 
 namespace Melee.Me.Infrastructure.Repository
 {
-    public class ConnectionRepository : IRepository<ConnectionModel>
+    public class ConnectionRepository : IConnectionRepository
     {
         public IQueryable<ConnectionModel> Find(Expression<Func<ConnectionModel, bool>> predicate)
         {
             throw new NotImplementedException();
+        }
+
+        public bool Delete(int userId, int id)
+        {
+            var dbContext = new MeleeMeEntities();
+
+            using (dbContext)
+            {
+                var userConn =
+                    (from uc in dbContext.m_UserConnections 
+                     where uc.UserId == userId && uc.ConnectionId == id 
+                     select uc).FirstOrDefault();
+
+                dbContext.m_UserConnections.Remove(userConn);
+                dbContext.SaveChanges();
+            }
+
+            return true;
         }
 
         public bool HasConnection(int userId, string connectionName)
@@ -36,7 +54,7 @@ namespace Melee.Me.Infrastructure.Repository
             return hasConnection;
         }
 
-        public static Collection<ConnectionModel> Get(int userId)
+        public Collection<ConnectionModel> Get(int id)
         {
             var dbContext = new MeleeMeEntities();
             var connections = new Collection<ConnectionModel>();
@@ -44,6 +62,7 @@ namespace Melee.Me.Infrastructure.Repository
             var result = (from cx in dbContext.m_Connections
                           join ucx in dbContext.m_UserConnections on cx.ConnectionId equals ucx.ConnectionId
                           join u in dbContext.m_User on ucx.UserId equals u.UserId
+                          where u.UserId == id
                           select cx).ToList();
 
             foreach (var conn in result)
@@ -52,7 +71,8 @@ namespace Melee.Me.Infrastructure.Repository
                 {
                     ConnectionName = conn.ConnectionName,
                     ConnectionId = conn.ConnectionId,
-                    ConnectionIcon = conn.ConnectionIcon
+                    ConnectionIcon = conn.ConnectionIcon,
+                    ConnectionProvider = LoadConnectionProvider(conn.ConnectionProvider)
                 };
 
                 connections.Add(c);
@@ -62,7 +82,7 @@ namespace Melee.Me.Infrastructure.Repository
             return connections;
         }
 
-        public static ConnectionModel Add(int userId, string connectionName, string accessToken)
+        public ConnectionModel Add(int userId, string connectionName, string accessToken)
         {
             var dbContext = new MeleeMeEntities();
 
@@ -102,5 +122,43 @@ namespace Melee.Me.Infrastructure.Repository
 
             return null;
         }
+
+        private static IConnection LoadConnectionProvider(string connectionName)
+        {
+            const string typeNamespace = "Melee.Me.Infrastructure.Connection";
+            var type = Type.GetType(String.Format("{0}.{1}", typeNamespace, connectionName), true);
+            var provider = (IConnection)Activator.CreateInstance(type);
+
+            return provider;
+        }
+
+        public static Collection<ConnectionModel> Get(string twitterUserId)
+        {
+            var dbContext = new MeleeMeEntities();
+            var connections = new Collection<ConnectionModel>();
+
+            var result = (from cx in dbContext.m_Connections
+                          join ucx in dbContext.m_UserConnections on cx.ConnectionId equals ucx.ConnectionId
+                          join u in dbContext.m_User on ucx.UserId equals u.UserId
+                          where u.TwitterUserId == twitterUserId
+                          select cx).ToList();
+
+            foreach (var conn in result)
+            {
+                var c = new ConnectionModel
+                {
+                    ConnectionName = conn.ConnectionName,
+                    ConnectionId = conn.ConnectionId,
+                    ConnectionIcon = conn.ConnectionIcon,
+                    ConnectionProvider = LoadConnectionProvider(conn.ConnectionProvider)
+                };
+
+                connections.Add(c);
+
+            }
+
+            return connections;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using LinqToTwitter;
 using Melee.Me.Infrastructure;
+using Melee.Me.Infrastructure.Connection;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 
@@ -23,11 +24,13 @@ namespace Melee.Me.Controllers
             return View();
         }
 
-        public ActionResult MeleeMe(string challenger, string opponent)
+        public ActionResult MeleeMe()
         {
-            TwitterContext twitterCtx = GetTwitterContext();
+            //loop through user connections and get score
+            var challenger = (UserModel)Session["challenger"];
+            var competitor = (UserModel)Session["competitor"];
 
-            UserModel result = GetMeleeData(twitterCtx, challenger, opponent);
+            UserModel result = GetMeleeData(challenger, competitor);
 
             if (result == null)
             {
@@ -37,32 +40,26 @@ namespace Melee.Me.Controllers
             return View("Melee", result);
         }
 
-        public UserModel GetMeleeData(TwitterContext twitterCtx, string challenger, string opponent)
+        public UserModel GetMeleeData(UserModel challenger, UserModel competitor)
         {
-            var meleeWinner = null as UserModel;
-            var meleeLoser = null as UserModel;
+            UserModel meleeWinner = null;
+            double challengerScore = 0;
+            double competitorScore = 0;
 
             try
             {
-                var challengerTotal = 0;
-                var opponentTotal = 0;
-
-                var challengerResult = new MeleeResultModel();
-                var opponentResult = new MeleeResultModel();
-
                 try
                 {
-                    challengerResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Friends);
-                    challengerResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, challenger, SocialGraphType.Followers);
-                    challengerResult.PostScore = GetStatusUpdateCount(twitterCtx, challenger);
-                    challengerResult.LikeFavouriteScore = GetLikesFavouritesCount(twitterCtx, challenger);
-                    challengerResult.RecentConnectionScore = GetLatestTweet(twitterCtx, challenger);
+                    challengerScore += challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
 
-                    opponentResult.FriendScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Friends);
-                    opponentResult.FollowerScore = GetTwitterFollowerFriendCount(twitterCtx, opponent, SocialGraphType.Followers);
-                    opponentResult.PostScore = GetStatusUpdateCount(twitterCtx, opponent);
-                    opponentResult.LikeFavouriteScore = GetLikesFavouritesCount(twitterCtx, opponent);
-                    opponentResult.RecentConnectionScore = GetLatestTweet(twitterCtx, opponent);
+                    if (competitor.Connections != null)
+                    {
+                        competitorScore += competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
+                    }
+                    else
+                    {
+                        competitorScore = new TwitterConnection().GetScore(competitor);
+                    }
                 }
                 catch (TwitterQueryException tqEx)
                 {
@@ -72,19 +69,18 @@ namespace Melee.Me.Controllers
                     }
                 }
 
-
-                if (CalcMeleeResults(challengerResult) > CalcMeleeResults(opponentResult))
+                if (challengerScore > competitorScore)
                 {
-                    meleeWinner = (UserModel)Session["challenger"];
-                    meleeLoser = (UserModel)Session["competitor"];
+                    meleeWinner = challenger;
+                    _repository.Add(challenger, competitor, challenger.TwitterUserId, competitor.TwitterUserId);
+
                 }
                 else
                 {
-                    meleeWinner = (UserModel)Session["competitor"];
-                    meleeLoser = (UserModel)Session["challenger"];
-                }
+                    meleeWinner = competitor;
+                    _repository.Add(challenger, competitor, competitor.TwitterUserId, challenger.TwitterUserId);
 
-                _repository.Add(challenger, opponent, meleeWinner.TwitterUserId, meleeLoser.TwitterUserId);
+                }
 
                 Session["challenger"] = null;
                 Session["competitor"] = null;
@@ -98,112 +94,6 @@ namespace Melee.Me.Controllers
             }
 
             return meleeWinner;
-        }
-
-        public double GetLatestTweet(TwitterContext twitterCtx, string twitterUserId)
-        {
-            var statusTweets =
-                from tweet in twitterCtx.Status
-                where tweet.Type == StatusType.User
-                      && tweet.UserID == twitterUserId
-                select tweet;
-
-            Status lastTweet = statusTweets.FirstOrDefault();
-
-            //Todays date - that date? = N / 100-n = score
-            var today = DateTime.Now;
-            var lastTweetDate = lastTweet.CreatedAt;
-            var dateVariance = (today - lastTweetDate).TotalDays;
-
-            var tweetScore = dateVariance / (100 - dateVariance);
-
-            return tweetScore;
-        }
-
-        private int GetTwitterFollowerFriendCount(TwitterContext twitterCtx, string twitterUserId, SocialGraphType graphType)
-        {
-            var list =
-                                (from friend in twitterCtx.SocialGraph
-                                 where friend.Type == graphType &&
-                                       friend.UserID == Convert.ToUInt64(twitterUserId)
-                                 select friend)
-                                 .SingleOrDefault();
-
-            return list.IDs.Count;
-        }
-
-        private int GetStatusUpdateCount(TwitterContext twitterCtx, string twitterUserId)
-        {
-            var tUser =
-                    (from user in twitterCtx.User
-                     where user.Type == UserType.Lookup &&
-                     user.UserID == twitterUserId
-                     select user).FirstOrDefault();
-
-            return tUser.StatusesCount;
-
-        }
-
-        private int GetLikesFavouritesCount(TwitterContext twitterCtx, string twitterUserId)
-        {
-            var tUser =
-                        (from user in twitterCtx.User
-                         where user.Type == UserType.Lookup &&
-                         user.UserID == twitterUserId
-                         select user).FirstOrDefault();
-
-            return tUser.FavoritesCount;
-
-        }
-
-        private double CalcMeleeResults(MeleeResultModel results)
-        {
-            var totalResults = (1 * results.FollowerScore) +
-                               (0.5 * results.FriendScore) +
-                               (0.25 * results.PostScore) +
-                               (results.RecentConnectionScore) +
-                               (3 * results.LikeFavouriteScore);
-
-            return totalResults;
-        }
-
-        public TwitterContext GetTwitterContext()
-        {
-            TwitterContext twitterCtx = null;
-            try
-            {
-                IOAuthCredentials credentials = new SessionStateCredentials();
-                MvcAuthorizer auth = GetAuthorizer();
-
-
-
-                auth.CompleteAuthorization(Request.Url);
-
-                twitterCtx = new TwitterContext(auth);
-            }
-            catch (TwitterQueryException tqEx)
-            {
-                var msg = tqEx.ToString();
-            }
-            return twitterCtx;
-        }
-
-        public MvcAuthorizer GetAuthorizer()
-        {
-            IOAuthCredentials credentials = new SessionStateCredentials();
-
-            if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
-            {
-                credentials.ConsumerKey = "u2ULchA68sGq111YWL2foA";
-                credentials.ConsumerSecret = "JcXAVK1GHaFMXtRLZASIviwDhQvtOLliaMKYfO0rY";
-            }
-
-            var auth = new MvcAuthorizer
-                {
-                    Credentials = credentials
-                };
-
-            return auth;
         }
     }
 }

@@ -186,6 +186,9 @@
     <Compile Include="Controllers\ConnectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeleeController.cs" />
+    <Compile Include="Infrastructure\Connection\FacebookConnection.cs" />
+    <Compile Include="Infrastructure\Connection\TwitterConnection.cs" />
+    <Compile Include="Infrastructure\IConnection.cs" />
     <Compile Include="Infrastructure\IConnectionRepository.cs" />
     <Compile Include="Infrastructure\IEntity.cs" />
     <Compile Include="Infrastructure\IMeleeRepository.cs" />
