@@ -10,7 +10,7 @@ namespace Melee.Me.Infrastructure.Connection
     {
         public double GetScore(UserModel meleeUser)
         {
-            throw new NotImplementedException();
+            return 0.00;
         }
     }
 }

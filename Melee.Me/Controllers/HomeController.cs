@@ -66,7 +66,7 @@ namespace Melee.Me.Controllers
                 }
 
                 var twitterCtx = new TwitterContext(auth);
-
+                
                 challengerModel = GetCurrentUser(twitterCtx, auth, auth.Credentials.UserId);
                 competitorModel = GetCompetitor(twitterCtx, auth.Credentials.UserId);
 
@@ -149,6 +149,13 @@ namespace Melee.Me.Controllers
 
             return Json(competitor);
         }
+
+        [Authorize]
+        public ActionResult Logout()
+        {
+            return View("Index");
+        }
+
 
         private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
