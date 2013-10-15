@@ -98,14 +98,15 @@ namespace Melee.Me.Infrastructure.Repository
                     {
                         UserId = userId,
                         ConnectionId = conn.ConnectionId,
-                        AccessToken = accessToken
+                        AccessToken = accessToken,
                     };
 
                     var cm = new ConnectionModel
                     {
                         ConnectionName = connectionName,
                         ConnectionId = conn.ConnectionId,
-                        UserHasConnection = true
+                        UserHasConnection = true,
+                        ConnectionProvider = LoadConnectionProvider(connectionName + "Connection")
                     };
 
                     dbContext.m_UserConnections.Add(c);
