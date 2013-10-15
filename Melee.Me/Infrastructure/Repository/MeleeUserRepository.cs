@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using Melee.Me.Models;
@@ -50,6 +51,7 @@ namespace Melee.Me.Infrastructure.Repository
                     };
 
                     dbContext.SaveChanges();
+                    newUser.Connections = new ConnectionRepository().Get(u.UserId);
                 }
                 catch (Exception)
                 {
