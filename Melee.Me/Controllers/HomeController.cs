@@ -8,6 +8,7 @@ using LinqToTwitter;
 using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
+using MeleeMeDatabase;
 
 namespace Melee.Me.Controllers
 {
@@ -65,8 +66,8 @@ namespace Melee.Me.Controllers
                 }
 
                 var twitterCtx = new TwitterContext(auth);
-
-                challengerModel = GetChallenger(twitterCtx, auth, auth.Credentials.UserId);
+                
+                challengerModel = GetCurrentUser(twitterCtx, auth, auth.Credentials.UserId);
                 competitorModel = GetCompetitor(twitterCtx, auth.Credentials.UserId);
 
                 mm = new MeleeModel
@@ -108,7 +109,7 @@ namespace Melee.Me.Controllers
 
             var twitterCtx = new TwitterContext(auth);
 
-            UserModel mUser = GetChallenger(twitterCtx, auth, auth.Credentials.UserId);
+            UserModel mUser = GetCurrentUser(twitterCtx, auth, auth.Credentials.UserId);
 
             return View(mUser);
         }
@@ -117,7 +118,6 @@ namespace Melee.Me.Controllers
         public ActionResult History(string twitterUserId)
         {
             UserModel mUser = _repository.Get(twitterUserId);
-
 
             return View(mUser);
         }
@@ -150,9 +150,17 @@ namespace Melee.Me.Controllers
             return Json(competitor);
         }
 
+        [Authorize]
+        public ActionResult Logout()
+        {
+            return View("Index");
+        }
+
+
         private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
             var competitor = null as UserModel;
+            var dbContext = new MeleeMeEntities();
 
             try
             {
@@ -170,14 +178,22 @@ namespace Melee.Me.Controllers
                            user.UserID == friendList.IDs[random]
                      select user).FirstOrDefault();
 
-                competitor = new UserModel
+                var meleeOponent = _repository.Get(tUser.UserID);
+
+                if (meleeOponent != null)
+                {
+                    competitor = meleeOponent;
+                }
+                else
+                {
+                    competitor = new UserModel
                     {
                         TwitterUserId = tUser.UserID,
                         ScreenName = tUser.Name,
                         ImageUrl = tUser.ProfileImageUrl,
                         Stats = new MeleeStatisticsModel()
-
                     };
+                }
             }
             catch (TwitterQueryException tqEx)
             {
@@ -211,7 +227,7 @@ namespace Melee.Me.Controllers
             return auth;
         }
 
-        private UserModel GetChallenger(TwitterContext twitterCtx, MvcAuthorizer auth, string twitterUserId)
+        private UserModel GetCurrentUser(TwitterContext twitterCtx, MvcAuthorizer auth, string twitterUserId)
         {
             var challenger = null as UserModel;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
+using System.Linq;
 using Facebook;
 using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
@@ -11,7 +12,7 @@ namespace Melee.Me.Controllers
 {
     public class ConnectionsController : Controller
     {
-        private readonly IRepository<ConnectionModel> _repository;
+        private readonly IConnectionRepository _repository;
 
         public ConnectionsController()
         {
@@ -23,21 +24,34 @@ namespace Melee.Me.Controllers
         // GET: /Connections/
         public ActionResult Facebook()
         {
-            var facebookKey = ConfigurationManager.AppSettings["FacebookKey"];
-            var facebookSecret = ConfigurationManager.AppSettings["FacebookSecret"];
-
-
-            var fb = new FacebookClient();
-            var loginUrl = fb.GetLoginUrl(new
+            var meleeUser = (UserModel)Session["challenger"];
+            if (meleeUser.Connections.All(c => c.ConnectionName != "Facebook"))
             {
-                client_id = facebookKey,
-                client_secret = facebookSecret,
-                redirect_uri = RedirectUri.AbsoluteUri,
-                response_type = "code",
-                scope = "email" // Add other permissions as needed
-            });
+                var facebookKey = ConfigurationManager.AppSettings["FacebookKey"];
+                var facebookSecret = ConfigurationManager.AppSettings["FacebookSecret"];
 
-            return Redirect(loginUrl.AbsoluteUri);
+
+                var fb = new FacebookClient();
+                var loginUrl = fb.GetLoginUrl(new
+                    {
+                        client_id = facebookKey,
+                        client_secret = facebookSecret,
+                        redirect_uri = RedirectUri.AbsoluteUri,
+                        response_type = "code",
+                        scope = "email,user_status, user_photos, read_stream, read_insights, user_online_presence"
+                        // Add other permissions as needed
+                    });
+
+                return Redirect(loginUrl.AbsoluteUri);
+            }
+            else
+            {
+                _repository.Delete(meleeUser.UserId,
+                                   meleeUser.Connections.First(c => c.ConnectionName == "Facebook").ConnectionId);
+                meleeUser.Connections.Remove(meleeUser.Connections.First(c => c.ConnectionName == "Facebook"));
+            }
+
+            return View("../Home/MyProfile", meleeUser);
         }
 
         private Uri RedirectUri
@@ -73,10 +87,12 @@ namespace Melee.Me.Controllers
             if (Session["challenger"] != null)
             {
                 meleeUser = (UserModel)Session["challenger"];
-                meleeUser.Connections.Add(ConnectionRepository.Add(10, "Facebook", accessToken));
+                meleeUser.Connections.Add(_repository.Add(meleeUser.UserId, "Facebook", accessToken));
+                Session["challenger"] = meleeUser;
             }
 
             return RedirectToAction("MyProfile", "Home", meleeUser);
         }
+
     }
 }

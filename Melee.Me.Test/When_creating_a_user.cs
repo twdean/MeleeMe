@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LinqToTwitter;
 using Melee.Me.Infrastructure.Repository;
+using Melee.Me.Models;
 using Moq;
 using Xunit;
 using MeleeMeDatabase;
@@ -41,6 +42,24 @@ namespace Melee.Me.Test
             //Act
 
             //Assert
+
+        }
+
+        [Fact]
+        public void the_user_should_have_twitter_connection()
+        {
+            var meleeUser = new UserModel();
+            meleeUser.TwitterUserId = "";
+            meleeUser.ScreenName = "";
+            meleeUser.Connections.Add(new ConnectionModel
+                {
+                    ConnectionId = 1,
+                    ConnectionName = "Twitter",
+                    ConnectionUrl = "",
+                    ConnectionIcon = ""
+                });
+
+            ConnectionRepository.Get(meleeUser.TwitterUserId);
 
         }
     }

@@ -36,6 +36,7 @@
           <Property Name="ConnectionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ConnectionName" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="ConnectionIcon" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="ConnectionProvider" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="m_Credentials">
           <Key>
@@ -225,6 +226,7 @@
           <Property Type="String" Name="ConnectionName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ConnectionIcon" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="m_UserConnections" Relationship="MeleeMeModel.fk_Connection" FromRole="m_Connections" ToRole="m_UserConnections" />
+          <Property Type="String" Name="ConnectionProvider" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="m_UserConnections">
           <Key>
@@ -307,6 +309,7 @@
           <EntitySetMapping Name="m_Connections">
             <EntityTypeMapping TypeName="MeleeMeModel.m_Connections">
               <MappingFragment StoreEntitySet="m_Connections">
+                <ScalarProperty Name="ConnectionProvider" ColumnName="ConnectionProvider" />
                 <ScalarProperty Name="ConnectionIcon" ColumnName="ConnectionIcon" />
                 <ScalarProperty Name="ConnectionName" ColumnName="ConnectionName" />
                 <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />

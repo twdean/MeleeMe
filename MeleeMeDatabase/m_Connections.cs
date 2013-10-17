@@ -22,6 +22,7 @@ namespace MeleeMeDatabase
         public int ConnectionId { get; set; }
         public string ConnectionName { get; set; }
         public string ConnectionIcon { get; set; }
+        public string ConnectionProvider { get; set; }
     
         public virtual ICollection<m_UserConnections> m_UserConnections { get; set; }
     }

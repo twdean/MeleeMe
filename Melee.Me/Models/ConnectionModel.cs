@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Melee.Me.Infrastructure;
 using MeleeMeDatabase;
 
 namespace Melee.Me.Models
@@ -12,7 +13,8 @@ namespace Melee.Me.Models
         public string ConnectionName { get; set; }
         public string ConnectionIcon { get; set; }
         public string ConnectionUrl { get; set; }
-        public bool UserHasConnection { get; set; }
+        public string AccessToken { get; set; }
+        public IConnection ConnectionProvider { get; set; }
     }
 
 }

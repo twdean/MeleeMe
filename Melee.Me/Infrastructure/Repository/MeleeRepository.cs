@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using Melee.Me.Models;
 using Melee.Me.Types;
 using MeleeMeDatabase;
@@ -11,23 +9,22 @@ namespace Melee.Me.Infrastructure.Repository
 {
     public class MeleeRepository : IMeleeRepository
     {
-        public void Add(string challenger, string opponent, string winner, string loser)
+        public void Add(UserModel currentUser, UserModel opponent, string winner, string loser)
         {
-            var _dbContext = new MeleeMeEntities();
-            var meleeModel = new MeleeModel();
+            var dbContext = new MeleeMeEntities();
 
-            using (_dbContext)
+            using (dbContext)
             {
-                var m = new m_Melee()
-                {
-                    challenger = challenger,
-                    opponent = opponent,
-                    timestamp = DateTime.Now
-                };
+                var m = new m_Melee
+                    {
+                        challenger = currentUser.TwitterUserId,
+                        opponent = opponent.TwitterUserId,
+                        timestamp = DateTime.Now
+                    };
 
-                _dbContext.m_Melee.Add(m);
-                AddMeleeStatistics(_dbContext, m, winner, loser);
-                _dbContext.SaveChanges();
+                dbContext.m_Melee.Add(m);
+                AddMeleeStatistics(dbContext, m, winner, loser);
+                dbContext.SaveChanges();
 
             }
         }
@@ -38,6 +35,11 @@ namespace Melee.Me.Infrastructure.Repository
         }
 
         public IQueryable<MeleeModel> Find(Expression<Func<MeleeModel, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int userId, int id)
         {
             throw new NotImplementedException();
         }
@@ -64,7 +66,7 @@ namespace Melee.Me.Infrastructure.Repository
                         break;
                 }
 
-                meleeStats = new MeleeStatisticsModel()
+                meleeStats = new MeleeStatisticsModel
                 {
                     BattleWins = result.Count(s => s.meleeWinner == twitterUserId),
                     BattleLosses = result.Count(s => s.meleeLoser == twitterUserId)
@@ -77,7 +79,7 @@ namespace Melee.Me.Infrastructure.Repository
 
         public static void AddMeleeStatistics(MeleeMeEntities dbContext, m_Melee m, string winner, string loser)
         {
-            var ms = new m_MeleeStats()
+            var ms = new m_MeleeStats
                 {
                     meleeId = m.meleeId,
                     meleeWinner = winner,
