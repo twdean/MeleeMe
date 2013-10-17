@@ -93,7 +93,7 @@ namespace Melee.Me.Infrastructure.Connection
 
         }
 
-        public double GetLatestTweet(UserModel meleeUser)
+        private double GetLatestTweet(UserModel meleeUser)
         {
             var statusTweets =
                 from tweet in TwitterCtx.Status

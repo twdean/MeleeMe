@@ -7,7 +7,6 @@ namespace Melee.Me.Infrastructure
     {
         ConnectionModel Add(int userId, string connectionName, string accessToken);
         Collection<ConnectionModel> Get(int id);
-        bool HasConnection(int userId, string connectionName);
         bool Delete(int userId, int id);
     }
 }

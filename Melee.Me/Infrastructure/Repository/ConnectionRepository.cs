@@ -32,28 +32,6 @@ namespace Melee.Me.Infrastructure.Repository
             return true;
         }
 
-        public bool HasConnection(int userId, string connectionName)
-        {
-            bool hasConnection = false;
-
-            var dbContext = new MeleeMeEntities();
-
-            using (dbContext)
-            {
-                var val = (from uc in dbContext.m_UserConnections
-                                               .Where(x => x.UserId == userId)
-                                               .Where(x => x.ConnectionId == x.m_Connections.ConnectionId)
-                                               .Where(x => x.m_Connections.ConnectionName == connectionName)
-                           select uc).FirstOrDefault();
-
-
-                if (val != null)
-                    hasConnection = true;
-            }
-
-            return hasConnection;
-        }
-
         public Collection<ConnectionModel> Get(int id)
         {
             var dbContext = new MeleeMeEntities();
@@ -72,6 +50,7 @@ namespace Melee.Me.Infrastructure.Repository
                     ConnectionName = conn.ConnectionName,
                     ConnectionId = conn.ConnectionId,
                     ConnectionIcon = conn.ConnectionIcon,
+                    AccessToken = GetAccessToken(dbContext, id, conn.ConnectionId),
                     ConnectionProvider = LoadConnectionProvider(conn.ConnectionProvider)
                 };
 
@@ -105,7 +84,7 @@ namespace Melee.Me.Infrastructure.Repository
                     {
                         ConnectionName = connectionName,
                         ConnectionId = conn.ConnectionId,
-                        UserHasConnection = true,
+                        AccessToken = accessToken,
                         ConnectionProvider = LoadConnectionProvider(connectionName + "Connection")
                     };
 
@@ -131,6 +110,15 @@ namespace Melee.Me.Infrastructure.Repository
             var provider = (IConnection)Activator.CreateInstance(type);
 
             return provider;
+        }
+
+        public static string GetAccessToken(MeleeMeEntities dbContext, int userId, int connectionId)
+        {
+            var userConn = (from uc in dbContext.m_UserConnections
+                               where uc.UserId == userId && uc.ConnectionId == connectionId
+                               select uc).Single();
+
+            return userConn.AccessToken;
         }
 
         public static Collection<ConnectionModel> Get(string twitterUserId)

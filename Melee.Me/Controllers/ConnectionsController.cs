@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace Melee.Me.Controllers
                         client_secret = facebookSecret,
                         redirect_uri = RedirectUri.AbsoluteUri,
                         response_type = "code",
-                        scope = "email,user_status, read_stream, read_insights, user_online_presence"
+                        scope = "email,user_status, user_photos, read_stream, read_insights, user_online_presence"
                         // Add other permissions as needed
                     });
 
@@ -92,5 +93,6 @@ namespace Melee.Me.Controllers
 
             return RedirectToAction("MyProfile", "Home", meleeUser);
         }
+
     }
 }

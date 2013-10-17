@@ -13,7 +13,7 @@ namespace Melee.Me.Models
         public string ConnectionName { get; set; }
         public string ConnectionIcon { get; set; }
         public string ConnectionUrl { get; set; }
-        public bool UserHasConnection { get; set; }
+        public string AccessToken { get; set; }
         public IConnection ConnectionProvider { get; set; }
     }
 
