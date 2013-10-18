@@ -84,11 +84,11 @@ namespace Melee.Me.Controllers
             SetAuthCookie(challengerModel.TwitterUserId);
 
             TempData["MeleeModel"] = mm;
-            return RedirectToAction("MyNewAction");
+            return RedirectToAction("Login");
         }
 
         //TODO:  Add internal user attribute
-        public ActionResult MyNewAction()
+        public ActionResult Login()
         {
             var mm = TempData["MeleeModel"] as MeleeModel;
             return View("SocialSignInConfirmation", mm);
@@ -153,7 +153,11 @@ namespace Melee.Me.Controllers
         [Authorize]
         public ActionResult Logout()
         {
-            return View("Index");
+            Session["competitor"] = null;
+            Session["challenger"] = null;
+
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
         }
 
 
