@@ -58,15 +58,16 @@
 
 
                 </div>
-@*                <div id="googleContainer">
+                <div id="googleContainer">
                     <h3>Google</h3>
                     @if (Model.Connections.All(c => c.ConnectionName != "Google"))
                     {
-                        @Html.ActionLink("Add", "ExternalLogin", "Home")
+                        @Html.ActionLink("Add", "Google", "Connections")
                     }
 
-                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                    @Html.ActionLink("Remove", "Google", "Connectionsz")
                 </div>
+                @* 
                 <div id="fourSquareContainer">
                     <h3>Four Square</h3>
                     @if (Model.Connections.All(c => c.ConnectionName != "Four Square"))

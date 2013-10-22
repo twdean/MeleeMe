@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeleeMeDatabase", "MeleeMeD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melee.Me.Test", "Melee.Me.Test\Melee.Me.Test.csproj", "{AB1BDEE3-1ACB-41B8-8E2E-0D1608EABDD6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C4D71B90-964C-47B1-8ECB-739D30266518}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31A958FB-3DF7-48D4-AAEE-9AB384DF245C}"
 	ProjectSection(SolutionItems) = preProject
 		MeleeMeBuild.msbuild = MeleeMeBuild.msbuild
