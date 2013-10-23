@@ -10,7 +10,6 @@ using Facebook;
 using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
-using Newtonsoft.Json.Linq;
 
 namespace Melee.Me.Controllers
 {
