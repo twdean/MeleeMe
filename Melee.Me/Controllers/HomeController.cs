@@ -9,8 +9,6 @@ using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 using MeleeMeDatabase;
 
-using Newtonsoft.Json;
-
 namespace Melee.Me.Controllers
 {
     public class HomeController : Controller

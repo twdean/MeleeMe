@@ -10,7 +10,7 @@ using Facebook;
 using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
-
+using Newtonsoft.Json.Linq;
 
 namespace Melee.Me.Controllers
 {
@@ -118,12 +118,10 @@ namespace Melee.Me.Controllers
 
                 using (var reader = new StreamReader(responseStream))
                 {
-                    //var response = reader.ReadToEnd();
-                    //var json = JObject.Parse(response);
-                    //var accessToken = json.Value<string>("access_token");
-                    //return accessToken;
-
-                    return null;
+                    var response = reader.ReadToEnd();
+                    var json = JObject.Parse(response);
+                    var accessToken = json.Value<string>("access_token");
+                    return accessToken;
                 }
             }
         }

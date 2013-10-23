@@ -208,6 +208,7 @@
     <Content Include="Assemblies\Antlr3.Runtime.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.AspNet.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.Core.dll" />
+    <Content Include="Assemblies\DotNetOpenAuth.GoogleOAuth2.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.OAuth.Consumer.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.OAuth.dll" />
     <Content Include="Assemblies\DotNetOpenAuth.OpenId.dll" />
@@ -215,15 +216,21 @@
     <Content Include="Assemblies\EntityFramework.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assemblies\Facebook.dll" />
     <Content Include="Assemblies\LinqToTwitter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assemblies\Microsoft.CSharp.dll" />
     <Content Include="Assemblies\Microsoft.Data.Edm.dll" />
     <Content Include="Assemblies\Microsoft.Data.OData.dll" />
     <Content Include="Assemblies\Microsoft.Web.Infrastructure.dll" />
     <Content Include="Assemblies\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
     <Content Include="Assemblies\Microsoft.Web.WebPages.OAuth.dll" />
+    <Content Include="Assemblies\Newtonsoft.Json.dll" />
+    <Content Include="Assemblies\System.dll" />
+    <Content Include="Assemblies\System.Net.Http.dll" />
     <Content Include="Assemblies\System.Net.Http.Formatting.dll" />
+    <Content Include="Assemblies\System.Net.Http.WebRequest.dll" />
     <Content Include="Assemblies\System.Spatial.dll" />
     <Content Include="Assemblies\System.Web.Helpers.dll" />
     <Content Include="Assemblies\System.Web.Http.dll" />
@@ -232,6 +239,7 @@
     <Content Include="Assemblies\System.Web.Mvc.dll" />
     <Content Include="Assemblies\System.Web.Optimization.dll" />
     <Content Include="Assemblies\System.Web.Razor.dll" />
+    <Content Include="Assemblies\System.Web.Routing.dll" />
     <Content Include="Assemblies\System.Web.WebPages.dll" />
     <Content Include="Assemblies\System.Web.WebPages.Razor.dll" />
     <Content Include="Assemblies\WebGrease.dll" />
