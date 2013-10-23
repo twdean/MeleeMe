@@ -5,10 +5,11 @@ using System.Configuration;
 using System.Web.Security;
 
 using LinqToTwitter;
-using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
 using MeleeMeDatabase;
+
+using Newtonsoft.Json;
 
 namespace Melee.Me.Controllers
 {
