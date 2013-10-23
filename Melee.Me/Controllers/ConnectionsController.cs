@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
@@ -11,10 +10,7 @@ using Facebook;
 using Melee.Me.Infrastructure;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
-
-using Microsoft.Web.WebPages.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 
 namespace Melee.Me.Controllers
 {
@@ -122,10 +118,12 @@ namespace Melee.Me.Controllers
 
                 using (var reader = new StreamReader(responseStream))
                 {
-                    var response = reader.ReadToEnd();
-                    var json = JObject.Parse(response);
-                    var accessToken = json.Value<string>("access_token");
-                    return accessToken;
+                    //var response = reader.ReadToEnd();
+                    //var json = JObject.Parse(response);
+                    //var accessToken = json.Value<string>("access_token");
+                    //return accessToken;
+
+                    return null;
                 }
             }
         }
