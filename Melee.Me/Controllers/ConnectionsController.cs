@@ -84,6 +84,9 @@ namespace Melee.Me.Controllers
 
         private Uri GetServiceLoginUrl(Uri returnUrl)
         {
+            var googleClientId = ConfigurationManager.AppSettings["GoogleClientId"];
+            var googleClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];
+
             const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/auth";
             var profileScope = "https://www.googleapis.com/auth/userinfo#profile";
             var emailScope = "https://www.googleapis.com/auth/userinfo#email";
@@ -92,7 +95,7 @@ namespace Melee.Me.Controllers
             return BuildUri(authorizationEndpoint, new NameValueCollection
                 {
                     { "response_type", "code" },
-                    { "client_id", "894864914110-vv4ahuco0e3dm97njeb752hdc67k0q2f.apps.googleusercontent.com" },
+                    { "client_id", googleClientId },
                     { "scope", "email profile"},
                     { "redirect_uri", returnUrl.AbsoluteUri },
                     { "access_type", "offline"},
@@ -102,14 +105,17 @@ namespace Melee.Me.Controllers
 
         private string QueryAccessToken(Uri returnUrl, string authorizationCode)
         {
+            var googleClientId = ConfigurationManager.AppSettings["GoogleClientId"];
+            var googleClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];
+
             string TokenEndpoint = "https://accounts.google.com/o/oauth2/token";
             var postData = HttpUtility.ParseQueryString(string.Empty);
             postData.Add(new NameValueCollection
                 {
                     { "grant_type", "authorization_code" },
                     { "code", authorizationCode },
-                    { "client_id", "894864914110-vv4ahuco0e3dm97njeb752hdc67k0q2f.apps.googleusercontent.com" },
-                    { "client_secret", "rDMDGAWoYoiWmE9gcYLweKRQ" },
+                    { "client_id", googleClientId },
+                    { "client_secret", googleClientSecret },
                     { "redirect_uri", returnUrl.GetLeftPart(UriPartial.Path) },
                 });
 
