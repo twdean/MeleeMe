@@ -88,15 +88,17 @@ namespace Melee.Me.Controllers
             var googleClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];
 
             const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/auth";
-            var profileScope = "https://www.googleapis.com/auth/userinfo#profile";
-            var emailScope = "https://www.googleapis.com/auth/userinfo#email";
-            var scope = profileScope + " " + emailScope;
+            var profileScope = "https://www.googleapis.com/auth/userinfo.profile";
+            var emailScope = "https://www.googleapis.com/auth/userinfo.email";
+            var gPlusScope = "https://www.googleapis.com/auth/plus.login";
+
+            var scope = profileScope + " " + emailScope + " " + gPlusScope;
 
             return BuildUri(authorizationEndpoint, new NameValueCollection
                 {
                     { "response_type", "code" },
                     { "client_id", googleClientId },
-                    { "scope", "email profile"},
+                    { "scope", scope},
                     { "redirect_uri", returnUrl.AbsoluteUri },
                     { "access_type", "offline"},
                     { "state", "" },
