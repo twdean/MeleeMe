@@ -49,9 +49,21 @@ namespace Melee.Me.Controllers
 
         public ActionResult Google()
         {
-            var uri = GetServiceLoginUrl(GoogleRedirectUri);
+            var meleeUser = (UserModel)Session["challenger"];
+            if (meleeUser.Connections.All(c => c.ConnectionName != "Google"))
+            {
+                var uri = GetServiceLoginUrl(GoogleRedirectUri);
 
-            return Redirect(uri.AbsoluteUri);
+                return Redirect(uri.AbsoluteUri);
+            }
+            else
+            {
+                _repository.Delete(meleeUser.UserId,
+                                   meleeUser.Connections.First(c => c.ConnectionName == "Google").ConnectionId);
+                meleeUser.Connections.Remove(meleeUser.Connections.First(c => c.ConnectionName == "Google"));
+            }
+
+            return View("../Home/MyProfile", meleeUser);
         }
 
         public ActionResult GoogleCallback(string code)
