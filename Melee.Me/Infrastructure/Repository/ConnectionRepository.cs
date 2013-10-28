@@ -51,6 +51,7 @@ namespace Melee.Me.Infrastructure.Repository
                     ConnectionId = conn.ConnectionId,
                     ConnectionIcon = conn.ConnectionIcon,
                     AccessToken = GetAccessToken(dbContext, id, conn.ConnectionId),
+                    RefreshToken = GetRefreshToken(dbContext, id, conn.ConnectionId),
                     ConnectionProvider = LoadConnectionProvider(conn.ConnectionProvider)
                 };
 
@@ -61,7 +62,7 @@ namespace Melee.Me.Infrastructure.Repository
             return connections;
         }
 
-        public ConnectionModel Add(int userId, string connectionName, string accessToken)
+        public ConnectionModel Add(int userId, string connectionName, string accessToken, string refreshToken)
         {
             var dbContext = new MeleeMeEntities();
 
@@ -78,6 +79,7 @@ namespace Melee.Me.Infrastructure.Repository
                         UserId = userId,
                         ConnectionId = conn.ConnectionId,
                         AccessToken = accessToken,
+                        RefreshToken = refreshToken
                     };
 
                     var cm = new ConnectionModel
@@ -85,6 +87,7 @@ namespace Melee.Me.Infrastructure.Repository
                         ConnectionName = connectionName,
                         ConnectionId = conn.ConnectionId,
                         AccessToken = accessToken,
+                        RefreshToken = refreshToken,
                         ConnectionProvider = LoadConnectionProvider(connectionName + "Connection")
                     };
 
@@ -120,6 +123,16 @@ namespace Melee.Me.Infrastructure.Repository
 
             return userConn.AccessToken;
         }
+
+        public static string GetRefreshToken(MeleeMeEntities dbContext, int userId, int connectionId)
+        {
+            var userConn = (from uc in dbContext.m_UserConnections
+                            where uc.UserId == userId && uc.ConnectionId == connectionId
+                            select uc).Single();
+
+            return userConn.RefreshToken;
+        }
+
 
         public static Collection<ConnectionModel> Get(string twitterUserId)
         {

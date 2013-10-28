@@ -79,6 +79,7 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ConnectionId" Type="int" Nullable="false" />
           <Property Name="AccessToken" Type="varchar(max)" Nullable="false" />
+          <Property Name="RefreshToken" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK__m_Credent__UserI__239E4DCF">
           <End Role="m_User" Type="MeleeMeModel.Store.m_User" Multiplicity="1" />
@@ -238,6 +239,7 @@
           <NavigationProperty Name="m_Connections" Relationship="MeleeMeModel.fk_Connection" FromRole="m_UserConnections" ToRole="m_Connections" />
           <NavigationProperty Name="m_User" Relationship="MeleeMeModel.fk_User" FromRole="m_UserConnections" ToRole="m_User" />
           <Property Type="String" Name="AccessToken" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RefreshToken" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_Connection">
           <End Type="MeleeMeModel.m_Connections" Role="m_Connections" Multiplicity="1" />
@@ -319,6 +321,7 @@
           <EntitySetMapping Name="m_UserConnections">
             <EntityTypeMapping TypeName="MeleeMeModel.m_UserConnections">
               <MappingFragment StoreEntitySet="m_UserConnections">
+                <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
                 <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
                 <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

@@ -5,7 +5,7 @@ namespace Melee.Me.Infrastructure
 {
     public interface IConnectionRepository : IRepository<ConnectionModel>
     {
-        ConnectionModel Add(int userId, string connectionName, string accessToken);
+        ConnectionModel Add(int userId, string connectionName, string accessToken, string refreshToken);
         Collection<ConnectionModel> Get(int id);
         bool Delete(int userId, int id);
     }

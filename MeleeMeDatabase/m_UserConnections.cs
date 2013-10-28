@@ -18,6 +18,7 @@ namespace MeleeMeDatabase
         public int UserId { get; set; }
         public int ConnectionId { get; set; }
         public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
     
         public virtual m_Connections m_Connections { get; set; }
         public virtual m_User m_User { get; set; }
