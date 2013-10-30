@@ -32,6 +32,9 @@ namespace Melee.Me.Infrastructure.Connection
         private IDictionary<string, string> GetUserData()
         {
             const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v1/userinfo";
+
+            //https://www.googleapis.com/plus/v1/people/userId
+
             var uri = BuildUri(userInfoEndpoint, new NameValueCollection { { "access_token", AccessToken } });
 
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);

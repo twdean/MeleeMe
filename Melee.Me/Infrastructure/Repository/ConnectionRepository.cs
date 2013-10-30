@@ -52,6 +52,7 @@ namespace Melee.Me.Infrastructure.Repository
                     ConnectionIcon = conn.ConnectionIcon,
                     AccessToken = GetAccessToken(dbContext, id, conn.ConnectionId),
                     RefreshToken = GetRefreshToken(dbContext, id, conn.ConnectionId),
+                    OAuthToken = GetOAuthToken(dbContext, id, conn.ConnectionId),
                     ConnectionProvider = LoadConnectionProvider(conn.ConnectionProvider)
                 };
 
@@ -132,6 +133,16 @@ namespace Melee.Me.Infrastructure.Repository
 
             return userConn.RefreshToken;
         }
+
+        public static string GetOAuthToken(MeleeMeEntities dbContext, int userId, int connectionId)
+        {
+            var userConn = (from uc in dbContext.m_UserConnections
+                            where uc.UserId == userId && uc.ConnectionId == connectionId
+                            select uc).Single();
+
+            return userConn.OAuthToken;
+        }
+
 
 
         public static Collection<ConnectionModel> Get(string twitterUserId)

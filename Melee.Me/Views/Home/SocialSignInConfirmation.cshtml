@@ -60,10 +60,31 @@
         return false;
     });
 
-    $('#Melee').click(function () {
-        var competitorScreenName = "";
-        window.location.href = "/Melee/MeleeMe";
+    //$('#Melee').click(function () {
+    //    var competitorScreenName = "";
+    //    window.location.href = "/Melee/MeleeMe";
 
+    //});
+    
+    $(function () {
+        // Declare a proxy to reference the hub. 
+        var chat = $.connection.meleeHub;
+        // Create a function that the hub can call to broadcast messages.
+        chat.client.broadcastMessage = function (statusUpdate) {
+            // Html encode display name and message. 
+            var encodedStatus = $('<div />').text(statusUpdate).html();
+            // Add the message to the page. 
+            $('#meleeProgress').append('<li>' + encodedStatus + '</li>');
+        };
+
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            $('#Melee').click(function () {
+                // Call the Send method on the hub. 
+                chat.server.send('@Model.Challenger.TwitterUserId', $('#competitorUserId').text());
+            });
+        });
     });
+
 
 </script>

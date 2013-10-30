@@ -66,6 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Integration Tests\TwitterAPI.cs" />
     <Compile Include="UserInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="When_creating_a_user.cs" />

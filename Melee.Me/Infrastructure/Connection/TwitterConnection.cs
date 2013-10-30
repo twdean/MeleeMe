@@ -8,21 +8,22 @@ namespace Melee.Me.Infrastructure.Connection
     public class TwitterConnection : IConnection
     {
         public TwitterContext TwitterCtx { get; set; }
+        public MvcAuthorizer Authorizer { get; set; }
 
-        public TwitterConnection()
+        public MvcAuthorizer GetAuthorizer(UserModel meleeUser)
         {
-            MvcAuthorizer auth = GetAuthorizer();
-            TwitterCtx = new TwitterContext(auth);
-        }
-
-        public MvcAuthorizer GetAuthorizer()
-        {
-            IOAuthCredentials credentials = new SessionStateCredentials();
+            IOAuthCredentials credentials = new InMemoryCredentials();
 
             if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
             {
                 credentials.ConsumerKey = "u2ULchA68sGq111YWL2foA";
                 credentials.ConsumerSecret = "JcXAVK1GHaFMXtRLZASIviwDhQvtOLliaMKYfO0rY";
+            }
+
+            if (meleeUser != null)
+            {
+                credentials.AccessToken = meleeUser.Connections.Single(x => x.ConnectionName == "Twitter").AccessToken;
+                credentials.OAuthToken = meleeUser.Connections.Single(x => x.ConnectionName == "Twitter").OAuthToken;
             }
 
             var auth = new MvcAuthorizer
@@ -35,45 +36,63 @@ namespace Melee.Me.Infrastructure.Connection
 
         public double GetScore(UserModel meleeUser)
         {
-            double score =  (1 * GetTwitterFollowerCount(meleeUser));
-            score += (0.5 * GetTwitterFriendCount(meleeUser));
-            score += (0.25 * GetStatusUpdateCount(meleeUser));
-            score += (3 * GetFavouritesCount(meleeUser));
-            score += (1 * GetLatestTweet(meleeUser));
+            Authorizer = GetAuthorizer(meleeUser);
+            TwitterCtx = new TwitterContext(Authorizer);
+
+            double score = (1 * GetTwitterFollowerCount(meleeUser.TwitterUserId));
+            score += (0.5 * GetTwitterFriendCount(meleeUser.TwitterUserId));
+            score += (0.25 * GetStatusUpdateCount(meleeUser.TwitterUserId));
+            score += (3 * GetFavouritesCount(meleeUser.TwitterUserId));
+            score += (1 * GetLatestTweet(meleeUser.TwitterUserId));
 
             return score;
         }
 
-        private int GetTwitterFollowerCount(UserModel meleeUser)
+        public double GetScore(string twitterId)
+        {
+            Authorizer = GetAuthorizer(null);
+            TwitterCtx = new TwitterContext(Authorizer);
+
+            double score = (1 * GetTwitterFollowerCount(twitterId));
+            score += (0.5 * GetTwitterFriendCount(twitterId));
+            score += (0.25 * GetStatusUpdateCount(twitterId));
+            score += (3 * GetFavouritesCount(twitterId));
+            score += (1 * GetLatestTweet(twitterId));
+
+            return score;
+        }
+
+
+        private int GetTwitterFollowerCount(string twitterId)
         {
             var list =
                                 (from friend in TwitterCtx.SocialGraph
                                  where friend.Type == SocialGraphType.Followers &&
-                                       friend.UserID == Convert.ToUInt64(meleeUser.TwitterUserId)
-                                 select friend)
-                                 .SingleOrDefault();
-
-            return list != null ? list.IDs.Count : 0;             
-        }
-
-        private int GetTwitterFriendCount(UserModel meleeUser)
-        {
-            var list =
-                                (from friend in TwitterCtx.SocialGraph
-                                 where friend.Type == SocialGraphType.Friends &&
-                                       friend.UserID == Convert.ToUInt64(meleeUser.TwitterUserId)
+                                       friend.UserID == Convert.ToUInt64(twitterId)
                                  select friend)
                                  .SingleOrDefault();
 
             return list != null ? list.IDs.Count : 0;
         }
 
-        private int GetStatusUpdateCount(UserModel meleeUser)
+        private int GetTwitterFriendCount(string twitterId)
+        {
+            var list =
+                                (from friend in TwitterCtx.SocialGraph
+                                 where friend.Type == SocialGraphType.Friends &&
+                                       friend.UserID == Convert.ToUInt64(twitterId)
+                                 select friend)
+                                 .SingleOrDefault();
+
+            return list != null ? list.IDs.Count : 0;
+        }
+
+        private int GetStatusUpdateCount(string twitterId)
         {
             var tUser =
                     (from user in TwitterCtx.User
                      where user.Type == UserType.Lookup &&
-                     user.UserID == meleeUser.TwitterUserId
+                     user.UserID == twitterId
                      select user).FirstOrDefault();
 
             int retVal = tUser != null ? tUser.StatusesCount : 0;
@@ -81,24 +100,24 @@ namespace Melee.Me.Infrastructure.Connection
             return retVal;
         }
 
-        private int GetFavouritesCount(UserModel meleeUser)
+        private int GetFavouritesCount(string twitterId)
         {
             var tUser =
                         (from user in TwitterCtx.User
                          where user.Type == UserType.Lookup &&
-                         user.UserID == meleeUser.TwitterUserId
+                         user.UserID == twitterId
                          select user).FirstOrDefault();
 
             return tUser != null ? tUser.FavoritesCount : 0;
 
         }
 
-        private double GetLatestTweet(UserModel meleeUser)
+        private double GetLatestTweet(string twitterId)
         {
             var statusTweets =
                 from tweet in TwitterCtx.Status
                 where tweet.Type == StatusType.User
-                      && tweet.UserID == meleeUser.TwitterUserId
+                      && tweet.UserID == twitterId
                 select tweet;
 
             Status lastTweet = statusTweets.FirstOrDefault();

@@ -7,7 +7,6 @@ using System.Web.Security;
 using LinqToTwitter;
 using Melee.Me.Infrastructure.Repository;
 using Melee.Me.Models;
-using MeleeMeDatabase;
 
 namespace Melee.Me.Controllers
 {
@@ -130,12 +129,12 @@ namespace Melee.Me.Controllers
 
             if (!auth.IsAuthorized)
             {
-                Uri specialUri = new Uri("/Home/AppAuthorizationConfirmation");
+                var specialUri = new Uri("/Home/AppAuthorizationConfirmation");
                 return auth.BeginAuthorization(specialUri);
             }
 
-            TwitterContext twitterCtx = new TwitterContext(auth);
-            UserModel competitor = FriendSelector(twitterCtx, twitterUserId);
+            var twitterCtx = new TwitterContext(auth);
+            var competitor = FriendSelector(twitterCtx, twitterUserId);
 
             if (Session["competitor"] != null)
             {
@@ -163,7 +162,6 @@ namespace Melee.Me.Controllers
         private UserModel FriendSelector(TwitterContext twitterCtx, string tUserId)
         {
             var competitor = null as UserModel;
-            var dbContext = new MeleeMeEntities();
 
             try
             {
@@ -211,16 +209,28 @@ namespace Melee.Me.Controllers
 
         private MvcAuthorizer GetAuthorizer()
         {
+            UserModel challengerModel;
+
             var twitterKey = ConfigurationManager.AppSettings["TwitterConsumerKey"];
             var twitterSecret = ConfigurationManager.AppSettings["TwitterConsumerSecret"];
 
-            IOAuthCredentials credentials = new SessionStateCredentials();
+            IOAuthCredentials credentials = new InMemoryCredentials();
 
             if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
             {
                 credentials.ConsumerKey = twitterKey;
                 credentials.ConsumerSecret = twitterSecret;
             }
+
+            if (Session["challenger"] != null)
+            {
+                challengerModel = (UserModel)Session["challenger"];
+                credentials.AccessToken =
+                    challengerModel.Connections.Single(x => x.ConnectionName == "Twitter").AccessToken;
+                credentials.OAuthToken =
+                    challengerModel.Connections.Single(x => x.ConnectionName == "Twitter").OAuthToken;
+            }
+
 
             var auth = new MvcAuthorizer
                 {
@@ -248,7 +258,7 @@ namespace Melee.Me.Controllers
 
                 if (tUser != null)
                 {
-                    challenger = _repository.Add(tUser.Identifier.UserID, auth.Credentials.AccessToken);
+                    challenger = _repository.Add(tUser.Identifier.UserID, auth.Credentials.AccessToken, auth.Credentials.OAuthToken);
                     challenger.ImageUrl = tUser.ProfileImageUrl;
                     challenger.ScreenName = tUser.Identifier.ScreenName;
                 }

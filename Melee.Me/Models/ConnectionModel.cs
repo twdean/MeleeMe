@@ -14,6 +14,7 @@ namespace Melee.Me.Models
         public string ConnectionIcon { get; set; }
         public string ConnectionUrl { get; set; }
         public string AccessToken { get; set; }
+        public string OAuthToken { get; set; }
         public string RefreshToken { get; set; }
         public IConnection ConnectionProvider { get; set; }
     }

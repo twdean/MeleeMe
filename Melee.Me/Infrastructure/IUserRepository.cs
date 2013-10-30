@@ -9,7 +9,7 @@ namespace Melee.Me.Infrastructure.Repository
 {
     public interface IUserRepository : IRepository<UserModel>
     {
-        UserModel Add(string id, string token);
+        UserModel Add(string id, string token, string OAuthToken);
         void Delete(UserModel entity);
         UserModel Get(string id);
 

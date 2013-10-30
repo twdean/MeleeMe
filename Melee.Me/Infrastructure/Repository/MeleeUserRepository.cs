@@ -10,7 +10,7 @@ namespace Melee.Me.Infrastructure.Repository
 {
     public class MeleeUserRepository : IUserRepository
     {
-        public UserModel Add(string id, string token)
+        public UserModel Add(string id, string token, string OAuthToken)
         {
             var newUser = null as UserModel;
             var dbContext = new MeleeMeEntities();
@@ -40,7 +40,7 @@ namespace Melee.Me.Infrastructure.Repository
 
                     dbContext.m_User.Add(u);
                     AddUserCredentials(dbContext, u, token);
-                    AddConnection(dbContext, u, token);
+                    AddConnection(dbContext, u, token, OAuthToken);
 
                     newUser = new UserModel
                     {
@@ -62,7 +62,7 @@ namespace Melee.Me.Infrastructure.Repository
             return newUser;
         }
 
-        private void AddConnection(MeleeMeEntities dbContext, m_User u, string accessToken)
+        private void AddConnection(MeleeMeEntities dbContext, m_User u, string accessToken, string OAuthToken)
         {
             var conn = new m_UserConnections
                 {
@@ -70,7 +70,8 @@ namespace Melee.Me.Infrastructure.Repository
                     ConnectionId = (from c in dbContext.m_Connections
                                     where c.ConnectionName == "Twitter"
                                     select c.ConnectionId).FirstOrDefault(),
-                    AccessToken = accessToken
+                    AccessToken = accessToken,
+                    OAuthToken = OAuthToken
                 };
 
             dbContext.m_UserConnections.Add(conn);
