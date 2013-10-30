@@ -22,7 +22,40 @@ namespace Melee.Me.SignalR.Hubs
 
             if (opponentUser != null)
             {
-                GetMeleeData(currentUser, opponentUser);
+                double userScore = 0.00;
+                double opponentScore = 0.00;
+
+                //battle twitter
+                Clients.Caller.broadcastMessage("Battling for Twitter supremecy.");
+                var currentUserTwitter = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Twitter");
+                if (currentUserTwitter != null)
+                    userScore = currentUserTwitter.ConnectionProvider.GetScore(currentUser);
+                var currentOpponentTwitter = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Twitter");
+                if (currentOpponentTwitter != null)
+                    opponentScore = currentOpponentTwitter.ConnectionProvider.GetScore(currentUser);
+                Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
+                
+                //battle facebook
+                Clients.Caller.broadcastMessage("Battling for Facebook supremecy.");
+                var currentUserFacebook = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Facebook");
+                if (currentUserFacebook != null)
+                    userScore = currentUserFacebook.ConnectionProvider.GetScore(currentUser);
+
+                var currentOpponentFacebook = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Facebook");
+                if (currentOpponentFacebook != null)
+                    opponentScore = currentOpponentFacebook.ConnectionProvider.GetScore(currentUser);
+                Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
+                
+                //battle google+
+                Clients.Caller.broadcastMessage("Battling for Google+ supremecy.");
+                var currentUserGoogle    = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Google+");
+                if (currentUserGoogle != null)
+                    userScore = currentUserGoogle.ConnectionProvider.GetScore(currentUser);
+                var currentOpponentGoogle    = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Google+");
+                
+                if (currentOpponentGoogle != null)
+                    opponentScore = currentOpponentGoogle.ConnectionProvider.GetScore(currentUser);
+                Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
             }
             else
             {
@@ -34,36 +67,5 @@ namespace Melee.Me.SignalR.Hubs
                 Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
            }
         }
-
-        public void GetMeleeData(UserModel challenger, UserModel competitor)
-        {
-            UserModel meleeWinner = null;
-            double challengerScore = 0;
-            double competitorScore = 0;
-
-            try
-            {
-                    challengerScore +=
-                        challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
-
-                    if (competitor.Connections != null)
-                    {
-                        competitorScore +=
-                            competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
-                    }
-                    else
-                    {
-                        competitorScore = new TwitterConnection().GetScore(competitor);
-                    }
-            }
-            catch (HubException hEx)
-            {
-                
-            }
-
-
-        }
-
-
     }
 }
