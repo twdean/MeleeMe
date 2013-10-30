@@ -261,6 +261,7 @@
     <Content Include="Assemblies\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
     <Content Include="Assemblies\Microsoft.Web.WebPages.OAuth.dll" />
     <Content Include="Assemblies\Newtonsoft.Json.dll" />
+    <Content Include="Assemblies\Owin.dll" />
     <Content Include="Assemblies\System.dll" />
     <Content Include="Assemblies\System.Net.Http.dll" />
     <Content Include="Assemblies\System.Net.Http.Formatting.dll" />
