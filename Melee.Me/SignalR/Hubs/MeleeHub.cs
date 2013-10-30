@@ -22,7 +22,7 @@ namespace Melee.Me.SignalR.Hubs
 
             if (opponentUser != null)
             {
-
+                GetMeleeData(currentUser, opponentUser);
             }
             else
             {
@@ -34,6 +34,36 @@ namespace Melee.Me.SignalR.Hubs
                 Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
            }
         }
+
+        public void GetMeleeData(UserModel challenger, UserModel competitor)
+        {
+            UserModel meleeWinner = null;
+            double challengerScore = 0;
+            double competitorScore = 0;
+
+            try
+            {
+                    challengerScore +=
+                        challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
+
+                    if (competitor.Connections != null)
+                    {
+                        competitorScore +=
+                            competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
+                    }
+                    else
+                    {
+                        competitorScore = new TwitterConnection().GetScore(competitor);
+                    }
+            }
+            catch (HubException hEx)
+            {
+                
+            }
+
+
+        }
+
 
     }
 }
