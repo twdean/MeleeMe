@@ -35,6 +35,8 @@
 
 <script>
     $('#NewOpponent').click(function () {
+        $("#meleeProgress").empty();
+        
         $.ajax({
             url: '/Home/GetNewCompetitor',
             type: 'POST',
