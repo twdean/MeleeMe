@@ -248,9 +248,14 @@
     <Content Include="Assemblies\LinqToTwitter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assemblies\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="Assemblies\Microsoft.AspNet.SignalR.Owin.dll" />
+    <Content Include="Assemblies\Microsoft.AspNet.SignalR.SystemWeb.dll" />
     <Content Include="Assemblies\Microsoft.CSharp.dll" />
     <Content Include="Assemblies\Microsoft.Data.Edm.dll" />
     <Content Include="Assemblies\Microsoft.Data.OData.dll" />
+    <Content Include="Assemblies\Microsoft.Owin.dll" />
+    <Content Include="Assemblies\Microsoft.Owin.Host.SystemWeb.dll" />
     <Content Include="Assemblies\Microsoft.Web.Infrastructure.dll" />
     <Content Include="Assemblies\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
     <Content Include="Assemblies\Microsoft.Web.WebPages.OAuth.dll" />
