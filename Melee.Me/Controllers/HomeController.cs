@@ -113,6 +113,12 @@ namespace Melee.Me.Controllers
         }
 
         [Authorize]
+        public ActionResult Draggable()
+        {
+            return View("MyProfile");
+        }
+
+        [Authorize]
         public ActionResult History(string twitterUserId)
         {
             UserModel mUser = _repository.Get(twitterUserId);

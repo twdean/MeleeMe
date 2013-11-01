@@ -27,7 +27,7 @@ namespace Melee.Me
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/site.css",
+                "~/Content/Site.css",
                 "~/Content/Bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

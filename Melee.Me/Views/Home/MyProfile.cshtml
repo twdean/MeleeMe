@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-@*                <div class="row">
+                @*                <div class="row">
                     <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
                 </div>*@
             </div>
@@ -111,4 +111,79 @@
             <div class="panel-body"></div>
         </div>
     </div>
+    <div id="test-container" class="test_container">
+        <div id="gallery-one" class="gallery_one">
+            <div id="box1" class="box">
+                ONE
+            </div>
+            <div id="box2" class="box">
+                TWO
+            </div>
+            <div id="box3" class="box">
+                THREE
+            </div>
+            <div id="box4" class="box">
+                FOUR
+            </div>
+        </div>
+        <div id="gallery-two" class="droppable gallery_two">
+        </div>
+    </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        galleryDragAndDrop("#test-container", "#gallery-one", "#gallery-two", ".box");
+    });
+    
+    function galleryDragAndDrop(mainContainer, containerOne, containerTwo, dragItem) {
+        $(dragItem).draggable(
+            {
+                revert: "invalid",
+                containment: mainContainer,
+                helper: "clone",
+                cursor: "move",
+                drag: function (event, ui) {
+                    $(ui.helper.prevObject).addClass("box_current");
+                },
+                stop: function (event, ui) {
+                    $(ui.helper.prevObject).removeClass("box_current");
+                }
+            });
+
+        $(containerTwo).droppable({
+            accept: dragItem,
+            activeClass: "ui-state-highlight",
+            drop: function (event, ui) {
+                acceptBoxIngalleryTwo(ui.draggable);
+            }
+        });
+
+        $(containerOne).droppable({
+            accept: dragItem,
+            activeClass: "ui-state-highlight",
+            drop: function (event, ui) {
+                acceptBoxIngalleryOne(ui.draggable);
+            }
+        });
+
+        function acceptBoxIngalleryTwo(item) {
+            $(item).fadeOut(function () {
+                $(containerTwo).append(item);
+            });
+
+            $(item).fadeIn();
+            $(item).removeClass("box_current");
+        }
+
+        function acceptBoxIngalleryOne(item) {
+            $(item).fadeOut(function () {
+                $(containerOne).append(item);
+            });
+
+            $(item).fadeIn();
+            $(item).removeClass("box_current");
+        }
+    }
+</script>
+

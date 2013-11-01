@@ -697,6 +697,53 @@ tr.pager td {
     top: 0;
 }
 
+/* Draggable Test Styles */
+ 
+.test_container
+{
+    width: 800px;
+    height: 380px;
+    background-color: #D6D6D6;
+    overflow: hidden;
+}
+ 
+.gallery_one, .gallery_two
+{
+    float: left;
+    width: 270px;
+    height: 260px;
+    border: solid 1px #BBBBBB;
+    margin: 60px 0px 0px 50px;
+    overflow: hidden;
+    background-color: #CED5DB;
+}
+ 
+.box
+{
+    float: left;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #E1E1E1;
+    margin: 20px 0px 0px 20px;
+    text-align: center;
+    line-height: 100px;
+    cursor: pointer;
+    border: 1px solid #B3B3B3;
+    font-weight: bold;
+}
+ 
+.gallery_two
+{
+    margin: 60px 0px 0px 150px;
+}
+ 
+.box_current
+{
+    background-color: #BBBBFF;
+}
+
 /********************
 *   Mobile Styles   *
 ********************/
