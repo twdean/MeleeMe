@@ -9,7 +9,7 @@ namespace Melee.Me.Infrastructure.Repository
 {
     public class MeleeRepository : IMeleeRepository
     {
-        public void Add(UserModel currentUser, UserModel opponent, string winner, string loser)
+        public void Add(string currentUser, string opponent, string winner, string loser)
         {
             var dbContext = new MeleeMeEntities();
 
@@ -17,8 +17,8 @@ namespace Melee.Me.Infrastructure.Repository
             {
                 var m = new m_Melee
                     {
-                        challenger = currentUser.TwitterUserId,
-                        opponent = opponent.TwitterUserId,
+                        challenger = currentUser,
+                        opponent = opponent,
                         timestamp = DateTime.Now
                     };
 

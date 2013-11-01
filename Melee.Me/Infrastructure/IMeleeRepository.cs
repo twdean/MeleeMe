@@ -10,6 +10,6 @@ namespace Melee.Me.Infrastructure
     public interface IMeleeRepository : IRepository<MeleeModel>
     {
         MeleeModel Get(string id);
-        void Add(UserModel challenger, UserModel opponent, string winner, string loser);
+        void Add(string challenger, string opponent, string winner, string loser);
     }
 }

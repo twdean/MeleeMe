@@ -11,11 +11,11 @@ namespace Melee.Me.Controllers
 {
     public class MeleeController : Controller
     {
-        private readonly MeleeRepository _repository;
+        private readonly MeleeUserRepository _repository;
 
         public MeleeController()
         {
-            _repository = new MeleeRepository();
+            _repository = new MeleeUserRepository();
         }
 
 
@@ -24,76 +24,86 @@ namespace Melee.Me.Controllers
             return View();
         }
 
-        public ActionResult MeleeMe()
+        public ActionResult MeleeMe(string twitterId)
         {
-            //loop through user connections and get score
-            var challenger = (UserModel)Session["challenger"];
-            var competitor = (UserModel)Session["competitor"];
+            UserModel challenger = null;
+            UserModel opponent = null;
 
-            UserModel result = GetMeleeData(challenger, competitor);
-
-            if (result == null)
+            if (Session["challenger"] != null)
             {
-                return View("Error");
+                challenger = (UserModel)Session["challenger"];
             }
 
-            return View("Melee", result);
+
+            if (Session["competitor"] != null)
+            {
+                opponent = (UserModel)Session["competitor"];
+            }
+
+            if (twitterId == challenger.TwitterUserId)
+            {
+                return View("Melee", challenger);
+            }
+            else
+            {
+                return View("Melee", opponent);
+            }
         }
 
-        public UserModel GetMeleeData(UserModel challenger, UserModel competitor)
-        {
-            UserModel meleeWinner = null;
-            double challengerScore = 0;
-            double competitorScore = 0;
+        //public UserModel GetMeleeData(UserModel challenger, UserModel competitor)
+        //{
+        //    UserModel meleeWinner = null;
+        //    double challengerScore = 0;
+        //    double competitorScore = 0;
 
-            try
-            {
-                try
-                {
-                    challengerScore += challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
+        //    try
+        //    {
+        //        try
+        //        {
+        //            challengerScore += challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
 
-                    if (competitor.Connections != null)
-                    {
-                        competitorScore += competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
-                    }
-                    else
-                    {
-                        competitorScore = new TwitterConnection().GetScore(competitor);
-                    }
-                }
-                catch (TwitterQueryException tqEx)
-                {
-                    if (tqEx.ErrorCode == 88)
-                    {
+        //            if (competitor.Connections != null)
+        //            {
+        //                competitorScore += competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
+        //            }
+        //            else
+        //            {
+        //                competitorScore = new TwitterConnection().GetScore(competitor);
+        //            }
+        //        }
+        //        catch (TwitterQueryException tqEx)
+        //        {
+        //            if (tqEx.ErrorCode == 88)
+        //            {
 
-                    }
-                }
+        //            }
+        //        }
 
-                if (challengerScore > competitorScore)
-                {
-                    meleeWinner = challenger;
-                    _repository.Add(challenger, competitor, challenger.TwitterUserId, competitor.TwitterUserId);
+        //        if (challengerScore > competitorScore)
+        //        {
+        //            meleeWinner = challenger;
+        //            _repository.Add(challenger, competitor, challenger.TwitterUserId, competitor.TwitterUserId);
 
-                }
-                else
-                {
-                    meleeWinner = competitor;
-                    _repository.Add(challenger, competitor, competitor.TwitterUserId, challenger.TwitterUserId);
+        //        }
+        //        else
+        //        {
+        //            meleeWinner = competitor;
+        //            _repository.Add(challenger, competitor, competitor.TwitterUserId, challenger.TwitterUserId);
 
-                }
+        //        }
 
-                Session["challenger"] = null;
-                Session["competitor"] = null;
-            }
-            catch (TwitterQueryException tqEx)
-            {
-                if (tqEx.ErrorCode == 88)
-                {
+        //        Session["challenger"] = null;
+        //        Session["competitor"] = null;
+        //    }
+        //    catch (TwitterQueryException tqEx)
+        //    {
+        //        if (tqEx.ErrorCode == 88)
+        //        {
 
-                }
-            }
+        //        }
+        //    }
 
-            return meleeWinner;
-        }
+        //    return meleeWinner;
+        //}
     }
 }
