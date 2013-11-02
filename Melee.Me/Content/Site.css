@@ -66,17 +66,18 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 50px;
     font-family: 'Londrina Solid', cursive;
     text-transform: uppercase;
 }
 
 h2 {
-    font-size: 1.75em;
+    font-size: 21px;
+	font-weight: 300px;
 }
 
 h3 {
-    font-size: 1.2em;
+    font-size: 24px;
     font-family: 'Londrina Solid', cursive;
     color: #F0CA39;
     text-transform: uppercase;
@@ -624,6 +625,8 @@ tr.pager td {
 	background-size: cover;
 	border-top: 5px #B5111C solid;
 	border-bottom: 5px #B5111C solid;
+	margin-bottom: 0;
+	padding-bottom: 50px;
 
 }
 
@@ -645,13 +648,14 @@ tr.pager td {
 }
 
 #sub-content {
-	background-color: #fff;
+	background-color: transparent;
 	margin-top: -45px;	
 	text-align: justify;
 	margin-bottom: 50px;
 }
 .home-icon {
 	text-align: center;
+	margin-bottom: 50px;
 }
 
 .battleField {
