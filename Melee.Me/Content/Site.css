@@ -617,7 +617,7 @@ tr.pager td {
 		z-index: 1000;
 }
 
-#top-content container {
+#top-content{
 	background-color: #114E60;
 	background-image: url(images/home_background.png);
 	background-repeat: no-repeat;
@@ -627,7 +627,7 @@ tr.pager td {
 
 }
 
-.main-content {
+.mainContent {
 	margin-top: 200px;
 }
 
