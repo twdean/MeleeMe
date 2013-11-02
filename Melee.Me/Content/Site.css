@@ -603,24 +603,16 @@ tr.pager td {
 /* Home */
 
 .jumbotron {
-	border: 1px solid #ccc;
-	background-color: #fff !important;
-	text-align: center;
+	border: none;
+	background-color: none !important;
+	text-align: left;
 	width: 550px;
 	margin: 50px auto 0;
 }
-.rules {
-	padding: 30px;
-	padding-top: 0px;
-	text-align: center;
-	margin: 0 auto 20px;	
-}
-.rules li {
-	float: left;
-	margin-right: 20px;
-	clear: none;
-	display: block;
-	font-weight: bold;
+#top-content container {
+	background-image: url(images/home_background.png);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .actionButton {
