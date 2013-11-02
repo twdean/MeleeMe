@@ -150,10 +150,7 @@ footer {
     text-decoration: none;
 }
 
-.logo {
-	    text-align: center;
-		margin-top: 50px;
-}
+
 
 /* login
 ----------------------------------------------------------*/
@@ -605,9 +602,23 @@ tr.pager td {
 *    New Styles  *  
 *****************/
 
+/* Navigation */
+
+.nav-tabs {
+	border: none;
+}
+
 /* Home */
 
+.logo {
+	    text-align: center;
+		margin-top: 20px;
+		margin-bottom: -80px;
+		z-index: 1000;
+}
+
 #top-content container {
+	background-color: #114E60;
 	background-image: url(images/home_background.png);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -616,24 +627,32 @@ tr.pager td {
 
 }
 
-.jumbotron {
-	border: none;
-	background-color: transparent !important;
-	text-align: left;
-	width: 550px;
-	margin: 0 0;
+.main-content {
+	margin-top: 200px;
 }
 
 .actionButton {
 	text-align: center;
+	font-size: 10px;
+	color: #fff;
+	margin-top: 300px;
+}
+
+#btnHome {
+	font-family: 'Londrina Solid', cursive;
+	font-size: 50px;
+	text-transform: uppercase;
 }
 
 #sub-content {
 	background-color: #fff;
 	margin-top: -45px;	
+	text-align: justify;
+	margin-bottom: 50px;
 }
-
-
+.home-icon {
+	text-align: center;
+}
 
 .battleField {
     width: 75%;

@@ -38,10 +38,11 @@
     </header>
     <section id="top-content">
         <div class="container">
+        	<div class="row">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
-                
+                <div class="col-md-4 pull-right">
                 <div class="actionButton">
                 <p class="home-only">Sign up with your Twitter account</p>
                 @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
@@ -58,6 +59,8 @@
                     <input type="submit" name="btnHome" id="btnHome" value="@btnValue" class="@btnClass" />
 
                 }
+                </div>
+                </div>
 				</div>
             </section>
         </div>
