@@ -66,21 +66,23 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 70px;
     font-family: 'Londrina Solid', cursive;
     text-transform: uppercase;
 }
 
 h2 {
     font-size: 21px;
-	font-weight: 300px;
+	font-weight: 100px;
+	margin-bottom: 10px;
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 34px;
     font-family: 'Londrina Solid', cursive;
     color: #F0CA39;
     text-transform: uppercase;
+    text-align: center;
 
 }
 
@@ -640,11 +642,19 @@ tr.pager td {
 	color: #fff;
 	margin-top: 300px;
 }
+.actionButton btn a: {
+	background-color: #F0CA39;
+}
+.actionButton btn a:hover {
+	background-color: #114E60;
+}
 
 #btnHome {
 	font-family: 'Londrina Solid', cursive;
 	font-size: 50px;
 	text-transform: uppercase;
+	width: 200px;
+	background-color: #F0CA39;
 }
 
 #sub-content {

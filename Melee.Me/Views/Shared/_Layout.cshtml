@@ -47,12 +47,12 @@
                 <p class="home-only">Sign up with your Twitter account</p>
                 @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
                 {
-                    var btnClass = "btn btn-lg btn-warning";
+                    var btnClass = "btn btn-lg";
                     var btnValue = "FIGHT";
 
                     if (Request.IsAuthenticated)
                     {
-                        btnClass = "btn btn-lg btn-warning";
+                        btnClass = "btn btn-lg";
                         btnValue = "FIGHT";
                     }
                         
