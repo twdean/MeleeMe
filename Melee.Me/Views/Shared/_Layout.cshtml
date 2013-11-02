@@ -43,6 +43,7 @@
                 @RenderBody()
                 
                 <div class="actionButton">
+                <p class="home-only">Sign up with your Twitter account</p>
                 @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
                 {
                     var btnClass = "btn btn-lg btn-warning";
@@ -65,8 +66,10 @@
     <!-- This needs to be created into it's own home page content section -->
     <section id="sub-content">
     	<div class="container">
+    		<div class="row">
     	@RenderSection("subcontent", required: false)
-	       	</div>
+    		</div>
+	    </div>
     </section>
     <!-- The end of the subsction for the home page -->
     

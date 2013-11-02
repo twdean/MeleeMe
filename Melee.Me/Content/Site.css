@@ -6,16 +6,15 @@
 
 body {
     background-color: #fff;
-    border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+	font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
 }
 
 a {
-    color: #333;
+    color: #E45A44;
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
@@ -23,13 +22,13 @@ a {
     text-decoration: none;
 }
 
-    a:link, a:visited,
-    a:active, a:hover {
+    a:visited,
+    a:active{
         color: #333;
     }
 
     a:hover {
-        background-color: #c7d1d6;
+        color: #333;
     }
 
 header, footer, hgroup,
@@ -61,13 +60,15 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #000;
+    color: #fff;
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
 h1 {
     font-size: 2em;
+    font-family: 'Londrina Solid', cursive;
+    text-transform: uppercase;
 }
 
 h2 {
@@ -76,6 +77,10 @@ h2 {
 
 h3 {
     font-size: 1.2em;
+    font-family: 'Londrina Solid', cursive;
+    color: #F0CA39;
+    text-transform: uppercase;
+
 }
 
 h4 {
@@ -602,22 +607,33 @@ tr.pager td {
 
 /* Home */
 
-.jumbotron {
-	border: none;
-	background-color: none !important;
-	text-align: left;
-	width: 550px;
-	margin: 50px auto 0;
-}
 #top-content container {
 	background-image: url(images/home_background.png);
 	background-repeat: no-repeat;
 	background-size: cover;
+	border-top: 5px #B5111C solid;
+	border-bottom: 5px #B5111C solid;
+
+}
+
+.jumbotron {
+	border: none;
+	background-color: transparent !important;
+	text-align: left;
+	width: 550px;
+	margin: 0 0;
 }
 
 .actionButton {
 	text-align: center;
 }
+
+#sub-content {
+	background-color: #fff;
+	margin-top: -45px;	
+}
+
+
 
 .battleField {
     width: 75%;
