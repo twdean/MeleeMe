@@ -605,7 +605,7 @@ tr.pager td {
 /* Navigation */
 
 .nav-tabs {
-	border: none;
+	border: none !important;
 }
 
 /* Home */
