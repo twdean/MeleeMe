@@ -282,7 +282,15 @@
     <Content Include="Assemblies\WebMatrix.WebData.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\images\bullseye_icon.png" />
+    <Content Include="Content\images\chat_icon.png" />
+    <Content Include="Content\images\FB-f-Logo__blue_50.png" />
+    <Content Include="Content\images\google-logo.png" />
+    <Content Include="Content\images\home_background.png" />
+    <Content Include="Content\images\LinkedIn-logo.png" />
     <Content Include="Content\images\melee_me_logo.png" />
+    <Content Include="Content\images\trophy_icon.png" />
+    <Content Include="Content\images\twitter-logo.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />

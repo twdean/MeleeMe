@@ -113,16 +113,21 @@
     </div>
     <div id="test-container" class="test_container">
         <div id="gallery-one" class="gallery_one">
-            <div id="box1" class="box">
+            <div id="twitterBox" class="box">
                 Twitter
             </div>
-            <div id="box2" class="box">
-                Facebook
+            <div id="facebookBox" class="box">
+                @if (Model.Connections.All(c => c.ConnectionName != "Facebook"))
+                    {
+                        @Html.ActionLink("Add", "Facebook", "Connections")
+                    }
+
+                    @Html.ActionLink("Remove", "Facebook", "Connections")
             </div>
-            <div id="box3" class="box">
+            <div id="GooglePlusBox" class="box">
                 Google+
             </div>
-            <div id="box4" class="box">
+            <div id="LinkedInBox" class="box">
                 LinkedIn
             </div>
         </div>

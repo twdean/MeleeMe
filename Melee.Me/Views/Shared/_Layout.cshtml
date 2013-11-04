@@ -40,29 +40,29 @@
         <div class="container">
         	<div class="row">
             @RenderSection("featured", required: false)
-            <section class="content-wrapper">
-                @RenderBody()
-                <div class="col-md-4 pull-right">
-                <div class="actionButton">
-                <p class="home-only">Sign up with your Twitter account</p>
-                @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
-                {
-                    var btnClass = "btn btn-lg";
-                    var btnValue = "FIGHT";
+	            <section class="content-wrapper">
+	                @RenderBody()
+	                <div class="col-md-4 pull-right">
+	                    <div class="actionButton">
+	                        <p class="home-only">Sign up with your Twitter account</p>
+	                        @using (Html.BeginForm("ExternalLogin", "Home", FormMethod.Post))
+	                        {
+	                            var btnClass = "btn btn-lg";
+	                            var btnValue = "FIGHT";
 
-                    if (Request.IsAuthenticated)
-                    {
-                        btnClass = "btn btn-lg";
-                        btnValue = "FIGHT";
-                    }
+	                            if (Request.IsAuthenticated)
+	                            {
+	                                btnClass = "btn btn-lg";
+	                                btnValue = "FIGHT";
+	                            }
                         
-                    <input type="submit" name="btnHome" id="btnHome" value="@btnValue" class="@btnClass" />
+	                            <input type="submit" name="btnHome" id="btnHome" value="@btnValue" class="@btnClass" />
 
-                }
-                </div>
-                </div>
-				</div>
-            </section>
+	                        }
+	                    </div>
+	                </div>
+	            </section>
+             </div>
         </div>
     </section>
     
