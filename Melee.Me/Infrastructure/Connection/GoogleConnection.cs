@@ -22,18 +22,93 @@ namespace Melee.Me.Infrastructure.Connection
             AccessToken = meleeUser.Connections.Single(x => x.ConnectionName == "Google").AccessToken;
             RefreshToken = meleeUser.Connections.Single(x => x.ConnectionName == "Google").RefreshToken;
 
-
-            GetUserData();
             double score = 0.00;
 
+            GetUserData();
+            
+            score += GetPeopleData();
+            score += GetActivityData();
+
             return score;
+        }
+
+        private int GetPeopleData()
+        {
+            const string peopleEndpoint = "https://www.googleapis.com/plus/v1/people/me/people/visible?";
+
+            var uri = BuildUri(peopleEndpoint, new NameValueCollection { { "access_token", AccessToken } });
+
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+
+            try
+            {
+                using (var webResponse = webRequest.GetResponse())
+                using (var stream = webResponse.GetResponseStream())
+                {
+                    if (stream == null)
+                        return 0;
+
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var response = reader.ReadToEnd();
+                        var json = JObject.Parse(response);
+                        var friendCount = int.Parse(json.Value<string>("totalItems"));
+                        return friendCount;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var authorizationResponse = GetAuthorizationResponse();
+                AccessToken = QueryGoogleAccessToken(authorizationResponse);
+                RefreshToken = QueryGoogleRefreshToken(authorizationResponse);
+
+                return GetPeopleData();
+            }
+
+        }
+
+
+        private int GetActivityData()
+        {
+            const string activityEndpoint = "https://www.googleapis.com/plus/v1/people/me/activities/public?";
+
+            var uri = BuildUri(activityEndpoint, new NameValueCollection { { "access_token", AccessToken } });
+
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+
+            try
+            {
+                using (var webResponse = webRequest.GetResponse())
+                using (var stream = webResponse.GetResponseStream())
+                {
+                    if (stream == null)
+                        return 0;
+
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var response = reader.ReadToEnd();
+                        var json = JObject.Parse(response);
+                        var activityItems = json.Value<JArray>("items");
+                        var activityCount = activityItems.Count;
+                        return activityCount;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var authorizationResponse = GetAuthorizationResponse();
+                AccessToken = QueryGoogleAccessToken(authorizationResponse);
+                RefreshToken = QueryGoogleRefreshToken(authorizationResponse);
+
+                return GetPeopleData();
+            }
+
         }
 
         private IDictionary<string, string> GetUserData()
         {
             const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v1/userinfo";
-
-            //https://www.googleapis.com/plus/v1/people/userId
 
             var uri = BuildUri(userInfoEndpoint, new NameValueCollection { { "access_token", AccessToken } });
 

@@ -256,7 +256,8 @@ namespace Melee.Me.Controllers
                     { "scope", scope},
                     { "redirect_uri", returnUrl.AbsoluteUri },
                     { "access_type", "offline"},
-                    { "state", "" }
+                    { "state", "" },
+                    {"approval_prompt", "force"}
                 });
         }
 

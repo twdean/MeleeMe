@@ -69,6 +69,16 @@ namespace Melee.Me.SignalR.Hubs
                 Clients.Caller.broadcastMessage("Battling for Twitter supremecy.");
 
                 userScore = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Twitter").ConnectionProvider.GetScore(currentUser);
+
+                Clients.Caller.broadcastMessage("Battling for Facebook supremecy.");
+                userScore += currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Facebook").ConnectionProvider.GetScore(currentUser);
+
+                Clients.Caller.broadcastMessage("Battling for G+ supremecy.");
+                var googleConnection = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Google");
+                if (googleConnection != null)
+                    userScore += googleConnection.ConnectionProvider.GetScore(currentUser);
+
+
                 opponentScore = new TwitterConnection().GetScore(opponent);
 
                 Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
