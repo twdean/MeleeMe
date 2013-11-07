@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_subLayout.cshtml";
 }
 
 <div class="panel-group" id="accordion">
@@ -30,11 +30,11 @@
                             <span class="stat-value">@Model.Stats.BattleLosses</span>
                             Losses:                        
                         </div>
+                        <div class="stat">
+                            <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
+                        </div>
                     </div>
                 </div>
-                @*                <div class="row">
-                    <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
-                </div>*@
             </div>
         </div>
     </div>

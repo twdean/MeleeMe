@@ -10,7 +10,7 @@ namespace Melee.Me.Infrastructure.Repository
 {
     public class MeleeUserRepository : IUserRepository
     {
-        public UserModel Add(string id, string token, string OAuthToken)
+        public UserModel Add(string id, string profileImageUrl, string screenName, string token, string OAuthToken)
         {
             var newUser = null as UserModel;
             var dbContext = new MeleeMeEntities();
@@ -20,21 +20,32 @@ namespace Melee.Me.Infrastructure.Repository
             {
                 var mUser = dbContext.m_User.FirstOrDefault(mu => mu.TwitterUserId == id);
 
-                if (mUser != null) return new UserModel
+                if (mUser != null)
                 {
-                    TwitterUserId = id,
-                    UserId = mUser.UserId,
-                    AccessToken = mUser.m_Credentials.Select(at => at.AccessToken).ToString(),
-                    Stats = MeleeRepository.GetMeleeStats(id, UserType.Challenger),
-                    Connections = new ConnectionRepository().Get(mUser.UserId)
-                };
+                    var um = new UserModel
+                        {
+                            TwitterUserId = id,
+                            UserId = mUser.UserId,
+                            ImageUrl = profileImageUrl,
+                            AccessToken = mUser.m_Credentials.Select(at => at.AccessToken).ToString(),
+                            Stats = MeleeRepository.GetMeleeStats(id, UserType.Challenger),
+                            Connections = new ConnectionRepository().Get(mUser.UserId)
+                        };
 
+                    mUser.ProfileImageUrl = profileImageUrl;
+                    mUser.ScreenName = screenName;
+
+                    dbContext.SaveChanges();
+                    return um;
+                }
 
                 try
                 {
                     var u = new m_User
                     {
-                        TwitterUserId = id
+                        TwitterUserId = id,
+                        ProfileImageUrl = profileImageUrl,
+                        ScreenName = screenName
                     };
 
 
@@ -45,6 +56,8 @@ namespace Melee.Me.Infrastructure.Repository
                     newUser = new UserModel
                     {
                         TwitterUserId = id,
+                        ImageUrl = profileImageUrl,
+                        ScreenName = screenName,
                         AccessToken = token,
                         UserId = u.UserId,
                         Stats = new MeleeStatisticsModel()
@@ -84,14 +97,14 @@ namespace Melee.Me.Infrastructure.Repository
 
         public UserModel Get(string id)
         {
-            var meleeUser = null as UserModel;
+            UserModel meleeUser = null;
             var dbContext = new MeleeMeEntities();
 
             using (dbContext)
             {
                 var mUser = (from c in dbContext.m_Credentials
                              where c.m_User.TwitterUserId == id
-                             select new { c.AccessToken, c.UserId }).FirstOrDefault();
+                             select new { c.AccessToken, c.UserId, c.m_User.ProfileImageUrl, c.m_User.ScreenName }).FirstOrDefault();
 
                 if (mUser != null)
                 {
@@ -99,6 +112,8 @@ namespace Melee.Me.Infrastructure.Repository
                     {
                         TwitterUserId = id,
                         UserId = mUser.UserId,
+                        ImageUrl = mUser.ProfileImageUrl,
+                        ScreenName = mUser.ScreenName,
                         AccessToken = mUser.AccessToken,
                         Stats = MeleeRepository.GetMeleeStats(id, UserType.Challenger),
                         Connections = new ConnectionRepository().Get(mUser.UserId)

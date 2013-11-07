@@ -24,86 +24,15 @@ namespace Melee.Me.Controllers
             return View();
         }
 
-        public ActionResult MeleeMe(string twitterId)
+        public ActionResult MeleeMe(string screenName, string imageUrl)
         {
-            UserModel challenger = null;
-            UserModel opponent = null;
+            var winner = new UserModel
+                {
+                    ScreenName = "Winner",
+                    ImageUrl = ""
+                };
 
-            if (Session["challenger"] != null)
-            {
-                challenger = (UserModel)Session["challenger"];
-            }
-
-
-            if (Session["competitor"] != null)
-            {
-                opponent = (UserModel)Session["competitor"];
-            }
-
-            if (twitterId == challenger.TwitterUserId)
-            {
-                return View("Melee", challenger);
-            }
-            else
-            {
-                return View("Melee", opponent);
-            }
+            return View("Melee", winner);
         }
-
-        //public UserModel GetMeleeData(UserModel challenger, UserModel competitor)
-        //{
-        //    UserModel meleeWinner = null;
-        //    double challengerScore = 0;
-        //    double competitorScore = 0;
-
-        //    try
-        //    {
-        //        try
-        //        {
-        //            challengerScore += challenger.Connections.Sum(connection => connection.ConnectionProvider.GetScore(challenger));
-
-        //            if (competitor.Connections != null)
-        //            {
-        //                competitorScore += competitor.Connections.Sum(connection => connection.ConnectionProvider.GetScore(competitor));
-        //            }
-        //            else
-        //            {
-        //                competitorScore = new TwitterConnection().GetScore(competitor);
-        //            }
-        //        }
-        //        catch (TwitterQueryException tqEx)
-        //        {
-        //            if (tqEx.ErrorCode == 88)
-        //            {
-
-        //            }
-        //        }
-
-        //        if (challengerScore > competitorScore)
-        //        {
-        //            meleeWinner = challenger;
-        //            _repository.Add(challenger, competitor, challenger.TwitterUserId, competitor.TwitterUserId);
-
-        //        }
-        //        else
-        //        {
-        //            meleeWinner = competitor;
-        //            _repository.Add(challenger, competitor, competitor.TwitterUserId, challenger.TwitterUserId);
-
-        //        }
-
-        //        Session["challenger"] = null;
-        //        Session["competitor"] = null;
-        //    }
-        //    catch (TwitterQueryException tqEx)
-        //    {
-        //        if (tqEx.ErrorCode == 88)
-        //        {
-
-        //        }
-        //    }
-
-        //    return meleeWinner;
-        //}
     }
 }

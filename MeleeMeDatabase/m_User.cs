@@ -22,6 +22,8 @@ namespace MeleeMeDatabase
     
         public int UserId { get; set; }
         public string TwitterUserId { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public string ScreenName { get; set; }
     
         public virtual ICollection<m_Credentials> m_Credentials { get; set; }
         public virtual ICollection<m_UserConnections> m_UserConnections { get; set; }

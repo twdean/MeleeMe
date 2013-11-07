@@ -3,7 +3,7 @@
 @using LinqToTwitter
 @{
     ViewBag.Title = "SocialSignInConfirmation";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_subLayout.cshtml";
 }
 
 <h2>Prepare to Melee</h2>
@@ -23,16 +23,16 @@
         <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
         <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
     </div>
-    <div id="meleeProgress"></div>
-    <div id="progressError" class="error"></div>
 </div>
-
 
 <div class="btn-group-vertical btn-group-lg">
     <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
     <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
     <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
 </div>
+
+<div id="meleeProgress"></div>
+<div id="progressError" class="error"></div>
 
 
 <script>
@@ -102,12 +102,12 @@
         // Create a function that the hub can call to broadcast messages.
         chat.client.broadcastMessage = function (statusUpdate) {
             // Add the message to the page. 
-            $('#meleeProgress').append('<li>' + statusUpdate + '</li>');
+            $('#meleeProgress').append('<div class="row">' + statusUpdate + '</div>');
         };
         
         chat.client.catchException = function (errMessage) {
             // Add the exception message to the page. 
-            $('#progressError').append('<li>' + errMessage + '</li>');
+            $('#progressError').append('<div class="row">' + errMessage + '</div>');
         };
 
 

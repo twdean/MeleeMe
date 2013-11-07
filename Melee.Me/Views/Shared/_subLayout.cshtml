@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Melee.Me</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="/Scripts/jquery.signalR-2.0.0.js"></script>
+    <script src="/SignalR/Hubs/"></script>
+    <link href='http://fonts.googleapis.com/css?family=Londrina+Solid|Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    @RenderSection("scripts", required: false)
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="~/Content/images/melee_me_logo.png" alt="melee_me_logo" width="148" height="163">
+            </div>
+        <div class="main-nav">
+                <ul class="nav nav-tabs">
+                    @{
+                        if (Context.User.Identity.IsAuthenticated)
+                        { 
+                            <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile","Home",new{twitterUserId = Context.User.Identity.Name}, new{})</li>
+                            <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
+                            <li class="nav navbar-right">@Html.ActionLink("Logout", "Logout", "Home")</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <section id="top-content">
+        <div class="container">
+        	<div class="row">
+                <!-- This needs to be created into it's own home page content section -->
+                <section id="sub-content">
+    	            <div class="container">
+    		            <div class="row">
+    	                    @RenderSection("subcontent", required: false)
+                            @RenderBody()
+    		            </div>
+	                </div>
+                </section>
+                <!-- The end of the subsction for the home page -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - L9 & big time collaboration</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

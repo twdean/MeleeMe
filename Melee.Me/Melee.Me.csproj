@@ -409,6 +409,7 @@
     <Content Include="Views\Melee\Index.cshtml" />
     <Content Include="Views\Home\MyProfile.cshtml" />
     <Content Include="Views\Home\History.cshtml" />
+    <Content Include="Views\Shared\_subLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="APIs\Twitter\Crafted.Twitter\" />
