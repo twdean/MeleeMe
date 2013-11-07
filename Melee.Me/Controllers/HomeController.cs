@@ -114,6 +114,13 @@ namespace Melee.Me.Controllers
 
             UserModel mUser = GetCurrentUser(twitterCtx, auth, twitterUserId);
 
+            if (mUser == null)
+            {
+                mUser.ImageUrl = "";
+                mUser.Stats.BattleWins = -1;
+                mUser.Stats.BattleLosses = -1;
+            }
+
             return View(mUser);
         }
 
