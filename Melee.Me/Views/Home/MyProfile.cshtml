@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_subLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="panel-group" id="accordion">
@@ -14,7 +14,7 @@
                 </a>
             </h3>
         </div>
-        @*<div id="collapseInfo" class="panel-collapse collapse in">*@
+        <div id="collapseInfo" class="panel-collapse collapse in">
             <div class="panel-body">
                 <div id="challengerBattleStats">
                     <div id="stats" class="stats">
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="connectionContainer">
+@*    <div id="connectionContainer">
         <div class="widget-header">
             <h3>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseConnections">Connections
@@ -67,28 +67,9 @@
 
                     @Html.ActionLink("Remove", "Google", "Connections")
                 </div>
-                @* 
-                <div id="fourSquareContainer">
-                    <h3>Four Square</h3>
-                    @if (Model.Connections.All(c => c.ConnectionName != "Four Square"))
-                    {
-                        @Html.ActionLink("Add", "ExternalLogin", "Home")
-                    }
-
-                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
-                </div>
-                <div id="linkedInContainer">
-                    <h3>LinkedIn</h3>
-                    @if (Model.Connections.All(c => c.ConnectionName != "LinkedIn"))
-                    {
-                        @Html.ActionLink("Add", "ExternalLogin", "Home")
-                    }
-
-                    @Html.ActionLink("Remove", "ExternalLogin", "Home")
-                </div>*@
             </div>
         </div>
-    </div>
+    </div>*@
     <div id="badgeContainer">
         <div class="widget-header">
             <h3>
