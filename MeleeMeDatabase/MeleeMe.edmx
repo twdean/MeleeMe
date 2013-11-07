@@ -45,7 +45,6 @@
           <Property Name="CredentialId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="AccessToken" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="RefreshToken" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="m_Melee">
           <Key>
@@ -169,7 +168,6 @@
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <Property Type="String" Name="AccessToken" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="m_User" Relationship="MeleeMeModel.FK__m_Credent__UserI__239E4DCF" FromRole="m_Credentials" ToRole="m_User" />
-          <Property Type="String" Name="RefreshToken" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="m_User">
           <Key>
@@ -282,7 +280,6 @@
           <EntitySetMapping Name="m_Credentials">
             <EntityTypeMapping TypeName="MeleeMeModel.m_Credentials">
               <MappingFragment StoreEntitySet="m_Credentials">
-                <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
                 <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CredentialId" ColumnName="CredentialId" />
