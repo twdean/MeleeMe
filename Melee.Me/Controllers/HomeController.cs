@@ -101,10 +101,11 @@ namespace Melee.Me.Controllers
         public ActionResult MyProfile(string twitterUserId)
         {
             UserModel mUser = null;
+            MvcAuthorizer auth = null;
 
             try
             {
-                var auth = GetAuthorizer(twitterUserId);
+                auth = GetAuthorizer(twitterUserId);
 
                 auth.CompleteAuthorization(Request.Url);
 
@@ -121,7 +122,7 @@ namespace Melee.Me.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMsg = ex.ToString();
+                ViewBag.ErrorMsg = ex.ToString() + " twitterUserId: " + twitterUserId;
             }
 
 
