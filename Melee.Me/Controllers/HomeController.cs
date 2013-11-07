@@ -66,7 +66,13 @@ namespace Melee.Me.Controllers
                 var twitterCtx = new TwitterContext(auth);
                 
                 challengerModel = GetCurrentUser(twitterCtx, auth, auth.Credentials.UserId);
-                competitorModel = GetCompetitor(twitterCtx, auth.Credentials.UserId);
+                competitorModel = new UserModel
+                    {
+                        ImageUrl = "/Content/images/default_user.png",
+                        ScreenName = String.Empty,
+                        TwitterUserId = String.Empty
+                    };
+                //GetCompetitor(twitterCtx, auth.Credentials.UserId);
 
                 mm = new MeleeModel
                     {
@@ -126,7 +132,14 @@ namespace Melee.Me.Controllers
             return View(mUser);
         }
 
-        [AllowAnonymous]
+        [Authorize]
+        public ActionResult Challenge()
+        {
+            //pull back a list of melee users with their stats.
+            return null;
+        }
+
+        [Authorize]
         public ActionResult GetNewCompetitor(string twitterUserId)
         {
             MvcAuthorizer auth = GetAuthorizer();

@@ -284,6 +284,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\bullseye_icon.png" />
     <Content Include="Content\images\chat_icon.png" />
+    <Content Include="Content\images\default_user.png" />
     <Content Include="Content\images\FB-f-Logo__blue_50.png" />
     <Content Include="Content\images\google-logo.png" />
     <Content Include="Content\images\home_background.png" />

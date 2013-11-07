@@ -27,15 +27,17 @@
 </div>
 
 
-<div class="actionControls">
-    <button type="submit" name="NewOpponent" id="NewOpponent" value="NewOpponent" title="New Opponent">New</button>
+<div class="btn-group-vertical btn-group-lg">
+    <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
     <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
+    <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
 </div>
 
 
 <script>
-    $('#NewOpponent').click(function () {
+    $('#RandomBtn').click(function () {
         $("#meleeProgress").empty();
+        $('#Melee').show();
         
         $.ajax({
             url: '/Home/GetNewCompetitor',
@@ -62,13 +64,45 @@
         return false;
     });
 
+    $('#ChallengeBtn').click(function () {
+        $("#meleeProgress").empty();
+
+        $.ajax({
+            url: '/Home/ChallengeCompetitor',
+            type: 'POST',
+            data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
+            success: function (result) {
+                $('#competitorImageUrl').attr("src", result.ImageUrl);
+                $('#competitorScreenName').html(result.ScreenName);
+                $('#competitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
+                $('#competitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
+                $('#competitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses);
+                $('#competitorUserId').html(result.TwitterUserId);
+            },
+            error: function (jqXHR, exception) {
+                if (jqXHR.status === 0) {
+                    window.location.href = "~/Views/Shared/Error";
+                }
+            },
+            complete: function () {
+                $('#spinnerBank').hide();
+            }
+        });
+
+        return false;
+    });
+
+
     //$('#Melee').click(function () {
     //    var competitorScreenName = "";
     //    window.location.href = "/Melee/MeleeMe";
 
     //});
-    
+
     $(function () {
+
+        $('#Melee').hide();
+        
         // Declare a proxy to reference the hub. 
         var chat = $.connection.meleeHub;
         // Create a function that the hub can call to broadcast messages.
