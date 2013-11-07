@@ -24,6 +24,7 @@
         <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
     </div>
     <div id="meleeProgress"></div>
+    <div id="progressError" class="error"></div>
 </div>
 
 
@@ -92,13 +93,6 @@
         return false;
     });
 
-
-    //$('#Melee').click(function () {
-    //    var competitorScreenName = "";
-    //    window.location.href = "/Melee/MeleeMe";
-
-    //});
-
     $(function () {
 
         $('#Melee').hide();
@@ -110,6 +104,12 @@
             // Add the message to the page. 
             $('#meleeProgress').append('<li>' + statusUpdate + '</li>');
         };
+        
+        chat.client.catchException = function (errMessage) {
+            // Add the exception message to the page. 
+            $('#progressError').append('<li>' + errMessage + '</li>');
+        };
+
 
         // Start the connection.
         $.connection.hub.start().done(function () {
