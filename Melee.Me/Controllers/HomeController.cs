@@ -64,7 +64,7 @@ namespace Melee.Me.Controllers
                 }
 
                 var twitterCtx = new TwitterContext(auth);
-                
+
                 challengerModel = GetCurrentUser(twitterCtx, auth, auth.Credentials.UserId);
                 competitorModel = new UserModel
                     {
@@ -100,28 +100,38 @@ namespace Melee.Me.Controllers
         [Authorize]
         public ActionResult MyProfile(string twitterUserId)
         {
-            var auth = GetAuthorizer(twitterUserId);
+            UserModel mUser = null;
 
-            auth.CompleteAuthorization(Request.Url);
-
-            if (!auth.IsAuthorized)
+            try
             {
-                var specialUri = new Uri("/Home/MyProfile");
-                return auth.BeginAuthorization(specialUri);
+                var auth = GetAuthorizer(twitterUserId);
+
+                auth.CompleteAuthorization(Request.Url);
+
+                if (!auth.IsAuthorized)
+                {
+                    var specialUri = new Uri("/Home/MyProfile");
+                    return auth.BeginAuthorization(specialUri);
+                }
+
+                var twitterCtx = new TwitterContext(auth);
+
+                mUser = GetCurrentUser(twitterCtx, auth, twitterUserId);
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMsg = ex.ToString();
             }
 
-            var twitterCtx = new TwitterContext(auth);
-
-            UserModel mUser = GetCurrentUser(twitterCtx, auth, twitterUserId);
-
-            if (mUser == null)
-            {
-                mUser.ImageUrl = "";
-                mUser.Stats.BattleWins = -1;
-                mUser.Stats.BattleLosses = -1;
-            }
 
             return View(mUser);
+        }
+
+        protected UserModel UserModel
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         [Authorize]

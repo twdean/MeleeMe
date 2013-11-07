@@ -5,117 +5,143 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel-group" id="accordion">
-    <div id="userContainer">
-        <div class="widget-header">
-            <h3>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseInfo">
-                    Quick Stats @*[@Model.ScreenName]*@
-                </a>
-            </h3>
-        </div>
-        <div id="collapseInfo" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div id="challengerBattleStats">
-                    <div id="stats" class="stats">
-                        <div class="stat">
-                            <span class="stat-value">@(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</span>  
-                            Melee's:
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value">@Model.Stats.BattleWins</span>
-                            Wins:
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value">@Model.Stats.BattleLosses</span>
-                            Losses:                        
-                        </div>
-                        <div class="stat">
-                            <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
+@if (Model != null)
+{
+    <div class="panel-group" id="accordion">
+        <div id="userContainer">
+            <div class="widget-header">
+                <h3>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseInfo">
+                        Quick Stats @*[@Model.ScreenName]*@
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseInfo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div id="challengerBattleStats">
+                        <div id="stats" class="stats">
+                            <div class="stat">
+                                <span class="stat-value">@(Model.Stats.BattleWins + @Model.Stats.BattleLosses)</span>  
+                                Melee's:
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">@Model.Stats.BattleWins</span>
+                                Wins:
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">@Model.Stats.BattleLosses</span>
+                                Losses:                        
+                            </div>
+                            <div class="stat">
+                                <img id="challengerImageUrl"src="@Model.ImageUrl" class="img-thumbnail" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-@*    <div id="connectionContainer">
-        <div class="widget-header">
-            <h3>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseConnections">Connections
-                </a>
-            </h3>
+        <div id="connectionContainer">
+            <div class="widget-header">
+                <h3>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseConnections">Connections
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseConnections" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div id="facebookContainer">
+                        <h3>Facebook</h3>
+                        @if (Model.Connections.All(c => c.ConnectionName != "Facebook"))
+                        {
+                            @Html.ActionLink("Add", "Facebook", "Connections")
+                        }
+
+                        @Html.ActionLink("Remove", "Facebook", "Connections")
+
+
+                    </div>
+                    <div id="googleContainer">
+                        <h3>Google</h3>
+                        @if (Model.Connections.All(c => c.ConnectionName != "Google"))
+                        {
+                            @Html.ActionLink("Add", "Google", "Connections")
+                        }
+
+                        @Html.ActionLink("Remove", "Google", "Connections")
+                    </div>
+                    @* 
+                    <div id="fourSquareContainer">
+                        <h3>Four Square</h3>
+                        @if (Model.Connections.All(c => c.ConnectionName != "Four Square"))
+                        {
+                            @Html.ActionLink("Add", "ExternalLogin", "Home")
+                        }
+
+                        @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                    </div>
+                    <div id="linkedInContainer">
+                        <h3>LinkedIn</h3>
+                        @if (Model.Connections.All(c => c.ConnectionName != "LinkedIn"))
+                        {
+                            @Html.ActionLink("Add", "ExternalLogin", "Home")
+                        }
+
+                        @Html.ActionLink("Remove", "ExternalLogin", "Home")
+                    </div>*@
+                </div>
+            </div>
         </div>
-        <div id="collapseConnections" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div id="facebookContainer">
-                    <h3>Facebook</h3>
+        <div id="badgeContainer">
+            <div class="widget-header">
+                <h3>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBadges">Badges
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseBadges" class="panel-collapse collapse in">
+                <div class="panel-body"></div>
+            </div>
+        </div>
+        <div id="otherContainer">
+            <div class="widget-header">
+                <h3>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">Other
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseOther" class="panel-collapse collapse in">
+                <div class="panel-body"></div>
+            </div>
+        </div>
+        @*    <div id="test-container" class="test_container">
+            <div id="gallery-one" class="gallery_one">
+                <div id="twitterBox" class="box">
+                    Twitter
+                </div>
+                <div id="facebookBox" class="box">
                     @if (Model.Connections.All(c => c.ConnectionName != "Facebook"))
-                    {
-                        @Html.ActionLink("Add", "Facebook", "Connections")
-                    }
+                        {
+                            @Html.ActionLink("Add", "Facebook", "Connections")
+                        }
 
-                    @Html.ActionLink("Remove", "Facebook", "Connections")
-
-
+                        @Html.ActionLink("Remove", "Facebook", "Connections")
                 </div>
-                <div id="googleContainer">
-                    <h3>Google</h3>
-                    @if (Model.Connections.All(c => c.ConnectionName != "Google"))
-                    {
-                        @Html.ActionLink("Add", "Google", "Connections")
-                    }
-
-                    @Html.ActionLink("Remove", "Google", "Connections")
+                <div id="GooglePlusBox" class="box">
+                    Google+
+                </div>
+                <div id="LinkedInBox" class="box">
+                    LinkedIn
                 </div>
             </div>
-        </div>
-    </div>*@
-    <div id="badgeContainer">
-        <div class="widget-header">
-            <h3>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBadges">Badges
-                </a>
-            </h3>
-        </div>
-        <div id="collapseBadges" class="panel-collapse collapse in">
-            <div class="panel-body"></div>
-        </div>
+            <div id="gallery-two" class="droppable gallery_two">
+            </div>
+        </div>*@
     </div>
-    <div id="otherContainer">
-        <div class="widget-header">
-            <h3>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOther">Other
-                </a>
-            </h3>
-        </div>
-        <div id="collapseOther" class="panel-collapse collapse in">
-            <div class="panel-body"></div>
-        </div>
-    </div>
-@*    <div id="test-container" class="test_container">
-        <div id="gallery-one" class="gallery_one">
-            <div id="twitterBox" class="box">
-                Twitter
-            </div>
-            <div id="facebookBox" class="box">
-                @if (Model.Connections.All(c => c.ConnectionName != "Facebook"))
-                    {
-                        @Html.ActionLink("Add", "Facebook", "Connections")
-                    }
-
-                    @Html.ActionLink("Remove", "Facebook", "Connections")
-            </div>
-            <div id="GooglePlusBox" class="box">
-                Google+
-            </div>
-            <div id="LinkedInBox" class="box">
-                LinkedIn
-            </div>
-        </div>
-        <div id="gallery-two" class="droppable gallery_two">
-        </div>
-    </div>*@
-</div>
+}
+else
+{
+    <p>@ViewBag.ErrorMsg</p>
+}
 
 @*<script type="text/javascript">
     $(document).ready(function () {
