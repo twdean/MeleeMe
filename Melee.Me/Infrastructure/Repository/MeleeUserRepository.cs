@@ -39,37 +39,30 @@ namespace Melee.Me.Infrastructure.Repository
                     return um;
                 }
 
-                try
+                var u = new m_User
                 {
-                    var u = new m_User
-                    {
-                        TwitterUserId = id,
-                        ProfileImageUrl = profileImageUrl,
-                        ScreenName = screenName
-                    };
+                    TwitterUserId = id,
+                    ProfileImageUrl = profileImageUrl,
+                    ScreenName = screenName
+                };
 
 
-                    dbContext.m_User.Add(u);
-                    AddUserCredentials(dbContext, u, token);
-                    AddConnection(dbContext, u, token, OAuthToken);
+                dbContext.m_User.Add(u);
+                AddUserCredentials(dbContext, u, token);
+                AddConnection(dbContext, u, token, OAuthToken);
 
-                    newUser = new UserModel
-                    {
-                        TwitterUserId = id,
-                        ImageUrl = profileImageUrl,
-                        ScreenName = screenName,
-                        AccessToken = token,
-                        UserId = u.UserId,
-                        Stats = new MeleeStatisticsModel()
-                    };
-
-                    dbContext.SaveChanges();
-                    newUser.Connections = new ConnectionRepository().Get(u.UserId);
-                }
-                catch (Exception)
+                newUser = new UserModel
                 {
-                    //TODO: Propogate message and log
-                }
+                    TwitterUserId = id,
+                    ImageUrl = profileImageUrl,
+                    ScreenName = screenName,
+                    AccessToken = token,
+                    UserId = u.UserId,
+                    Stats = new MeleeStatisticsModel()
+                };
+
+                dbContext.SaveChanges();
+                newUser.Connections = new ConnectionRepository().Get(u.UserId);
             }
 
             return newUser;
