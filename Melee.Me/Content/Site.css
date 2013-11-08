@@ -625,22 +625,22 @@ tr.pager td {
 	background-image: url(images/home_background.png);
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-position: center center;
 	border-top: 5px #B5111C solid;
 	border-bottom: 5px #B5111C solid;
 	margin-bottom: 0;
 	padding-bottom: 50px;
-
 }
 
 .mainContent {
-	margin-top: 200px;
+	margin-top: 125px;
 }
 
 .actionButton {
 	text-align: center;
 	font-size: 10px;
 	color: #fff;
-	margin-top: 300px;
+	margin-top: 200px;
 }
 .actionButton btn a: {
 	background-color: #F0CA39;
@@ -953,5 +953,6 @@ tr.pager td {
 
         footer p {
             margin: 0;
+            margin-top: 20px;
         }
 }
