@@ -66,7 +66,7 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 70px;
+    font-size: 50px;
     font-family: 'Londrina Solid', cursive;
     text-transform: uppercase;
 }
@@ -640,7 +640,7 @@ tr.pager td {
 	text-align: center;
 	font-size: 10px;
 	color: #fff;
-	margin-top: 200px;
+	margin-top: 2500px;
 }
 .actionButton btn a: {
 	background-color: #F0CA39;
@@ -787,6 +787,12 @@ tr.pager td {
 {
     background-color: #BBBBFF;
 }
+
+        footer p {
+            margin: 0;
+            margin-top: 20px;
+            text-align: center;
+        }
 
 /********************
 *   Mobile Styles   *
@@ -954,5 +960,6 @@ tr.pager td {
         footer p {
             margin: 0;
             margin-top: 20px;
+            text-align: center;
         }
 }
