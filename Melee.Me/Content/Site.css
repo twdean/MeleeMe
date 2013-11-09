@@ -631,9 +631,14 @@ tr.pager td {
 	margin-bottom: 0;
 	padding-bottom: 50px;
 }
+ 
+#subpage-content {
+	border-top: 5px #B5111C solid;
+}
 
 .mainContent {
 	margin-top: 125px;
+	margin-bottom: 60px;
 }
 
 .actionButton {
@@ -663,6 +668,15 @@ tr.pager td {
 	text-align: justify;
 	margin-bottom: 50px;
 }
+
+#subpage-content #sub-content {
+	background-color: transparent;
+	margin-top: 45px;	
+	text-align: left;
+	margin-bottom: 50px;
+	color: #666;
+}
+
 .home-icon {
 	text-align: center;
 	margin-bottom: 50px;
