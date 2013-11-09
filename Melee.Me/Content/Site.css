@@ -615,8 +615,8 @@ tr.pager td {
 
 .logo {
 	    text-align: center;
-		margin-top: 20px;
-		margin-bottom: -80px;
+		margin-top: 30px;
+		margin-bottom: -60px;
 		z-index: 1000;
 }
 
@@ -755,6 +755,40 @@ tr.pager td {
     top: 0;
 }
 
+/* Battlefield */
+
+
+h1.super-big {
+	color:orange;
+	text-align:center;
+	font-size: 120px;
+}
+
+.call-out {
+	
+	font-size: 50px;
+    font-family: 'Londrina Solid', cursive;
+    color: #F0CA39;
+    text-transform: uppercase;
+    text-align: center;	
+    margin-top: 20px;
+    margin-bottom: 20px;
+	border-top: 3px #000 solid;	
+	border-bottom: 3px #000 solid;
+}
+
+.user-container, competitor-container {
+	text-align: left;
+	font-size: 35px;
+	font-weight: bold;
+	color:#B5111C;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.img-thumbnail {
+	margin-right: 20px;
+	float: left;
+}
 /* Draggable Test Styles */
  
 .test_container
