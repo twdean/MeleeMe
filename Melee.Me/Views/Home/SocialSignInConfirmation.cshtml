@@ -5,36 +5,44 @@
     ViewBag.Title = "SocialSignInConfirmation";
     Layout = "~/Views/Shared/_subLayout.cshtml";
 }
-
-<h2>Prepare to Melee</h2>
-
-<div class="battleField">
-    <div id="userContainer" class="userContainer">
-        <a href="@Url.Action("MyProfile", "Home", new { twitterUserId = @Model.Challenger.TwitterUserId })">
-            <img id="challengerImageUrl" src=@Model.Challenger.ImageUrl class="img-thumbnail" alt="your twitter icon"/>
-        </a>
-        <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
-    </div>
-
-    <div class="spacer">VS.</div>
-
-    <div id="competitorContainer" class="competitorContainer">
-        <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl class="img-thumbnail" alt="twitter icon"/>
-        <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
-        <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
-    </div>
+<div class="row">
+	<h1 class="super-big">Prepare to Melee</h1>
 </div>
-
-<div class="btn-group-vertical btn-group-lg">
-    <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
-    <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
-    <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
+<div class="row">
+	<div class="btn-group-vertical btn-group-lg col-md-4 col-md-offset-4">
+	    <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
+	    <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
+	    <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
+	</div>
 </div>
-
-<div id="meleeProgress"></div>
-<div id="progressError" class="error"></div>
-
-
+<div class="row">
+	<div class="battleField col-md-12">
+	    <div id="userContainer" class="user-container col-md-4">
+	        <a href="@Url.Action("MyProfile", "Home", new { twitterUserId = @Model.Challenger.TwitterUserId })">
+	            <img id="challengerImageUrl" src=@Model.Challenger.ImageUrl class="img-thumbnail" alt="your twitter icon"/>
+	        </a>
+	        <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
+	    </div>
+	
+	    <div class="col-md-4 call-out">VS.</div>
+	
+	    <div id="competitorContainer" class="competitor-container col-md-4">
+	        <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl class="img-thumbnail" alt="twitter icon"/>
+	        <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
+	        <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
+	    </div>
+	</div>
+</div>
+</section>
+</div>
+<section class="melee-area">
+<div class="container">
+<div class="row">
+	<div id="meleeProgress" class="col-md-12"></div>
+</div>
+<div class="row">
+	<div id="progressError" class="error col-md-12"></div>
+</div>
 <script>
     $('#RandomBtn').click(function () {
         $("#meleeProgress").empty();
