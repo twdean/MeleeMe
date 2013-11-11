@@ -257,6 +257,7 @@
     <Content Include="Assemblies\Microsoft.Data.OData.dll" />
     <Content Include="Assemblies\Microsoft.Owin.dll" />
     <Content Include="Assemblies\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="Assemblies\Microsoft.Owin.Security.dll" />
     <Content Include="Assemblies\Microsoft.Web.Infrastructure.dll" />
     <Content Include="Assemblies\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
     <Content Include="Assemblies\Microsoft.Web.WebPages.OAuth.dll" />
@@ -264,9 +265,12 @@
     <Content Include="Assemblies\Owin.dll" />
     <Content Include="Assemblies\System.dll" />
     <Content Include="Assemblies\System.Net.Http.dll" />
+    <Content Include="Assemblies\System.Net.Http.Extensions.dll" />
     <Content Include="Assemblies\System.Net.Http.Formatting.dll" />
+    <Content Include="Assemblies\System.Net.Http.Primitives.dll" />
     <Content Include="Assemblies\System.Net.Http.WebRequest.dll" />
     <Content Include="Assemblies\System.Spatial.dll" />
+    <Content Include="Assemblies\System.Web.Entity.dll" />
     <Content Include="Assemblies\System.Web.Helpers.dll" />
     <Content Include="Assemblies\System.Web.Http.dll" />
     <Content Include="Assemblies\System.Web.Http.OData.dll" />

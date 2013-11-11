@@ -20,10 +20,23 @@ namespace Melee.Me
             );
 
             routes.MapRoute(
+                name: "Facebook",
+                url: "Connections/Facebook/{twitterUserId}",
+                defaults: new { controller = "Connections", action = "Facebook", twitterUserId = "" }
+            );
+
+            routes.MapRoute(
+                name: "Google",
+                url: "Connections/Google/{twitterUserId}",
+                defaults: new { controller = "Connections", action = "Google", twitterUserId = "" }
+            );
+
+
+            routes.MapRoute(
             name: "MeleeMe",
             url: "Melee/MeleeMe/{twitterId}",
             defaults: new { controller = "Melee", action = "MeleeMe", twitterId = "" }
-);
+            );
 
             routes.MapRoute(
                 name: "Default",

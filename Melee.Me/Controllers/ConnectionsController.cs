@@ -17,10 +17,13 @@ namespace Melee.Me.Controllers
     public class ConnectionsController : Controller
     {
         private readonly IConnectionRepository _repository;
+        private readonly IUserRepository _userRepository;
+
 
         public ConnectionsController()
         {
             _repository = new ConnectionRepository();
+            _userRepository = new MeleeUserRepository();
         }
 
         private Uri FacebookRedirectUri
@@ -65,9 +68,10 @@ namespace Melee.Me.Controllers
             }
         }
 
-        public ActionResult LinkedIn()
+        public ActionResult LinkedIn(string twitterUserId)
         {
-            var meleeUser = (UserModel)Session["challenger"];
+            var meleeUser = _userRepository.Get(twitterUserId);
+
             if (meleeUser.Connections.All(c => c.ConnectionName != "LinkedIn"))
             {
                 var uri = GetServiceLoginUrl(LinkedInRedirectUri);
@@ -84,9 +88,9 @@ namespace Melee.Me.Controllers
             return View("../Home/MyProfile", meleeUser);
         }
 
-        public ActionResult Google()
+        public ActionResult Google(string twitterUserId)
         {
-            var meleeUser = (UserModel)Session["challenger"];
+            var meleeUser = _userRepository.Get(twitterUserId);
             if (meleeUser.Connections.All(c => c.ConnectionName != "Google"))
             {
                 var uri = GetServiceLoginUrl(GoogleRedirectUri);
@@ -103,9 +107,10 @@ namespace Melee.Me.Controllers
             return View("../Home/MyProfile", meleeUser);
         }
 
-        public ActionResult Facebook()
+        public ActionResult Facebook(string twitterUserId)
         {
-            var meleeUser = (UserModel)Session["challenger"];
+            var meleeUser = _userRepository.Get(twitterUserId);
+
             if (meleeUser.Connections.All(c => c.ConnectionName != "Facebook"))
             {
                 var facebookKey = ConfigurationManager.AppSettings["FacebookKey"];
