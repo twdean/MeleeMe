@@ -9,12 +9,18 @@
 	<h1 class="super-big">Prepare to Melee</h1>
 </div>
 <div class="row">
-	<div class="btn-group-vertical btn-group-lg col-md-4 col-md-offset-4">
-	    <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
-	    <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
-	    <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
-	</div>
+    <div class="btn-group-vertical btn-group-lg col-md-4 col-md-offset-4">
+        <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
+        <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
+        <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
+    </div>
 </div>
+
+<div class="row" id="friendList">
+    
+
+</div>
+
 <div class="row">
 	<div class="battleField col-md-12">
 	    <div id="userContainer" class="user-container col-md-4">
@@ -23,7 +29,8 @@
 	        </a>
 	        <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
 	    </div>
-	
+	    <div id="userMeleeSummary"></div>
+
 	    <div class="col-md-4 call-out">VS.</div>
 	
 	    <div id="competitorContainer" class="competitor-container col-md-4">
@@ -31,18 +38,20 @@
 	        <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
 	        <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
 	    </div>
+	    <div id="competitorMeleeSummary"></div>
+
 	</div>
 </div>
-</section>
-</div>
 <section class="melee-area">
-<div class="container">
-<div class="row">
-	<div id="meleeProgress" class="col-md-12"></div>
-</div>
-<div class="row">
-	<div id="progressError" class="error col-md-12"></div>
-</div>
+    <div class="container">
+        <div class="row">
+	        <div id="meleeProgress" class="col-md-12"></div>
+        </div>
+        <div class="row">
+            <div id="progressError" class="error col-md-12"></div>
+        </div>
+   </div>
+</section>
 <script>
     $('#RandomBtn').click(function () {
         $("#meleeProgress").empty();
@@ -74,22 +83,20 @@
     });
 
     $('#ChallengeBtn').click(function () {
-        $("#meleeProgress").empty();
+        $("#friendList").empty();
 
         $.ajax({
-            url: '/Home/ChallengeCompetitor',
+            url: '/Home/Challenge',
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                $('#competitorImageUrl').attr("src", result.ImageUrl);
-                $('#competitorScreenName').html(result.ScreenName);
-                $('#competitorMeleeTotal').html("Melee's: " + (result.Stats.BattleWins + result.Stats.BattleLosses));
-                $('#competitorMeleeWins').html("Wins: " + result.Stats.BattleWins);
-                $('#competitorMeleeLosses').html("Losses: " + result.Stats.BattleLosses);
-                $('#competitorUserId').html(result.TwitterUserId);
+                
+                jQuery.each(result.Data, function () {
+                    $('#friendList').html(this.ScreenName);
+                });
             },
-            error: function (jqXHR, exception) {
-                if (jqXHR.status === 0) {
+            error: function (jqXhr, exception) {
+                if (jqXhr.status === 0) {
                     window.location.href = "~/Views/Shared/Error";
                 }
             },
@@ -102,7 +109,6 @@
     });
 
     $(function () {
-
         $('#Melee').hide();
         
         // Declare a proxy to reference the hub. 
@@ -111,6 +117,16 @@
         chat.client.broadcastMessage = function (statusUpdate) {
             // Add the message to the page. 
             $('#meleeProgress').append('<div class="row">' + statusUpdate + '</div>');
+        };
+        
+        chat.client.broadcastUserScore = function (statusUpdate) {
+            // Add the message to the page. 
+            $('#userMeleeSummary').append(statusUpdate);
+        };
+        
+        chat.client.broadcastCompetitorScore = function (statusUpdate) {
+            // Add the message to the page. 
+            $('#competitorMeleeSummary').append(statusUpdate);
         };
         
         chat.client.catchException = function (errMessage) {

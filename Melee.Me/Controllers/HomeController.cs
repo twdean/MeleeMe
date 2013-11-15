@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web.Mvc;
 using System.Configuration;
 using System.Web.Security;
+using System.Collections.Generic;
 
 using LinqToTwitter;
 using Melee.Me.Infrastructure.Repository;
@@ -150,10 +152,17 @@ namespace Melee.Me.Controllers
         }
 
         [Authorize]
-        public ActionResult Challenge()
+        public ActionResult Challenge(string twitterUserId)
         {
             //pull back a list of melee users with their stats.
-            return null;
+            MvcAuthorizer auth = GetAuthorizer(twitterUserId);
+            var twitterCtx = new TwitterContext(auth);
+
+            var listOfFriends = FriendList(twitterCtx, twitterUserId);
+
+
+
+            return listOfFriends;
         }
 
         [Authorize]
@@ -180,6 +189,75 @@ namespace Melee.Me.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
+        }
+
+        private JsonResult FriendList(TwitterContext twitterCtx, string tUserId)
+        {
+            var fList = string.Empty;
+            var listCollection = new Collection<string>();
+            var friendCounter = 0;
+            var userCollection = new Collection<User>();
+
+            try
+            {
+                var friendList =
+                    (from friend in twitterCtx.SocialGraph
+                     where friend.Type == SocialGraphType.Friends &&
+                           friend.UserID == Convert.ToUInt64(tUserId)
+                     select friend)
+                     .SingleOrDefault();
+
+                var followerList =
+                    (from follower in twitterCtx.SocialGraph
+                     where follower.Type == SocialGraphType.Followers &&
+                           follower.UserID == Convert.ToUInt64(tUserId)
+                     select follower)
+                     .SingleOrDefault();
+
+                if (friendList != null)
+                {
+                    foreach (var id in friendList.IDs)
+                    {
+                        if (friendCounter == 100)
+                        {
+                            listCollection.Add(fList.Trim(','));
+                            fList = string.Empty;
+                            friendCounter = 0;
+                        }
+
+                        fList += "," + id;
+                        friendCounter++;
+                    }
+
+                    foreach (var s in listCollection)
+                    {
+                        var myFriends =
+                            (from user in twitterCtx.User
+                             where user.Type == UserType.Lookup &&
+                                   user.UserID == s
+                             select user).ToList();
+
+                        foreach (var f in myFriends)
+                        {
+                            userCollection.Add(f);
+                        }
+                    }
+
+                }
+
+
+
+                return Json(userCollection);
+            }
+            catch (TwitterQueryException tqEx)
+            {
+                if (tqEx.ErrorCode == 88)
+                {
+
+                }
+            }
+
+            return null;
         }
 
 

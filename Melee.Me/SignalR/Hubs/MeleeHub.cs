@@ -33,7 +33,6 @@ namespace Melee.Me.SignalR.Hubs
 
                 if (opponentUser != null)
                 {
-
                     //battle twitter
                     Clients.Caller.broadcastMessage("Battling for Twitter supremecy.");
                     var currentUserTwitter = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Twitter");
@@ -73,19 +72,10 @@ namespace Melee.Me.SignalR.Hubs
                     var twitterConnection = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Twitter");
                     if (twitterConnection != null)
                         userScore = twitterConnection.ConnectionProvider.GetScore(currentUser);
-
-                    Clients.Caller.broadcastMessage("Battling for Facebook supremecy.");
-                    var facebookConnection = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Facebook");
-                    if (facebookConnection != null)
-                        userScore += facebookConnection.ConnectionProvider.GetScore(currentUser);
-
-                    Clients.Caller.broadcastMessage("Battling for G+ supremecy.");
-                    var googleConnection = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Google");
-                    if (googleConnection != null)
-                        userScore += googleConnection.ConnectionProvider.GetScore(currentUser);
-
-
+                    Clients.Caller.broadcastUserScore("Points:" + userScore);
+                    
                     opponentScore = new TwitterConnection().GetScore(opponent);
+                    Clients.Caller.broadcastCompetitorScore("Points:" + opponentScore);
                 }
 
                 if (userScore > opponentScore)
