@@ -34,12 +34,11 @@ namespace Melee.Me.Controllers
             var twitterReturnUrl = ConfigurationManager.AppSettings["TwitterAutorizationReturnUrl"];
 
 
-            auth.CompleteAuthorization(Request.Url);
-
-            if (!auth.IsAuthorized)
+           if (!auth.CompleteAuthorization(Request.Url))
             {
                 var specialUri = new Uri(twitterReturnUrl);
-                return auth.BeginAuthorization(specialUri);
+                ActionResult res = auth.BeginAuthorization(specialUri);
+                return res;
             }
 
             return AppAuthorizationConfirmation(null);
@@ -246,8 +245,9 @@ namespace Melee.Me.Controllers
                 }
 
 
+                IEnumerable<User> sortedUsers = userCollection.OrderBy(user => user.Identifier.ScreenName);
 
-                return Json(userCollection);
+                return Json(sortedUsers);
             }
             catch (TwitterQueryException tqEx)
             {

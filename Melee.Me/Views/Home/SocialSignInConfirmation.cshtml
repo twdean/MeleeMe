@@ -90,9 +90,16 @@
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                
-                jQuery.each(result.Data, function () {
-                    $('#friendList').html(this.ScreenName);
+                $('#challengerList').listnav();
+
+                jQuery.each(result, function () {
+                    $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
+                        '<ul id="challengerList">' +
+                            '<li>' +
+                                '<a href="">' + this.Identifier.ScreenName + '</a>' +
+                                //'<img src="' + this.ProfileImageUrl + '"/>' +
+                            '</li>' +
+                        '</ul>');
                 });
             },
             error: function (jqXhr, exception) {
@@ -110,6 +117,7 @@
 
     $(function () {
         $('#Melee').hide();
+        
         
         // Declare a proxy to reference the hub. 
         var chat = $.connection.meleeHub;

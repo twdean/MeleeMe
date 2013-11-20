@@ -34,6 +34,7 @@ namespace Melee.Me.Infrastructure.Repository
 
                     mUser.ProfileImageUrl = profileImageUrl;
                     mUser.ScreenName = screenName;
+                    
 
                     dbContext.SaveChanges();
                     return um;
