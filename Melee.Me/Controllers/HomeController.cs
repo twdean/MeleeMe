@@ -246,8 +246,13 @@ namespace Melee.Me.Controllers
 
 
                 IEnumerable<User> sortedUsers = userCollection.OrderBy(user => user.Identifier.ScreenName);
+                return new JsonResult()
+                    {
+                        Data = sortedUsers,
+                        MaxJsonLength = Int32.MaxValue
+                    };
 
-                return Json(sortedUsers);
+                //return Json(sortedUsers);
             }
             catch (TwitterQueryException tqEx)
             {
