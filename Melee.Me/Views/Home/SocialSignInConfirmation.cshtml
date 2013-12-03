@@ -90,7 +90,7 @@
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                $('#myList').listnav();
+                $('#myList').listnav({prefixes: ['@']});
 
                 jQuery.each(result, function () {
                     $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
