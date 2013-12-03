@@ -90,14 +90,14 @@
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                $('#challengerList').listnav();
+                $('#myList').listnav();
 
                 jQuery.each(result, function () {
                     $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
-                        '<ul id="challengerList">' +
+                        '<ul id="myList">' +
                             '<li>' +
-                                '<a href="">' + this.Identifier.ScreenName + '</a>' +
-                                '<img src="' + this.ProfileImageUrl + '"/>' +
+                                '<a href="">' + this.Identifier.ScreenName +
+                                '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
                             '</li>' +
                         '</ul>');
                 });
