@@ -91,15 +91,14 @@
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
                 $('#myList').listnav({
-                includeOther: true,
-                prefixes: []
+                includeOther: true
                 });
 
                 jQuery.each(result, function () {
                     $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
                         '<ul id="myList">' +
                             '<li>' +
-                                '<a href="">' + this.Identifier.ScreenName +
+                                '<a href="http://twitter.com/' + this.Identifier.ScreenName'">' + this.Identifier.ScreenName +
                                 '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
                             '</li>' +
                         '</ul>');
