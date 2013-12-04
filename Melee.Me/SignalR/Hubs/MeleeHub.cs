@@ -51,7 +51,7 @@ namespace Melee.Me.SignalR.Hubs
 
                     var currentOpponentFacebook = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Facebook");
                     if (currentOpponentFacebook != null)
-                        opponentScore = currentOpponentFacebook.ConnectionProvider.GetScore(currentUser);
+                        opponentScore = currentOpponentFacebook.ConnectionProvider.GetScore(opponentUser);
                     Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
 
                     //battle google+
@@ -62,7 +62,7 @@ namespace Melee.Me.SignalR.Hubs
                     var currentOpponentGoogle = currentUser.Connections.SingleOrDefault(c => c.ConnectionName == "Google+");
 
                     if (currentOpponentGoogle != null)
-                        opponentScore = currentOpponentGoogle.ConnectionProvider.GetScore(currentUser);
+                        opponentScore = currentOpponentGoogle.ConnectionProvider.GetScore(opponentUser);
                     Clients.Caller.broadcastMessage("you: " + userScore + " " + " them: " + opponentScore);
                 }
                 else

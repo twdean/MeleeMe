@@ -3,7 +3,7 @@
 @using LinqToTwitter
 @{
     ViewBag.Title = "SocialSignInConfirmation";
-    Layout = "~/Views/Shared/_subLayout.cshtml";
+Layout = "~/Views/Shared/_subLayout.cshtml";
 }
 <div class="row">
 	<h1 class="super-big">Prepare to Melee</h1>
@@ -98,7 +98,7 @@
                     $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
                         '<ul id="myList">' +
                             '<li>' +
-                                '<a href="http://twitter.com/' + this.Identifier.ScreenName'">' + this.Identifier.ScreenName +
+                                '<a href="http://twitter.com/' + this.Identifier.ScreenName + '" target="_blank">' + this.Identifier.ScreenName +
                                 '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
                             '</li>' +
                         '</ul>');
