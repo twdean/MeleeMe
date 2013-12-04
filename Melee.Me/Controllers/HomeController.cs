@@ -88,13 +88,31 @@ namespace Melee.Me.Controllers
             SetAuthCookie(challengerModel.TwitterUserId);
 
             TempData["MeleeModel"] = mm;
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Home", new {twitterUserId = mm.Challenger.TwitterUserId});
         }
 
         //TODO:  Add internal user attribute
-        public ActionResult Login()
+        public ActionResult Login(string twitterUserId)
         {
             var mm = TempData["MeleeModel"] as MeleeModel;
+
+            if (mm == null)
+            {
+                var challengerModel = _repository.Get(twitterUserId);
+                var competitorModel = new UserModel
+                {
+                    ImageUrl = "/Content/images/default_user.png",
+                    ScreenName = String.Empty,
+                    TwitterUserId = String.Empty
+                };
+
+                mm = new MeleeModel
+                {
+                    Challenger = challengerModel,
+                    Competitor = competitorModel
+                };
+            }
+
             return View("SocialSignInConfirmation", mm);
         }
 
@@ -246,6 +264,7 @@ namespace Melee.Me.Controllers
 
 
                 IEnumerable<User> sortedUsers = userCollection.OrderBy(user => user.Identifier.ScreenName);
+
                 return new JsonResult()
                     {
                         Data = sortedUsers,
@@ -365,26 +384,6 @@ namespace Melee.Me.Controllers
 
             return challenger;
         }
-
-        //private UserModel GetCompetitor(TwitterContext twitterCtx, string twitterUserId)
-        //{
-        //    UserModel competitor;
-
-        //    if (Session["competitor"] != null)
-        //    {
-        //        competitor = (UserModel)Session["competitor"];
-        //    }
-        //    else
-        //    {
-        //        competitor = FriendSelector(twitterCtx, twitterUserId);
-        //        competitor.Stats = MeleeRepository.GetMeleeStats(twitterUserId, Types.UserType.Opponent);
-
-
-        //        Session.Add("competitor", competitor);
-        //    }
-
-        //    return competitor;
-        //}
 
         private void SetAuthCookie(string username)
         {

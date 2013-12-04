@@ -24,7 +24,7 @@ namespace Melee.Me.Controllers
             return View();
         }
 
-        public ActionResult MeleeMe(string screenName, string imageUrl)
+        public ActionResult MeleeMe(string twitterUserId)
         {
             var winner = new UserModel
                 {

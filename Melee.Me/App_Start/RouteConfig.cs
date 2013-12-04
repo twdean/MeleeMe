@@ -39,6 +39,13 @@ namespace Melee.Me
             );
 
             routes.MapRoute(
+            name: "Login",
+            url: "Home/Login/{twitterUserId}",
+            defaults: new { controller = "Home", action = "Login", twitterUserId = "" }
+            );
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

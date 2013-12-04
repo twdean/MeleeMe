@@ -1,9 +1,12 @@
 ﻿@model Melee.Me.Models.MeleeModel
+@section scripts
+{
+    <script type="text/javascript" src="/Scripts/jquery.listnav-2.1.js" charset="utf-8"></script>
+}
 
-@using LinqToTwitter
 @{
     ViewBag.Title = "SocialSignInConfirmation";
-Layout = "~/Views/Shared/_subLayout.cshtml";
+    Layout = "~/Views/Shared/_subLayout.cshtml";
 }
 <div class="row">
 	<h1 class="super-big">Prepare to Melee</h1>
