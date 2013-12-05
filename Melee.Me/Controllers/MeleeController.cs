@@ -13,9 +13,11 @@ namespace Melee.Me.Controllers
     {
         private readonly MeleeUserRepository _repository;
 
+
         public MeleeController()
         {
             _repository = new MeleeUserRepository();
+            
         }
 
 
@@ -26,12 +28,17 @@ namespace Melee.Me.Controllers
 
         public ActionResult MeleeMe(string twitterUserId)
         {
-            var winner = new UserModel
+            UserModel winner = _repository.Get(twitterUserId);
+
+            if (winner == null)
+            {
+                winner = new UserModel
                 {
                     ScreenName = "Winner",
                     ImageUrl = ""
                 };
-
+            }
+           
             return View("Melee", winner);
         }
     }
