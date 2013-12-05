@@ -1,7 +1,13 @@
 ﻿@model Melee.Me.Models.MeleeModel
 @section scripts
 {
+    <link rel="stylesheet" type="text/css" href="/content/style.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery.jscrollpane.css" media="all" />
+
     <script type="text/javascript" src="/Scripts/jquery.listnav-2.1.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/Scripts/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.contentcarousel.js"></script>
 }
 
 @{
@@ -21,7 +27,11 @@
 
 <div class="row" id="friendList">
     <div id="myList-nav" class="listNav"></div>
-    <ul id="myList"></ul>
+    <div id="ca-container" class="ca-container">
+        <div class="ca-wrapper" id="myList">
+            
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -94,16 +104,20 @@
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                
+                var itemCount = 0;
                 jQuery.each(result, function () {
-                    $('#myList').append('<li>' +
+                    $('#myList').append('<div class="ca-item ca-item-' + itemCount + '">' +
                         '<a href="http://twitter.com/' + this.Identifier.ScreenName + '" target="_blank">' + this.Identifier.ScreenName +
                         '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
-                        '</li>');
+                        '</div>');
+                    itemCount++;
                 });
                 
+                $('#ca-container').contentcarousel();
+                
                 $('#myList').listnav({
-                    includeOther: true
+                    includeOther: false,
+                    includeAll: false
                 });
             },
             error: function (jqXhr, exception) {
