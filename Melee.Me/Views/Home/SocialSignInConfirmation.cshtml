@@ -20,8 +20,8 @@
 </div>
 
 <div class="row" id="friendList">
-    
-
+    <div id="myList-nav" class="listNav"></div>
+    <ul id="myList"></ul>
 </div>
 
 <div class="row">
@@ -42,7 +42,6 @@
 	        <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
 	    </div>
 	    <div id="competitorMeleeSummary"></div>
-
 	</div>
 </div>
 <section class="melee-area">
@@ -56,6 +55,8 @@
    </div>
 </section>
 <script>
+    
+    
     $('#RandomBtn').click(function () {
         $("#meleeProgress").empty();
         $('#Melee').show();
@@ -86,25 +87,23 @@
     });
 
     $('#ChallengeBtn').click(function () {
-        $("#friendList").empty();
+        $("#myList").empty();
 
         $.ajax({
             url: '/Home/Challenge',
             type: 'POST',
             data: { twitterUserId: '@Model.Challenger.TwitterUserId' },
             success: function (result) {
-                $('#myList').listnav({
-                includeOther: true
-                });
-
+                
                 jQuery.each(result, function () {
-                    $('#friendList').append('<div id="myList-nav" class="listNav"></div>' +
-                        '<ul id="myList">' +
-                            '<li>' +
-                                '<a href="http://twitter.com/' + this.Identifier.ScreenName + '" target="_blank">' + this.Identifier.ScreenName +
-                                '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
-                            '</li>' +
-                        '</ul>');
+                    $('#myList').append('<li>' +
+                        '<a href="http://twitter.com/' + this.Identifier.ScreenName + '" target="_blank">' + this.Identifier.ScreenName +
+                        '<img src="' + this.ProfileImageUrl + '"/>' + '</a>' +
+                        '</li>');
+                });
+                
+                $('#myList').listnav({
+                    includeOther: true
                 });
             },
             error: function (jqXhr, exception) {
@@ -157,6 +156,5 @@
             });
         });
     });
-
 
 </script>
