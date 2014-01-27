@@ -7,7 +7,6 @@
     <script type="text/javascript" src="/Scripts/jquery.listnav-2.1.js" charset="utf-8"></script>
     <script type="text/javascript" src="/Scripts/jquery.easing.1.3.js"></script>
     <script type="text/javascript" src="/Scripts/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="/Scripts/jquery.contentcarousel.js"></script>
 }
 
 @{
@@ -18,19 +17,11 @@
 	<h1 class="super-big">Prepare to Melee</h1>
 </div>
 <div class="row">
+    <div class="row">CHOOSE YOUR OPPONENT</div>
     <div class="btn-group-vertical btn-group-lg col-md-4 col-md-offset-4">
-        <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">Random</button>
-        <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">Melee</button>
-        <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">Challenge</button>
-    </div>
-</div>
-
-<div class="row" id="friendList">
-    <div id="myList-nav" class="listNav"></div>
-    <div id="ca-container" class="ca-container">
-        <div class="ca-wrapper" id="myList">
-            
-        </div>
+        <button type="submit" name="RandomBtn" id="RandomBtn" value="RandomBtn" title="Random Melee">RANDOM CHALLENGE</button>
+        <button type="submit" name="Melee" id="Melee" value="Melee" title="Melee">LET'S RUMBLE</button>
+        <button type="submit" name="ChallengeBtn" id="ChallengeBtn" value="ChallengeBtn" title="Melee Challenge">CHALLENGE A FRIEND</button>
     </div>
 </div>
 
@@ -41,6 +32,7 @@
 	            <img id="challengerImageUrl" src=@Model.Challenger.ImageUrl class="img-thumbnail" alt="your twitter icon"/>
 	        </a>
 	        <div id="challengerScreenName">@Model.Challenger.ScreenName</div>
+            <div id="challengerWeapons"></div>
 	    </div>
 	    <div id="userMeleeSummary"></div>
 
@@ -50,6 +42,7 @@
 	        <img id="competitorImageUrl" src=@Model.Competitor.ImageUrl class="img-thumbnail" alt="twitter icon"/>
 	        <div id="competitorScreenName">@Model.Competitor.ScreenName</div>
 	        <div id="competitorUserId" style="visibility: hidden">@Model.Competitor.TwitterUserId</div>
+            <div id="competitorWeapons"></div>
 	    </div>
 	    <div id="competitorMeleeSummary"></div>
 	</div>
@@ -69,7 +62,6 @@
     
     $('#RandomBtn').click(function () {
         $("#meleeProgress").empty();
-        $('#Melee').show();
         
         $.ajax({
             url: '/Home/GetNewCompetitor',
@@ -133,10 +125,7 @@
         return false;
     });
 
-    $(function () {
-        $('#Melee').hide();
-        
-        
+    $(function () {        
         // Declare a proxy to reference the hub. 
         var chat = $.connection.meleeHub;
         // Create a function that the hub can call to broadcast messages.
@@ -165,8 +154,15 @@
         $.connection.hub.start().done(function () {
             $('#Melee').click(function () {
                 $("#meleeProgress").empty();
-                // Call the Send method on the hub. 
-                chat.server.send('@Model.Challenger.TwitterUserId', $('#competitorUserId').text());
+                if ($('#competitorUserId').text() != '')
+                {
+                    // Call the Send method on the hub. 
+                    chat.server.send('@Model.Challenger.TwitterUserId', $('#competitorUserId').text());
+                }
+                else
+                {
+                    $('#meleeProgress').append('<div class="row">YOU MUST SELECT AN OPPONENT BEFORE DOING BATTLE.</div>');
+                }
             });
         });
     });
