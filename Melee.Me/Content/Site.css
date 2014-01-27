@@ -614,10 +614,10 @@ tr.pager td {
 /* Home */
 
 .logo {
-	    text-align: center;
-		margin-top: 30px;
-		margin-bottom: -60px;
-		z-index: 1000;
+	text-align: center;
+	margin-top: -30px;
+	margin-bottom: 0px;
+	z-index: 1000;
 }
 
 #top-content{
