@@ -12,12 +12,48 @@
     
     <script src="/Scripts/jquery.signalR-2.0.0.js"></script>
     <script src="/SignalR/Hubs/"></script>
+    <script src="/Scripts/snap.js"></script>
+    
     <link href='http://fonts.googleapis.com/css?family=Londrina+Solid|Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
     @RenderSection("scripts", required: false)
 
 </head>
 <body>
+		<div class="snap-drawers">
+            <div class="snap-drawer snap-drawer-left">                
+                <div class="large-avatar">Insert large avatar here</div>
+                    <h3>Username</h3>
+                    <div class="social-connections">
+	                    <ul>
+	                    	<li><img class="twitter-icon"/><div class="twitter-handle">twitteraccount</div><div class="remove-social">X</div></li>
+	                    	<li><img class="fb-icon"/><div class="facebook-handle">facebookaccount</div><div class="remove-social">X</div></li>
+	                    	<li><img class="gplus-icon"/><div class="gplus-handle"><a href="#addgplus">Add This Network</a></div></li>
+	                    	
+	                    </ul>
+                    </div>
+                    <h3>Ranked</h3>
+                    <div class="ranked-results">
+                        <h4>MELEES <span class="melee-total">###</span></h4>
+                        <h4 class="wins">WINS <span class="melee-win">###</span></h4>
+                        <h4 class="losses">LOSSES<span class="melee-lost">###</span></h4>
+                    </div>
+                    <h3>Random</h3>
+                    <div class="random-results">
+                        <h4>MELEES <span class="melee-total">###</span></h4>
+                        <h4 class="wins">WINS <span class="melee-win">###</span></h4>
+                        <h4 class="losses">LOSSES<span class="melee-lost">###</span></h4>
+                    </div>
+					<h3>Badges</h3>
+                    <div class="badges">
+                        
+                    </div>
+            </div>
+            <div class="snap-drawer snap-drawer-right">
+	            History will go here.
+            </div>
+        </div>
+
     <header>
         <div class="container">
             <div class="logo">
@@ -28,9 +64,9 @@
                     @{
                         if (Context.User.Identity.IsAuthenticated)
                         { 
-                            <li class="nav navbar-right">@Html.ActionLink("Profile", "MyProfile","Home",new{twitterUserId = Context.User.Identity.Name}, new{})</li>
-                            <li class="nav navbar-right">@Html.ActionLink("History", "History", "Home")</li>
-                            <li class="nav navbar-right">@Html.ActionLink("Logout", "Logout", "Home")</li>
+                            <li class="nav navbar-left toggler" id="ol">@Html.ActionLink("Profile", "MyProfile","Home",new{twitterUserId = Context.User.Identity.Name}, new{})</li>
+                            <li class="nav navbar-right toggler" id="or">@Html.ActionLink("History", "History", "Home")</li>
+                            <div class="logout_Button">@Html.ActionLink("Logout", "Logout", "Home")</div>
                         }
                     }
                 </ul>
@@ -57,10 +93,24 @@
 
    <footer>
         <div class="content-wrapper">
-            <div class="col-md-12">
+            <div class="footer col-md-12">
                 <p>&copy; @DateTime.Now.Year - L9 & Big Time Collaboration</p>
             </div>
         </div>
     </footer>
+    
+    <script type="text/javascript">
+            var snapper = new Snap({
+                element: document.getElementById('subpage-content')
+            });
+            addEvent(document.getElementById('ol'), 'click', function(){
+                snapper.open('left');
+            });
+
+            addEvent(document.getElementById('or'), 'click', function(){
+                snapper.open('right');
+            });
+            
+        </script>
 </body>
 </html>
