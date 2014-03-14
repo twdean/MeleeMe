@@ -53,7 +53,7 @@
 	            History will go here.
             </div>
         </div>
-
+	<div id="non-snap" class="snap-content">	
     <header>
         <div class="container">
             <div class="logo">
@@ -98,11 +98,12 @@
             </div>
         </div>
     </footer>
+	</div>
     <script src="/Scripts/snap.js"></script>
     <script src="/Scripts/snap_demo.js"></script>
     <script type="text/javascript">
             var snapper = new Snap({
-                element: document.getElementById('sub-content')
+                element: document.getElementById('non-snap')
             });
 
             addEvent(document.getElementById('ol'), 'click', function(){
