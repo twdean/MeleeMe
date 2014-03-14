@@ -287,6 +287,7 @@
     <Content Include="Assemblies\WebMatrix.WebData.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\snap.css" />
     <Content Include="Images\arrows.png" />
     <Content Include="Content\images\bullseye_icon.png" />
     <Content Include="Content\images\chat_icon.png" />
@@ -385,6 +386,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\snap.js" />
     <Content Include="Styles\Bootstrap\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
