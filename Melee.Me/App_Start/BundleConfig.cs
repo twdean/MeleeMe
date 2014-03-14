@@ -12,8 +12,7 @@ namespace Melee.Me
                         "~/Scripts/jquery-1.8.2.js",
                         "~/Scripts/jquery.unobtrusive-ajax.js",
                         "~/Scripts/jquery.validate.js",
-                        "~/Scripts/Bootstrap.js",
-                        "~/Scripts/snap.js"));
+                        "~/Scripts/Bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
