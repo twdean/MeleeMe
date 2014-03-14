@@ -9,6 +9,9 @@ var addEvent = function addEvent(element, eventName, func) {
 addEvent(document.getElementById('open-left'), 'click', function(){
 	snapper.open('left');
 });
+addEvent(document.getElementById('open-right'), 'click', function(){
+	snapper.open('right');
+});
 
 /* Prevent Safari opening links when viewing as a Mobile App */
 (function (a, b, c) {
