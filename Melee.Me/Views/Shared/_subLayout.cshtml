@@ -64,8 +64,8 @@
                     @{
                         if (Context.User.Identity.IsAuthenticated)
                         { 
-                            <li class="nav navbar-left toggler" id="ol">@Html.ActionLink("Profile", "MyProfile","Home",new{twitterUserId = Context.User.Identity.Name}, new{})</li>
-                            <li class="nav navbar-right toggler" id="or">@Html.ActionLink("History", "History", "Home")</li>
+                            <li class="nav navbar-left toggler" id="ol">Profile<!-- @Html.ActionLink("Profile", "MyProfile","Home",new{twitterUserId = Context.User.Identity.Name}, new{}) --></li>
+                            <li class="nav navbar-right toggler" id="or">History<!-- @Html.ActionLink("History", "History", "Home") --></li>
                             <div class="logout_Button">@Html.ActionLink("Logout", "Logout", "Home")</div>
                         }
                     }
